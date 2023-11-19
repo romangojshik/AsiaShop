@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct AuthView: View {
     @State private var isAuth = true
     @State private var confirmPassword = ""
     
     @State private var email = ""
     @State private var password = ""
+    
+    @State private var isTabViewShow = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -50,9 +52,14 @@ struct ContentView: View {
                 
                 Button {
                     if isAuth {
-                        print("Авторизация")
+                        print("Авторизация пользователя через firebase")
+                        isTabViewShow.toggle()
                     } else {
                         print("Регистрация")
+                        self.email = ""
+                        self.password = ""
+                        self.confirmPassword = ""
+                        self.isAuth.toggle()
                     }
                 } label: {
                     Text(isAuth ? "Войти" : "Регистрация")
@@ -95,14 +102,17 @@ struct ContentView: View {
                 .blur(radius: isAuth ? 0 : 5)
         )
         .animation(Animation.easeOut(duration: 0.3), value: isAuth)
+        .fullScreenCover(isPresented: $isTabViewShow, content: {
+            MainTabBar()
+        })
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
-            ContentView()
+            AuthView()
+            AuthView()
         }
     }
 }

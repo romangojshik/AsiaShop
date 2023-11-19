@@ -7,16 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
+		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
+		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
+		304CB7C82B0A610B00ABBEA9 /* ProvileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C72B0A610B00ABBEA9 /* ProvileView.swift */; };
 		30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */; };
-		30FD82CE2AF52E0300D94BA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD82CD2AF52E0300D94BA7 /* ContentView.swift */; };
+		30FD82CE2AF52E0300D94BA7 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD82CD2AF52E0300D94BA7 /* AuthView.swift */; };
 		30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30FD82CF2AF52E0E00D94BA7 /* Assets.xcassets */; };
 		30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30FD82D22AF52E0E00D94BA7 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
+		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
+		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
+		304CB7C72B0A610B00ABBEA9 /* ProvileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvileView.swift; sourceTree = "<group>"; };
 		30FD82C82AF52E0300D94BA7 /* AsiaShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsiaShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsiaShopApp.swift; sourceTree = "<group>"; };
-		30FD82CD2AF52E0300D94BA7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		30FD82CD2AF52E0300D94BA7 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		30FD82CF2AF52E0E00D94BA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30FD82D22AF52E0E00D94BA7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		30FD82D42AF52E0E00D94BA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,7 +61,11 @@
 			isa = PBXGroup;
 			children = (
 				30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */,
-				30FD82CD2AF52E0300D94BA7 /* ContentView.swift */,
+				30FD82CD2AF52E0300D94BA7 /* AuthView.swift */,
+				304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */,
+				304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */,
+				304CB7C72B0A610B00ABBEA9 /* ProvileView.swift */,
+				304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */,
 				30FD82CF2AF52E0E00D94BA7 /* Assets.xcassets */,
 				30FD82D42AF52E0E00D94BA7 /* Info.plist */,
 				30FD82D12AF52E0E00D94BA7 /* Preview Content */,
@@ -138,7 +150,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30FD82CE2AF52E0300D94BA7 /* ContentView.swift in Sources */,
+				304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */,
+				304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */,
+				30FD82CE2AF52E0300D94BA7 /* AuthView.swift in Sources */,
+				304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */,
+				304CB7C82B0A610B00ABBEA9 /* ProvileView.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
