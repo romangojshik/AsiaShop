@@ -10,13 +10,15 @@ import SwiftUI
 struct MainTabBar: View {
     var body: some View {
         TabView {
-            CatalogView()
-                .tabItem {
-                    VStack {
-                        Image("catalog_32")
-                        Text("Каталог")
-                    }
+            NavigationView {
+                CatalogView()
+            }
+            .tabItem {
+                VStack {
+                    Image("catalog_32")
+                    Text("Каталог")
                 }
+            }
             
             BasketView()
                 .tabItem {
