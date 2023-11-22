@@ -13,6 +13,7 @@ struct MainTabBar: View {
             NavigationView {
                 CatalogView()
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .tabItem {
                 VStack {
                     Image("catalog_32")

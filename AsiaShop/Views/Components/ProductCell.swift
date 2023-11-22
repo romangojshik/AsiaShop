@@ -25,10 +25,10 @@ struct ProductCell: View {
                 Text(String(format: "%.2f", product.price) + " руб")
                     .font(.custom("AvenirNext-bold", size: 12))
             }
-            .padding(.horizontal, 6)
+            .padding(.horizontal, 10)
             .padding(.bottom, 6)
         }.frame(
-            width: screen.width * 0.4,
+            width: screen.width * 0.45,
             height: screen.width * 0.5
         )
         .background(Color.white)

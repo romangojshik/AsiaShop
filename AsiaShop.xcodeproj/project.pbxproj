@@ -106,8 +106,8 @@
 		30FD82CA2AF52E0300D94BA7 /* AsiaShop */ = {
 			isa = PBXGroup;
 			children = (
-				304CB7DD2B0D001600ABBEA9 /* ViewModel */,
 				30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */,
+				304CB7DD2B0D001600ABBEA9 /* ViewModel */,
 				304CB7D82B0CFFD900ABBEA9 /* Model */,
 				304CB7CA2B0CEF0600ABBEA9 /* Views */,
 				30FD82CF2AF52E0E00D94BA7 /* Assets.xcassets */,
