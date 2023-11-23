@@ -28,8 +28,9 @@ struct CatalogView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: layout, spacing: 16, content: {
                             ForEach(CatalogViewModel.shared.popularProducts, id: \.id) { item in
+                                let viewModel = ProductDetailViewModel(product: item)
                                 NavigationLink(
-                                    destination: ProductDetailView(product: item),
+                                    destination: ProductDetailView(viewModel: viewModel),
                                     label: {
                                         ProductCell(product: item)
                                             .foregroundColor(Color.black)
@@ -46,26 +47,31 @@ struct CatalogView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: layout, spacing: 16, content: {
                             ForEach(CatalogViewModel.shared.popularProducts, id: \.id) { item in
-                                ProductCell(product: item)
-                                    .foregroundColor(Color.black)
+                                let viewModel = ProductDetailViewModel(product: item)
+                                NavigationLink(
+                                    destination: ProductDetailView(viewModel: viewModel),
+                                    label: {
+                                        ProductCell(product: item)
+                                            .foregroundColor(Color.black)
+                                    })
                             }
                         }).padding()
                     }
                 })
-            
-            Section(
-                header: Text(Sections.three.rawValue)
-                .padding(),
-                content: {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVGrid(columns: layout, spacing: 16, content: {
-                            ForEach(CatalogViewModel.shared.popularProducts, id: \.id) { item in
-                                ProductCell(product: item)
-                                    .foregroundColor(Color.black)
-                            }
-                        }).padding()
-                    }
-                })
+//
+//            Section(
+//                header: Text(Sections.three.rawValue)
+//                .padding(),
+//                content: {
+//                    ScrollView(.vertical, showsIndicators: false) {
+//                        LazyVGrid(columns: layout, spacing: 16, content: {
+//                            ForEach(CatalogViewModel.shared.popularProducts, id: \.id) { item in
+//                                ProductCell(product: item)
+//                                    .foregroundColor(Color.black)
+//                            }
+//                        }).padding()
+//                    }
+//                })
         }
         .navigationBarTitle(Text("Каталог"))
     }

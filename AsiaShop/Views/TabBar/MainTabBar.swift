@@ -21,7 +21,7 @@ struct MainTabBar: View {
                 }
             }
             
-            BasketView()
+            BasketView(viewModel: BasketViewModel())
                 .tabItem {
                     VStack {
                         Image("backet_32")
