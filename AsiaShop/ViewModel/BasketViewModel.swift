@@ -9,9 +9,25 @@ import Foundation
 
 class BasketViewModel: ObservableObject {
     
+    static let shared = BasketViewModel()
+    
+    private init() {
+        
+    }
+    
     @Published var positions = [Position]()
     
-    func ddPosition(position: Position) {
+    var cost: Double {
+        var sum = 0.0
+        
+        for pos in positions {
+            sum += pos.cost
+        }
+        
+        return sum
+    }
+    
+    func addPosition(position: Position) {
         positions.append(position)
     }
 }

@@ -12,6 +12,8 @@ struct ProductDetailView: View {
     var viewModel: ProductDetailViewModel
     @State var size = "6 штук"
     @State var count = 1
+    
+    @Environment(\.presentationMode) var presentationMode
         
     var body: some View {
         
@@ -56,7 +58,14 @@ struct ProductDetailView: View {
             Spacer()
 
             Button {
-                print("Добавить в корзину")
+                var position = Position(
+                    id: UUID().uuidString,
+                    product: viewModel.product,
+                    count: count
+                )
+                position.product.price = viewModel.getPrice(size: size )
+                BasketViewModel.shared.addPosition(position: position)
+                presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("В корзину")
                     .bold()
