@@ -15,17 +15,21 @@ struct BasketView: View {
         
         VStack {
             List(viewModel.positions) { position in
-                PositionCell(position: position)
-//                    .swipeActions {
-//                        Button {
-//                            viewModel.positions.removeAll { pos in
-//                                pos.product.id == position.product.id
-//                            }
-//                        } label: {
-//                            Text("Удалить")
-//                        }
-//
-//                    }
+                if #available(iOS 15.0, *) {
+                    PositionCell(position: position)
+                        .swipeActions {
+                            Button {
+                                viewModel.positions.removeAll { pos in
+                                    pos.product.id == position.product.id
+                                }
+                            } label: {
+                                Text("Удалить")
+                            }
+                            
+                        }
+                } else {
+                    // Fallback on earlier versions
+                }
             }
             
             .listStyle(PlainListStyle())
