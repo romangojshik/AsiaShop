@@ -21,7 +21,6 @@ struct ProvileView: View {
                     .onTapGesture {
                         isAvatarAlertPresented.toggle()
                     }
-                    .alcon
                 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Имя Фамилия Отчество")
