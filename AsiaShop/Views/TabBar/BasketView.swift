@@ -16,6 +16,16 @@ struct BasketView: View {
         VStack {
             List(viewModel.positions) { position in
                 PositionCell(position: position)
+//                    .swipeActions {
+//                        Button {
+//                            viewModel.positions.removeAll { pos in
+//                                pos.product.id == position.product.id
+//                            }
+//                        } label: {
+//                            Text("Удалить")
+//                        }
+//
+//                    }
             }
             
             .listStyle(PlainListStyle())
@@ -26,7 +36,6 @@ struct BasketView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Text(String(format: "%.2f", viewModel.cost) + " руб")
-
                     .fontWeight(.bold)
             }.padding()
             
@@ -54,7 +63,6 @@ struct BasketView: View {
                         .foregroundColor(Color.white)
                         .background(Color.green)
                         .cornerRadius(24)
-//                        .frame(maxWidth: .infinity)
                 })
                 
             }.padding()

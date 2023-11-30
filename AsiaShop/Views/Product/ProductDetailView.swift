@@ -55,7 +55,6 @@ struct ProductDetailView: View {
             }
             
             Spacer()
-            Spacer()
 
             Button {
                 var position = Position(
