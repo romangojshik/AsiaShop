@@ -12,6 +12,9 @@ let screen = UIScreen.main.bounds
 
 @main
 struct AsiaShopApp: App {
+    
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
     var body: some Scene {
         WindowGroup {
             AuthView()
@@ -24,6 +27,7 @@ struct AsiaShopApp: App {
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
         ) -> Bool {
             FirebaseApp.configure()
+            print("Ok")
             return true
         }
     }

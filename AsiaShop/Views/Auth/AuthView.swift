@@ -10,11 +10,11 @@ import SwiftUI
 struct AuthView: View {
     @State private var isAuth = true
     @State private var confirmPassword = ""
-    
     @State private var email = ""
     @State private var password = ""
-    
     @State private var isTabViewShow = false
+    @State private var isShowAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         VStack(spacing: 20) {
@@ -56,10 +56,29 @@ struct AuthView: View {
                         isTabViewShow.toggle()
                     } else {
                         print("Регистрация")
-                        self.email = ""
-                        self.password = ""
-                        self.confirmPassword = ""
-                        self.isAuth.toggle()
+                        
+                        guard password == confirmPassword else {
+                            self.alertMessage = "Пароли не совпадают!"
+                            self.isShowAlert.toggle()
+                            return
+                        }
+                        
+                        AuthService.shared.singUp(
+                            email: self.email,
+                            password: self.password) { result in
+                                switch result {
+                                case .success(let user):
+                                    self.alertMessage = "Вы зарегистрировались с email \(user.email)"
+                                    self.isShowAlert.toggle()
+                                    self.email = ""
+                                    self.password = ""
+                                    self.confirmPassword = ""
+                                    self.isAuth.toggle()
+                                case .failure(let error):
+                                    alertMessage = "Ошибка регистрации \n \(error.localizedDescription)"
+                                    self.isShowAlert.toggle()
+                                }
+                            }
                     }
                 } label: {
                     Text(isAuth ? "Войти" : "Регистрация")
@@ -94,17 +113,28 @@ struct AuthView: View {
             .cornerRadius(24)
             .padding()
             .padding(isAuth ? 30 : 15)
+            .alert(
+                alertMessage,
+                isPresented: $isShowAlert
+            ) {
+                Button {
+                    print("")
+                } label: {
+                    Text("OK")
+                }
+                
+            }
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            Image("login_auth_v4")
-                .ignoresSafeArea()
-                .blur(radius: isAuth ? 0 : 5)
-        )
-        .animation(Animation.easeOut(duration: 0.3), value: isAuth)
-        .fullScreenCover(isPresented: $isTabViewShow, content: {
-            MainTabBar()
-        })
+            .background(
+                Image("login_auth_v4")
+                    .ignoresSafeArea()
+                    .blur(radius: isAuth ? 0 : 5)
+            )
+            .animation(Animation.easeOut(duration: 0.3), value: isAuth)
+            .fullScreenCover(isPresented: $isTabViewShow, content: {
+                MainTabBar()
+            })
     }
 }
 

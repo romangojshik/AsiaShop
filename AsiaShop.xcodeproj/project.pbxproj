@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20DBE89D2B18EBA9005F3FA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20DBE89C2B18EBA9005F3FA7 /* GoogleService-Info.plist */; };
+		20DBE8A02B18F00D005F3FA7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 20DBE89F2B18F00D005F3FA7 /* FirebaseAuth */; };
+		20DBE8A22B18F00D005F3FA7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 20DBE8A12B18F00D005F3FA7 /* FirebaseFirestore */; };
+		20DBE8A42B18F00D005F3FA7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 20DBE8A32B18F00D005F3FA7 /* FirebaseStorage */; };
+		20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DBE8A52B18F584005F3FA7 /* AuthService.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
 		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
 		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
@@ -26,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20DBE89C2B18EBA9005F3FA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		20DBE8A52B18F584005F3FA7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
@@ -51,12 +58,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20DBE8A02B18F00D005F3FA7 /* FirebaseAuth in Frameworks */,
+				20DBE8A22B18F00D005F3FA7 /* FirebaseFirestore in Frameworks */,
+				20DBE8A42B18F00D005F3FA7 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20DBE8A72B18F589005F3FA7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				20DBE8A52B18F584005F3FA7 /* AuthService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		304CB7CA2B0CEF0600ABBEA9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +160,8 @@
 		30FD82CA2AF52E0300D94BA7 /* AsiaShop */ = {
 			isa = PBXGroup;
 			children = (
+				20DBE8A72B18F589005F3FA7 /* Services */,
+				20DBE89C2B18EBA9005F3FA7 /* GoogleService-Info.plist */,
 				30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */,
 				304CB7DD2B0D001600ABBEA9 /* ViewModel */,
 				304CB7D82B0CFFD900ABBEA9 /* Model */,
@@ -177,6 +197,11 @@
 			dependencies = (
 			);
 			name = AsiaShop;
+			packageProductDependencies = (
+				20DBE89F2B18F00D005F3FA7 /* FirebaseAuth */,
+				20DBE8A12B18F00D005F3FA7 /* FirebaseFirestore */,
+				20DBE8A32B18F00D005F3FA7 /* FirebaseStorage */,
+			);
 			productName = AsiaShop;
 			productReference = 30FD82C82AF52E0300D94BA7 /* AsiaShop.app */;
 			productType = "com.apple.product-type.application";
@@ -204,6 +229,9 @@
 				Base,
 			);
 			mainGroup = 30FD82BF2AF52E0300D94BA7;
+			packageReferences = (
+				20DBE89E2B18F00D005F3FA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 30FD82C92AF52E0300D94BA7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -220,6 +248,7 @@
 			files = (
 				30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */,
 				30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */,
+				20DBE89D2B18EBA9005F3FA7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +271,7 @@
 				304CB7D62B0CF0A500ABBEA9 /* ProductCell.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
+				20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */,
 				30AE46132B0F988500C74BD8 /* BasketViewModel.swift in Sources */,
 				304CB7DA2B0D000F00ABBEA9 /* CatalogViewModel.swift in Sources */,
 			);
@@ -301,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -356,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -375,7 +405,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AsiaShop/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AsiaShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -396,7 +426,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AsiaShop/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AsiaShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -430,6 +460,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		20DBE89E2B18F00D005F3FA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		20DBE89F2B18F00D005F3FA7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20DBE89E2B18F00D005F3FA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		20DBE8A12B18F00D005F3FA7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20DBE89E2B18F00D005F3FA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		20DBE8A32B18F00D005F3FA7 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20DBE89E2B18F00D005F3FA7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30FD82C02AF52E0300D94BA7 /* Project object */;
 }
