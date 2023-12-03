@@ -15,7 +15,7 @@ class AuthService {
     
     private let auth = Auth.auth()
     
-    private var currentUser: User? {
+    var currentUser: User? {
         return auth.currentUser
     }
     
@@ -25,6 +25,20 @@ class AuthService {
         complition: @escaping(Result<User, Error>) -> ()
     ) {
         auth.createUser(withEmail: email, password: password) { result, error in
+            if let result = result {
+                complition(.success(result.user))
+            } else if let error = error {
+                complition(.failure(error))
+            }
+        }
+    }
+    
+    func signIn(
+        email: String,
+        password: String,
+        complition: @escaping(Result<User, Error>) -> ()
+    ) {
+        auth.signIn(withEmail: email, password: password) { result, error in
             if let result = result {
                 complition(.success(result.user))
             } else if let error = error {

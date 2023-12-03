@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		20DBE89D2B18EBA9005F3FA7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20DBE89C2B18EBA9005F3FA7 /* GoogleService-Info.plist */; };
 		20DBE8A02B18F00D005F3FA7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 20DBE89F2B18F00D005F3FA7 /* FirebaseAuth */; };
 		20DBE8A22B18F00D005F3FA7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 20DBE8A12B18F00D005F3FA7 /* FirebaseFirestore */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		20DBE89C2B18EBA9005F3FA7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		20DBE8A52B18F584005F3FA7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				304CB7D92B0D000F00ABBEA9 /* CatalogViewModel.swift */,
 				3051E6932B0F7CD800575BD5 /* ProductDetailViewModel.swift */,
 				30AE46122B0F988500C74BD8 /* BasketViewModel.swift */,
+				209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */,
 				30AE46132B0F988500C74BD8 /* BasketViewModel.swift in Sources */,
 				304CB7DA2B0D000F00ABBEA9 /* CatalogViewModel.swift in Sources */,
+				209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
