@@ -57,7 +57,7 @@ struct AuthView: View {
                             password: password
                         ) { result in
                             switch result {
-                            case .success(let user):
+                            case .success(_):
                                 self.isTabViewShow.toggle()
                             case .failure(let error):
                                 alertMessage = "Ошибка авторизации \n \(error.localizedDescription)"
