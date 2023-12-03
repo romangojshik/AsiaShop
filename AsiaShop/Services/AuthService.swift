@@ -22,13 +22,26 @@ class AuthService {
     func singUp(
         email: String,
         password: String,
-        complition: @escaping(Result<User, Error>) -> ()
+        completion: @escaping(Result<User, Error>) -> ()
     ) {
         auth.createUser(withEmail: email, password: password) { result, error in
             if let result = result {
-                complition(.success(result.user))
+                let profile = Profile(
+                    id: result.user.uid,
+                    name: "",
+                    phone: 0,
+                    address: ""
+                )
+                DatabaseService.shared.setUser(user: profile) { resultDB in
+                    switch resultDB {
+                    case .success(_):
+                        completion(.success(result.user))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
             } else if let error = error {
-                complition(.failure(error))
+                completion(.failure(error))
             }
         }
     }
@@ -36,13 +49,13 @@ class AuthService {
     func signIn(
         email: String,
         password: String,
-        complition: @escaping(Result<User, Error>) -> ()
+        completion: @escaping(Result<User, Error>) -> ()
     ) {
         auth.signIn(withEmail: email, password: password) { result, error in
             if let result = result {
-                complition(.success(result.user))
+                completion(.success(result.user))
             } else if let error = error {
-                complition(.failure(error))
+                completion(.failure(error))
             }
         }
     }
