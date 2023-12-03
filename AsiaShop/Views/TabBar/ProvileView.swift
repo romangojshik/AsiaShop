@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProvileView: View {
     @State var isAvatarAlertPresented = false
+    @State var isQuitAlertPresented = false
+    @State var isAuthViewPresented = false
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
@@ -21,6 +23,16 @@ struct ProvileView: View {
                     .onTapGesture {
                         isAvatarAlertPresented.toggle()
                     }
+                    .confirmationDialog(
+                        "Откуда загрузить фотографию",
+                        isPresented: $isAvatarAlertPresented) {
+                            Button("Из галереи", role: .none) {
+                                print("Из галереи")
+                            }
+                            Button("Сделать фотографию", role: .none) {
+                                print("Сделать фотографию")
+                            }
+                        }
                 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Имя Фамилия Отчество")
@@ -40,7 +52,7 @@ struct ProvileView: View {
             }.listStyle(PlainListStyle())
             
             Button {
-                Text("Выйти")
+                isQuitAlertPresented.toggle()
             } label: {
                 Text("Выйти")
                     .padding()
@@ -49,6 +61,19 @@ struct ProvileView: View {
                     .foregroundColor(Color.white)
                     .cornerRadius(20)
             }.padding()
+                .confirmationDialog(
+                    "Вы хотите выйти?",
+                    isPresented: $isQuitAlertPresented
+                ) {
+                    Button("Выйти", role: .destructive) {
+                        isAuthViewPresented.toggle()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                }
+            
+                .fullScreenCover(isPresented: $isAuthViewPresented, onDismiss: nil) {
+                    AuthView()
+                }
         }
     }
 }
