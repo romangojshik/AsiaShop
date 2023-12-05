@@ -17,7 +17,11 @@ struct AsiaShopApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            if let user = AuthService.shared.currentUser {
+                MainTabBar(viewModel: MainTapBarViewModel(user: user))
+            } else {
+                AuthView()
+            }
         }
     }
     
@@ -27,7 +31,6 @@ struct AsiaShopApp: App {
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
         ) -> Bool {
             FirebaseApp.configure()
-            print("Ok")
             return true
         }
     }

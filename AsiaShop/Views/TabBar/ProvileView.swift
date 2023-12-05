@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ProvileView: View {
+    @StateObject var viewModel: ProfileViewModel
+
     @State var isAvatarAlertPresented = false
     @State var isQuitAlertPresented = false
     @State var isAuthViewPresented = false
-    
+        
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             HStack(spacing: 16) {
@@ -35,17 +37,28 @@ struct ProvileView: View {
                         }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Имя Фамилия Отчество")
-                        .bold()
-                    Text("+375 29 111-11-11")
+                    TextField(
+                        "Ваше имя и фамилия",
+                        text: $viewModel.profile.name
+                    )
+                    .font(.body.bold())
+                    
+                    HStack {
+                        Text("+375")
+                        TextField(
+                            "Ваш телефон",
+                            value: $viewModel.profile.phone,
+                            format: .number
+                        )
+                    }
                 }
             }
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("Адресс доставки")
+                Text("Ваш адрес доставки:")
                     .bold()
-                Text("Бреская область, город Брест")
-            }
+                TextField("Ваш адрес", text: $viewModel.profile.address)
+            }.padding(.horizontal)
             
             List {
                 Text("Ваши заказы будут тут!")
@@ -75,11 +88,24 @@ struct ProvileView: View {
                     AuthView()
                 }
         }
+        .onSubmit{
+            viewModel.setProfile()
+        }
+        .onAppear{
+            viewModel.getProfile()
+        }
     }
 }
 
 struct ProvileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProvileView()
+        ProvileView(viewModel: ProfileViewModel(
+            profile: .init(
+                id: "",
+                name: "Test Test",
+                phone: +375290000001,
+                address: "Брест, сябровская 83"
+            )
+        ))
     }
 }

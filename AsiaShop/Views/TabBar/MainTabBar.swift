@@ -32,13 +32,20 @@ struct MainTabBar: View {
                     }
                 }
             
-            ProvileView()
-                .tabItem {
-                    VStack {
-                        Image("profile_32")
-                        Text("Профиль")
-                    }
+            ProvileView(viewModel: ProfileViewModel(
+                profile: .init(
+                    id: "",
+                    name: "",
+                    phone: 0,
+                    address: ""
+                )
+            ))
+            .tabItem {
+                VStack {
+                    Image("profile_32")
+                    Text("Профиль")
                 }
+            }
         }
     }
 }

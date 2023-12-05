@@ -32,7 +32,7 @@ class AuthService {
                     phone: 0,
                     address: ""
                 )
-                DatabaseService.shared.setUser(user: profile) { resultDB in
+                DatabaseService.shared.setProfile(user: profile) { resultDB in
                     switch resultDB {
                     case .success(_):
                         completion(.success(result.user))
