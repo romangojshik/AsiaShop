@@ -15,21 +15,16 @@ struct BasketView: View {
         
         VStack {
             List(viewModel.positions) { position in
-                if #available(iOS 15.0, *) {
-                    PositionCell(position: position)
-                        .swipeActions {
-                            Button {
-                                viewModel.positions.removeAll { pos in
-                                    pos.product.id == position.product.id
-                                }
-                            } label: {
-                                Text("Удалить")
+                PositionCell(position: position)
+                    .swipeActions {
+                        Button {
+                            viewModel.positions.removeAll { pos in
+                                pos.product.id == position.product.id
                             }
-                            
+                        } label: {
+                            Text("Удалить")
                         }
-                } else {
-                    // Fallback on earlier versions
-                }
+                    }
             }
             
             .listStyle(PlainListStyle())
@@ -58,7 +53,22 @@ struct BasketView: View {
                 })
                 
                 Button(action: {
-                    print("Заказать")
+                    var order = Order(
+                        userID: AuthService.shared.currentUser!.uid,
+                        date: Date(),
+                        status: OrderStatus.new.rawValue
+                    )
+                    
+                    order.positions = self.viewModel.positions
+                    
+                    DatabaseService.shared.setOrder(order: order) { result in
+                        switch result {
+                        case .success(let order):
+                            print(order.cost)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                 }, label: {
                     Text("Заказать")
                         .font(.body)

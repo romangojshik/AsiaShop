@@ -15,4 +15,16 @@ struct Position: Identifiable {
     var cost: Double {
         return product.price * Double(count)
     }
+    
+    var representation: [String: Any] {
+        var repres = [String: Any]()
+        
+        repres["id"] = id
+        repres["count"] = count
+        repres["title"] = product.title
+        repres["price"] = product.price
+        repres["cost"] = self.cost
+
+        return repres
+    }
 }

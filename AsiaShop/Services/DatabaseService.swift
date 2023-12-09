@@ -13,6 +13,9 @@ class DatabaseService {
     private var usersReferance: CollectionReference {
         return dataBase.collection("users")
     }
+    private var ordersReferance: CollectionReference {
+        return dataBase.collection("orders")
+    }
     
     private init() { }
     
@@ -26,10 +29,9 @@ class DatabaseService {
         }
     }
     
-    func getProfile(completion: @escaping  (Result<Profile, Error>) -> ()) {
-        print("getProfile")
+    func getProfile(completion: @escaping (Result<Profile, Error>) -> ()) {
         guard let currentUser = AuthService.shared.currentUser else { return }
-
+        
         usersReferance.document(currentUser.uid).getDocument { docSnapshot, error in
             guard let snapshot = docSnapshot else { return }
             guard let data = snapshot.data() else { return }
@@ -42,5 +44,40 @@ class DatabaseService {
             let profile = Profile(id: usedID, name: userName, phone: userPhone, address: userAddress)
             completion(.success(profile))
         }
+    }
+    
+    func setOrder(order: Order, completion: @escaping (Result<Order, Error>) -> ()) {
+        ordersReferance.document(order.id).setData(order.representation) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                self.setPositions(
+                    orderID: order.id,
+                    positions: order.positions
+                ) { result in
+                    switch result {
+                    case .success(let positions):
+                        print(positions.count)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                completion(.success(order))
+            }
+        }
+    }
+    
+    func setPositions(
+        orderID: String,
+        positions: [Position],
+        completion: @escaping (Result<[Position], Error>) -> ()
+    ) {
+        let positionsReferance = ordersReferance.document(orderID).collection("positions")
+        
+        for position in positions {
+            positionsReferance.document(position.id).setData(position.representation)
+        }
+        
+        completion(.success(positions))
     }
 }
