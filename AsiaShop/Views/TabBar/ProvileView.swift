@@ -61,7 +61,13 @@ struct ProvileView: View {
             }.padding(.horizontal)
             
             List {
-                Text("Ваши заказы будут тут!")
+                if viewModel.orders.count == 0 {
+                    Text("Ваши заказы будут тут!")
+                } else {
+                    ForEach(viewModel.orders, id: \.id) { order in
+                        OrderCell(order: order)
+                    }
+                }
             }.listStyle(PlainListStyle())
             
             Button {
@@ -93,6 +99,7 @@ struct ProvileView: View {
         }
         .onAppear{
             viewModel.getProfile()
+            viewModel.getOrders()
         }
     }
 }

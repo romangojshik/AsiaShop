@@ -9,6 +9,7 @@ import Foundation
 
 class ProfileViewModel: ObservableObject {
     @Published var profile: Profile
+    @Published var orders: [Order] = [Order]()
     
     init(profile: Profile) {
         self.profile = profile
@@ -34,6 +35,19 @@ class ProfileViewModel: ObservableObject {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func getOrders() {
+        DatabaseService.shared.getOrders(
+            userID: AuthService.shared.currentUser!.accessibilityHint) { result in
+                switch result {
+                case .success(let orders ):
+                    self.orders = orders
+                    print("Всего заказов: \(orders.count)")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
     }
     
 }

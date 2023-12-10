@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		203A631E2B26636C00AD5EDA /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A631D2B26636C00AD5EDA /* OrderCell.swift */; };
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		203A631D2B26636C00AD5EDA /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		209918D72B1CC40C000A9A86 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				304CB7D52B0CF0A500ABBEA9 /* ProductCell.swift */,
 				30AE46182B10D7C000C74BD8 /* PositionCell.swift */,
+				203A631D2B26636C00AD5EDA /* OrderCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -114,6 +117,7 @@
 				30AE46152B0F98CB00C74BD8 /* Position.swift */,
 				209918D72B1CC40C000A9A86 /* Profile.swift */,
 				20BE6BF42B20F967009ABA83 /* Order.swift */,
+				20BE6BF62B211714009ABA83 /* OrderStatus.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -126,7 +130,6 @@
 				30AE46122B0F988500C74BD8 /* BasketViewModel.swift */,
 				209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */,
 				20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */,
-				20BE6BF62B211714009ABA83 /* OrderStatus.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				3051E6942B0F7CD800575BD5 /* ProductDetailViewModel.swift in Sources */,
 				30AE46192B10D7C000C74BD8 /* PositionCell.swift in Sources */,
 				304CB7C82B0A610B00ABBEA9 /* ProvileView.swift in Sources */,
+				203A631E2B26636C00AD5EDA /* OrderCell.swift in Sources */,
 				20BE6BF72B211714009ABA83 /* OrderStatus.swift in Sources */,
 				30AE46162B0F98CB00C74BD8 /* Position.swift in Sources */,
 				304CB7D62B0CF0A500ABBEA9 /* ProductCell.swift in Sources */,

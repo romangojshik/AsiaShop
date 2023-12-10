@@ -80,4 +80,26 @@ class DatabaseService {
         
         completion(.success(positions))
     }
+    
+    func getOrders(userID: String?,  completion: @escaping (Result<[Order], Error>) -> ()) {
+        self.ordersReferance.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                var orders = [Order]()
+                for document in querySnapshot.documents {
+                    if let userID = userID {
+                        if let order = Order(document: document), order.userID == userID {
+                            orders.append(order)
+                        }
+                    } else {
+                        if let order = Order(document: document) {
+                            orders.append(order)
+                        }
+                    }
+                }
+                completion(.success(orders))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
 }
