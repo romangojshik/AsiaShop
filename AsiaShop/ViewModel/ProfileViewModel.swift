@@ -14,14 +14,14 @@ class ProfileViewModel: ObservableObject {
     init(profile: Profile) {
         self.profile = profile
     }
-
+    
     func setProfile() {
         DatabaseService.shared.setProfile(user: self.profile) { result in
             switch result {
             case .success(let user):
                 print(user.name)
             case .failure(let error):
-                print("Error")
+                print(error.localizedDescription)
             }
         }
     }
@@ -38,16 +38,25 @@ class ProfileViewModel: ObservableObject {
     }
     
     func getOrders() {
-        DatabaseService.shared.getOrders(
-            userID: AuthService.shared.currentUser!.accessibilityHint) { result in
-                switch result {
-                case .success(let orders ):
-                    self.orders = orders
-                    print("Всего заказов: \(orders.count)")
-                case .failure(let error):
-                    print(error.localizedDescription)
+        DatabaseService.shared.getOrders(userID: AuthService.shared.currentUser!.accessibilityHint) { result in
+            switch result {
+            case .success(let orders ):
+                self.orders = orders
+                for (index, order) in self.orders.enumerated() {
+                    DatabaseService.shared.getPositions(orderID: order.id) { result in
+                        switch result {
+                        case .success(let positions):
+                            self.orders[index].positions = positions
+                            print(self.orders[index].cost)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                 }
+                print("Всего заказов: \(orders.count)")
+            case .failure(let error):
+                print(error.localizedDescription)
             }
+        }
     }
-    
 }

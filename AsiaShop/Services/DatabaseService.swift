@@ -102,4 +102,22 @@ class DatabaseService {
             }
         }
     }
+    
+    func getPositions(orderID: String?,  completion: @escaping (Result<[Position], Error>) -> ()) {
+        guard let orderID = orderID else { return }
+        let positionsReferance = ordersReferance.document(orderID).collection("positions")
+        positionsReferance.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                var positions = [Position]()
+                for document in querySnapshot.documents {
+                    if let position = Position(document: document) {
+                        positions.append(position)
+                    }
+                }
+                completion(.success(positions))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
 }
