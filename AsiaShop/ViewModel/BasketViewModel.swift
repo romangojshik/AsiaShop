@@ -11,9 +11,7 @@ class BasketViewModel: ObservableObject {
     
     static let shared = BasketViewModel()
     
-    private init() {
-        
-    }
+    private init() {}
     
     @Published var positions = [Position]()
     

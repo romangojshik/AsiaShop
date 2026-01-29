@@ -7,15 +7,30 @@
 
 import FirebaseFirestore
 
-class DatabaseService {
+protocol DatabaseServiceProtocol {
+    func getProducts(completion: @escaping (Result<[Product], Error>) -> ())
+    //func getSushi(completion: @escaping (Result<[Product], Error>) -> ())
+    func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ())
+}
+
+class DatabaseService: DatabaseServiceProtocol {
     static let shared = DatabaseService()
+    
     private let dataBase = Firestore.firestore()
+    
     private var usersReferance: CollectionReference {
         return dataBase.collection("users")
     }
     private var ordersReferance: CollectionReference {
         return dataBase.collection("orders")
     }
+    private var productsReference: CollectionReference {
+        return dataBase.collection("products")
+    }
+    private var setsReference: CollectionReference {
+        return dataBase.collection("sets")
+    }
+    
     
     private init() { }
     
@@ -115,6 +130,57 @@ class DatabaseService {
                     }
                 }
                 completion(.success(positions))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // Загрузка списка продуктов из коллекции "products"
+    func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) {
+        productsReference.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                var products: [Product] = []
+                for document in querySnapshot.documents {
+                    let data = document.data()
+                    
+                    guard
+                        let id = data["id"] as? String,
+                        let title = data["title"] as? String,
+                        let imageURL = data["imageURL"] as? String,
+                        let price = data["price"] as? Double,
+                        let description = data["description"] as? String
+                    else {
+                        continue
+                    }
+                    
+                    let product = Product(
+                        id: id,
+                        title: title,
+                        imageURL: imageURL,
+                        price: price,
+                        description: description
+                    )
+                    products.append(product)
+                }
+                completion(.success(products))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // Загрузка списка сетов из коллекции "sets"
+    func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
+        setsReference.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                var sets: [SushiSet] = []
+                for document in querySnapshot.documents {
+                    if let sushiSet = SushiSet(document: document) {
+                        sets.append(sushiSet)
+                    }
+                }
+                completion(.success(sets))
             } else if let error = error {
                 completion(.failure(error))
             }
