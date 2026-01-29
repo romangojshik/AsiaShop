@@ -2,7 +2,7 @@
 //  Set.swift
 //  AsiaShop
 //
-//  Created by AI on request.
+//  Created by Roman Gojshik on 01/12/25.
 //
 
 import Foundation
@@ -71,7 +71,7 @@ struct SushiSet {
 extension SushiSet {
     func toProduct() -> Product {
         return Product(
-            id: self.id,
+            id: "set_\(self.id)", // Добавляем префикс "set_" чтобы отличать от обычных продуктов
             title: self.title,
             imageURL: self.imageURL,
             price: self.price,

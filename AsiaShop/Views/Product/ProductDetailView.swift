@@ -21,7 +21,6 @@ struct ProductDetailView: View {
             VStack(alignment: .leading) {
                 Image("nori")
                     .resizable()
-//                    .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity, maxHeight: 300)
                 HStack {
                     Text("\(viewModel.product.title)")
@@ -63,7 +62,6 @@ struct ProductDetailView: View {
                     count: count
                 )
                 position.product.price = viewModel.getPrice(size: size )
-                BasketViewModel.shared.addPosition(position: position)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("В корзину")

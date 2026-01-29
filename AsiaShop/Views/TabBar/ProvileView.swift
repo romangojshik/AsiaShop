@@ -60,15 +60,15 @@ struct ProvileView: View {
                 TextField("Ваш адрес", text: $viewModel.profile.address)
             }.padding(.horizontal)
             
-            List {
-                if viewModel.orders.count == 0 {
-                    Text("Ваши заказы будут тут!")
-                } else {
-                    ForEach(viewModel.orders, id: \.id) { order in
-                        OrderCell(order: order)
-                    }
-                }
-            }.listStyle(PlainListStyle())
+//            List {
+//                if viewModel.orders.count == 0 {
+//                    Text("Ваши заказы будут тут!")
+//                } else {
+//                    ForEach(viewModel.orders, id: \.id) { order in
+//                        OrderCell(order: order)
+//                    }
+//                }
+//            }.listStyle(PlainListStyle())
             
             Button {
                 isQuitAlertPresented.toggle()

@@ -9,8 +9,9 @@ import FirebaseFirestore
 
 protocol DatabaseServiceProtocol {
     func getProducts(completion: @escaping (Result<[Product], Error>) -> ())
-    //func getSushi(completion: @escaping (Result<[Product], Error>) -> ())
+    func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ())
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ())
+    func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ())
 }
 
 class DatabaseService: DatabaseServiceProtocol {
@@ -27,10 +28,12 @@ class DatabaseService: DatabaseServiceProtocol {
     private var productsReference: CollectionReference {
         return dataBase.collection("products")
     }
+    private var sushiReference: CollectionReference {
+        return dataBase.collection("sushi")
+    }
     private var setsReference: CollectionReference {
         return dataBase.collection("sets")
     }
-    
     
     private init() { }
     
@@ -170,6 +173,23 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    // Загрузка списка суши из коллекции "sushi"
+    func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
+        sushiReference.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                var sushi: [Sushi] = []
+                for document in querySnapshot.documents {
+                    if let sushiItem = Sushi(document: document) {
+                        sushi.append(sushiItem)
+                    }
+                }
+                completion(.success(sushi))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     // Загрузка списка сетов из коллекции "sets"
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
         setsReference.getDocuments { querySnapshot, error in
@@ -183,6 +203,47 @@ class DatabaseService: DatabaseServiceProtocol {
                 completion(.success(sets))
             } else if let error = error {
                 completion(.failure(error))
+            }
+        }
+    }
+    
+    // Параллельная загрузка суши и сетов с использованием DispatchGroup
+    func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ()) {
+        let group = DispatchGroup()
+        var loadedSushi: [Sushi] = []
+        var loadedSets: [SushiSet] = []
+        var loadError: Error?
+        
+        // Загружаем суши
+        group.enter()
+        getSushi { result in
+            switch result {
+            case .success(let sushi):
+                loadedSushi = sushi
+            case .failure(let error):
+                loadError = error
+            }
+            group.leave()
+        }
+        
+        // Загружаем сеты
+        group.enter()
+        getSets { result in
+            switch result {
+            case .success(let sets):
+                loadedSets = sets
+            case .failure(let error):
+                loadError = error
+            }
+            group.leave()
+        }
+        
+        // Ждём завершения обоих запросов
+        group.notify(queue: .main) {
+            if let error = loadError {
+                completion(.failure(error))
+            } else {
+                completion(.success((sushi: loadedSushi, sets: loadedSets)))
             }
         }
     }

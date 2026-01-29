@@ -9,7 +9,13 @@ import SwiftUI
 
 struct CatalogView: View {
     
-    @StateObject private var viewModel = CatalogViewModel()
+    @StateObject private var viewModel: CatalogViewModel
+    @ObservedObject private var basket: BasketViewModel
+    
+    init(basket: BasketViewModel) {
+        self.basket = basket
+        _viewModel = StateObject(wrappedValue: CatalogViewModel(basket: basket))
+    }
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -19,7 +25,7 @@ struct CatalogView: View {
     // Секция "Основное меню" - вертикальный список по одному продукту
     private var mainMenuSection: some View {
         Group {
-            if !viewModel.allProducts.isEmpty {
+            if !viewModel.sushi.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Основное меню")
                         .font(.title2)
@@ -27,67 +33,23 @@ struct CatalogView: View {
                         .padding(.horizontal)
                     
                     VStack(spacing: 0) {
-                        ForEach(Array(viewModel.allProducts.enumerated()), id: \.element.id) { index, product in
+                        ForEach(Array(viewModel.sushi.enumerated()), id: \.element.id) { index, sushi in
                             VStack(spacing: 0) {
                                 NavigationLink(
                                     destination: ProductDetailView(
-                                        viewModel: ProductDetailViewModel(product: product)
+                                        viewModel: ProductDetailViewModel(product: sushi.toProduct())
                                     )
                                 ) {
-                                    HStack(spacing: 16) {
-                                        Image(product.imageURL)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 96, height: 96)
-                                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                                        
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(product.title)
-                                                .font(.headline)
-                                                .foregroundColor(.primary)
-                                            
-                                            Text(product.description)
-                                                .font(.subheadline)
-                                                .foregroundColor(.secondary)
-                                                .lineLimit(2)
-                                                .multilineTextAlignment(.leading)
-                                            
-                                            HStack {
-                                                Text(String(format: "%.0fруб/8шт", product.price))
-                                                    .font(.subheadline)
-                                                    .foregroundColor(.white)
-                                                    .padding(.horizontal, 10)
-                                                    .padding(.vertical, 4)
-                                                    .background(Color.black.opacity(0.9))
-                                                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                                                
-                                                Spacer()
-                                                
-                                                Button {
-                                                    let position = Position(
-                                                        id: UUID().uuidString,
-                                                        product: product,
-                                                        count: 1
-                                                    )
-                                                    BasketViewModel.shared.addPosition(position: position)
-                                                } label: {
-                                                    Text("В корзину")
-                                                        .font(.subheadline)
-                                                        .foregroundColor(.white)
-                                                        .padding(.horizontal, 10)
-                                                        .padding(.vertical, 4)
-                                                        .background(Color.black.opacity(0.9))
-                                                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                                                }
-                                            }
+                                    SushiRowView(
+                                        basketViewModel: basket,
+                                        sushi: sushi,
+                                        onAddToBasket: {
+                                            viewModel.addToBasket(product: sushi.toProduct())
                                         }
-                                        
-                                        Spacer()
-                                    }
-                                    .padding(.horizontal)
+                                    )
                                 }
                                 
-                                if index < viewModel.allProducts.count - 1 {
+                                if index < viewModel.sushi.count - 1 {
                                     Divider()
                                         .padding(16)
                                 }
@@ -118,7 +80,7 @@ struct CatalogView: View {
                                             viewModel: ProductDetailViewModel(product: sushiSet.toProduct())
                                         )
                                     ) {
-                                        CatalogSetCell(sushiSet: sushiSet)
+                                        CatalogSetRowView(basket: basket, sushiSet: sushiSet)
                                             .foregroundColor(.black)
                                     }
                                 }
@@ -135,17 +97,9 @@ struct CatalogView: View {
         }
         .navigationBarTitle("Каталог", displayMode: .large)
         .onAppear {
-            if viewModel.allProducts.isEmpty {
+            if viewModel.sushi.isEmpty {
                 viewModel.loadProducts()
             }
-        }
-    }
-}
-
-struct CatalogView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CatalogView()
         }
     }
 }
