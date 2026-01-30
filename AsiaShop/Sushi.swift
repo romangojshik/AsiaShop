@@ -15,6 +15,7 @@ struct Sushi: Identifiable {
     var price: Double
     var description: String
     var weight: String?
+    var callories: String?
     
     init(
         id: String,
@@ -22,7 +23,8 @@ struct Sushi: Identifiable {
         imageURL: String,
         price: Double,
         description: String,
-        weight: String? = nil
+        weight: String? = nil,
+        callories: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -30,6 +32,7 @@ struct Sushi: Identifiable {
         self.price = price
         self.description = description
         self.weight = weight
+        self.callories = callories
     }
     
     init?(document: QueryDocumentSnapshot) {
@@ -41,6 +44,7 @@ struct Sushi: Identifiable {
             let imageURL = data["imageURL"] as? String,
             let price = data["price"] as? Double,
             let description = data["description"] as? String
+
         else {
             return nil
         }
@@ -51,6 +55,7 @@ struct Sushi: Identifiable {
         self.price = price
         self.description = description
         self.weight = data["weight"] as? String
+        self.callories = data["callories"] as? String
     }
 }
 
@@ -63,7 +68,8 @@ extension Sushi {
             imageURL: self.imageURL,
             price: self.price,
             description: self.description,
-            weight: self.weight
+            weight: self.weight,
+            callories: self.callories
         )
     }
 }

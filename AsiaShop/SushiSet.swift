@@ -15,17 +15,19 @@ struct SushiSet {
     var price: Double
     var description: String
     var weight: String
+    var callories: String?
     
-    var representation: [String: Any] {
-        [
-            "id": id,
-            "title": title,
-            "imageURL": imageURL,
-            "price": price,
-            "description": description,
-            "weight": weight
-        ]
-    }
+//    var representation: [String: Any] {
+//        [
+//            "id": id,
+//            "title": title,
+//            "imageURL": imageURL,
+//            "price": price,
+//            "description": description,
+//            "weight": weight
+//            callories: String? = nil
+//        ]
+//    }
     
     init(
         id: String,
@@ -33,7 +35,8 @@ struct SushiSet {
         imageURL: String,
         price: Double,
         description: String,
-        weight: String
+        weight: String,
+        callories: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -41,6 +44,7 @@ struct SushiSet {
         self.price = price
         self.description = description
         self.weight = weight
+        self.callories = callories
     }
     
     init?(document: QueryDocumentSnapshot) {
@@ -64,10 +68,10 @@ struct SushiSet {
         self.price = price
         self.description = description
         self.weight = weight
+        self.callories = data["callories"] as? String
     }
 }
 
-// Расширение для конвертации SushiSet в Product
 extension SushiSet {
     func toProduct() -> Product {
         return Product(
@@ -76,7 +80,8 @@ extension SushiSet {
             imageURL: self.imageURL,
             price: self.price,
             description: self.description,
-            weight: self.weight
+            weight: self.weight,
+            callories: self.callories
         )
     }
 }

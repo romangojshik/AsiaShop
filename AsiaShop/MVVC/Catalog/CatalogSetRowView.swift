@@ -32,7 +32,7 @@ struct CatalogSetRowView: View {
                 
                 QuantityPlusButton(
                     count: basket.getProductCount(productId: product.id),
-                    containerWidth: cardWidth - 12, // Ширина минус padding (6px с каждой стороны)
+                    containerWidth: cardWidth - 12,
                     onDecrease: {
                         if let position = basket.positions.first(where: { $0.product.id == product.id }) {
                             basket.decreaseCount(positionId: position.id)
@@ -66,25 +66,29 @@ struct CatalogSetRowView: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 18, weight: .regular))
+                    .foregroundColor(.primary)
                     .lineLimit(2)
                 
-                Text(product.weight ?? "")
-                    .font(.system(size: 13, weight: .semibold))
-                    .lineLimit(1)
+                Text(String(format: "%.0f руб.", product.price))
+                    .font(.system(size: 16, weight: .bold))
+                    .lineLimit(2)
                 
                 HStack {
-                    Text(String(format: "%.0fруб/сет", product.price))
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.black.opacity(0.9))
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                    Text(product.weight ?? "")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
                     
                     Spacer()
+                    
+                    Text(product.callories ?? "")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
                 }
             }
+            .frame(maxWidth: cardWidth)
             .padding(.horizontal, 8)
             .padding(.bottom, 4)
         }

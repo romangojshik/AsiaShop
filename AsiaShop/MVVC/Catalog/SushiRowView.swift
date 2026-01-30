@@ -20,7 +20,7 @@ struct SushiRowView: View {
                 .frame(width: 96, height: 96)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(sushi.title)
                     .font(.headline)
                     .foregroundColor(.primary)
