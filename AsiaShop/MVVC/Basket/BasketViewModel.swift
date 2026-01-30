@@ -12,6 +12,7 @@ protocol BasketViewModelProtocol: ObservableObject {
     var cost: Double { get }
     func addPosition(_ position: Position)
     func isProductInBasket(productId: String) -> Bool
+    func getProductCount(productId: String) -> Int
     func increaseCount(positionId: String)
     func decreaseCount(positionId: String)
     func removePosition(positionId: String)
@@ -37,6 +38,10 @@ class BasketViewModel: BasketViewModelProtocol {
     
     func isProductInBasket(productId: String) -> Bool {
         return positions.contains { $0.product.id == productId }
+    }
+    
+    func getProductCount(productId: String) -> Int {
+        return positions.first(where: { $0.product.id == productId })?.count ?? 0
     }
     
     func increaseCount(positionId: String) {

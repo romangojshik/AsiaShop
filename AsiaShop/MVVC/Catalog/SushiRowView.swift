@@ -42,17 +42,23 @@ struct SushiRowView: View {
                     
                     Spacer()
                     
-                    Button {
-                        onAddToBasket()
-                    } label: {
-                        Text(basketViewModel.isProductInBasket(productId: sushi.id) ? "В корзине" : "В корзину")
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 4)
-                            .background(basketViewModel.isProductInBasket(productId: sushi.id) ? Color.green.opacity(0.9) : Color.black.opacity(0.9))
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
-                    }
+                    QuantityButton(
+                        count: basketViewModel.getProductCount(productId: sushi.id),
+                        onDecrease: {
+                            if let position = basketViewModel.positions.first(where: { $0.product.id == sushi.id }) {
+                                basketViewModel.decreaseCount(positionId: position.id)
+                            }
+                        },
+                        onIncrease: {
+                            if let position = basketViewModel.positions.first(where: { $0.product.id == sushi.id }) {
+                                basketViewModel.increaseCount(positionId: position.id)
+                            } else {
+                                onAddToBasket()
+                            }
+                        },
+                        isInBasket: basketViewModel.isProductInBasket(productId: sushi.id),
+                        onAddToBasket: onAddToBasket
+                    )
                 }
             }
             

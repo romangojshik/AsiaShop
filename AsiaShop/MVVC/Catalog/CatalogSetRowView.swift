@@ -19,33 +19,50 @@ struct CatalogSetRowView: View {
         basket.isProductInBasket(productId: product.id)
     }
     
+    private let cardWidth: CGFloat = 120
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             ZStack(alignment: .bottomTrailing) {
                 Image(sushiSet.imageURL)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: screen.width * 0.3, height: screen.width * 0.3)
+                    .frame(width: cardWidth, height: cardWidth)
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                 
-                Button {
-                    let position = Position(
-                        id: UUID().uuidString,
-                        product: product,
-                        count: 1
-                    )
-                    basket.addPosition(position)
-                } label: {
-                    Image(systemName: isInBasket ? "checkmark" : "plus")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(isInBasket ? .white : .black)
-                        .frame(width: 30, height: 30)
-                        .background(isInBasket ? Color.green : Color.white)
-                        .clipShape(Circle())
-                        .shadow(color: Color.black.opacity(0.15), radius: 3, x: 0, y: 2)
-                }
-                .padding(6)
+                QuantityPlusButton(
+                    count: basket.getProductCount(productId: product.id),
+                    containerWidth: cardWidth - 12, // Ширина минус padding (6px с каждой стороны)
+                    onDecrease: {
+                        if let position = basket.positions.first(where: { $0.product.id == product.id }) {
+                            basket.decreaseCount(positionId: position.id)
+                        }
+                    },
+                    onIncrease: {
+                        if let position = basket.positions.first(where: { $0.product.id == product.id }) {
+                            basket.increaseCount(positionId: position.id)
+                        } else {
+                            let position = Position(
+                                id: UUID().uuidString,
+                                product: product,
+                                count: 1
+                            )
+                            basket.addPosition(position)
+                        }
+                    },
+                    onAddToBasket: {
+                        let position = Position(
+                            id: UUID().uuidString,
+                            product: product,
+                            count: 1
+                        )
+                        basket.addPosition(position)
+                    }
+                )
+                .padding(.horizontal, 6)
+                .padding(.bottom, 6)
             }
+            .clipped()
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
