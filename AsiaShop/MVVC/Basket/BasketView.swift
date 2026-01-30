@@ -13,15 +13,18 @@ struct BasketView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            CustomNavigationBarView(title: "Корзина")
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
                     if viewModel.positions.isEmpty {
-                        VStack(spacing: 16) {
-                            Text("Корзина пуста")
-                                .font(.title2)
-                                .foregroundColor(.secondary)
-                                .padding(.top, 100)
-                        }
+                        Spacer()
+                        
+                        Text("Корзина пуста")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity)
+                        
+                        Spacer()
                     } else {
                         ForEach(Array(viewModel.positions.enumerated()), id: \.element.id) { index, position in
                             VStack(spacing: 0) {
@@ -133,5 +136,6 @@ struct BasketView: View {
                 
             }.padding()
         }
+        .navigationBarHidden(true)
     }
 }

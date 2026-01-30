@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2003E2CB2F2C9F9900CA574C /* QuantityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003E2CA2F2C9F9900CA574C /* QuantityButton.swift */; };
+		2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */; };
+		2003E2D02F2CC8F300CA574C /* DATABASE_FIELDS.md in Resources */ = {isa = PBXBuildFile; fileRef = 2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */; };
 		20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */ = {isa = PBXBuildFile; fileRef = 20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */; };
 		20229BE02F2ABA0A00E6A5A4 /* SushiSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */; };
 		2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */; };
@@ -42,6 +44,8 @@
 
 /* Begin PBXFileReference section */
 		2003E2CA2F2C9F9900CA574C /* QuantityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityButton.swift; sourceTree = "<group>"; };
+		2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
+		2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DATABASE_FIELDS.md; sourceTree = "<group>"; };
 		20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sushi_products.txt; sourceTree = "<group>"; };
 		20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiSet.swift; sourceTree = "<group>"; };
 		2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSetRowView.swift; sourceTree = "<group>"; };
@@ -87,9 +91,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2003E2CC2F2CBDB500CA574C /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		2033AA1B2F27E92300CFE426 /* MVVC */ = {
 			isa = PBXGroup;
 			children = (
+				2003E2CC2F2CBDB500CA574C /* Navigation */,
 				20A738F42F2B69D300EF5DD4 /* TabBar */,
 				20A738F32F2B620B00EF5DD4 /* Basket */,
 				2033AA1C2F28CDFD00CFE426 /* Catalog */,
@@ -212,6 +225,7 @@
 		30FD82BF2AF52E0300D94BA7 = {
 			isa = PBXGroup;
 			children = (
+				2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */,
 				20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */,
 				2043586E2EDDBC57007D5116 /* GoogleService-Info.plist */,
 				30FD82CA2AF52E0300D94BA7 /* AsiaShop */,
@@ -318,6 +332,7 @@
 			files = (
 				30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */,
 				30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */,
+				2003E2D02F2CC8F300CA574C /* DATABASE_FIELDS.md in Resources */,
 				2043586F2EDDBC57007D5116 /* GoogleService-Info.plist in Resources */,
 				20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */,
 			);
@@ -348,6 +363,7 @@
 				2003E2CB2F2C9F9900CA574C /* QuantityButton.swift in Sources */,
 				20BE6BF72B211714009ABA83 /* OrderStatus.swift in Sources */,
 				30AE46162B0F98CB00C74BD8 /* Position.swift in Sources */,
+				2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
 				20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */,
