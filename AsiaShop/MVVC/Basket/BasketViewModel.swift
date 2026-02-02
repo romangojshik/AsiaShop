@@ -16,6 +16,7 @@ protocol BasketViewModelProtocol: ObservableObject {
     func increaseCount(positionId: String)
     func decreaseCount(positionId: String)
     func removePosition(positionId: String)
+    func createOrder()
 }
 
 class BasketViewModel: BasketViewModelProtocol {
@@ -62,5 +63,26 @@ class BasketViewModel: BasketViewModelProtocol {
     
     func removePosition(positionId: String) {
         positions.removeAll { $0.id == positionId }
+    }
+    
+    func createOrder() {
+        var order = Order(
+            userID: AuthService.shared.currentUser!.uid,
+            date: Date(),
+            status: OrderStatus.new.rawValue
+        )
+        
+        order.positions = self.positions
+        
+        DatabaseService.shared.setOrder(order: order) { result in
+            switch result {
+            case .success(let order):
+                print("Заказ создан: \(order.cost)")
+                // Можно очистить корзину после успешного заказа
+                // viewModel.clearBasket()
+            case .failure(let error):
+                print("Ошибка: \(error.localizedDescription)")
+            }
+        }
     }
 }

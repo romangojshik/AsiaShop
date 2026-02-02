@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BasketView: View {
-    
+    @StateObject private var router = BasketRouter()
     @ObservedObject var viewModel: BasketViewModel
     
     var body: some View {
@@ -19,10 +19,19 @@ struct BasketView: View {
                     if viewModel.positions.isEmpty {
                         Spacer()
                         
-                        Text("Корзина пуста")
-                            .font(.title2)
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity)
+                        VStack(spacing: 16) {
+                            Text("Корзина пуста")
+                                .font(.title2)
+                                .foregroundColor(.secondary)
+                            
+                            Image("basket_empty")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 90, height: 90)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 50)
                         
                         Spacer()
                     } else {
@@ -83,7 +92,6 @@ struct BasketView: View {
                     }
                 }
             }
-            .navigationTitle("Корзина")
             
             HStack {
                 Text("ИТОГО:")
@@ -94,47 +102,38 @@ struct BasketView: View {
             }.padding()
             
             
-            HStack(spacing: 25) {
-                Button(action: {
-                    print("Отменить")
-                }, label: {
-                    Text("Отменить")
-                        .font(.body)
-                        .fontWeight(.bold)
-                        .padding()
-                        .foregroundColor(Color.white)
-                        .background(Color.red)
-                        .cornerRadius(24)
-                })
-                
-                Button(action: {
-                    var order = Order(
-                        userID: AuthService.shared.currentUser!.uid,
-                        date: Date(),
-                        status: OrderStatus.new.rawValue
+            Button(action: {
+                router.navigate(to: .confirmOrder(totalCost: viewModel.cost))
+            }) {
+                Text("Оформить заказ")
+                    .font(.body)
+                    .fontWeight(.bold)
+                    .foregroundColor(viewModel.positions.isEmpty ? .gray : .white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(viewModel.positions.isEmpty ? Color.gray.opacity(0.3) : Color(white: 0.15))
+                    .cornerRadius(12)
+            }
+            .disabled(viewModel.positions.isEmpty)
+            
+            .sheet(item: $router.currentRoute) { route in
+                switch route {
+                case .confirmOrder(let totalCost):
+                    ConfirmOrderView(
+                        viewModel: ConfirmOrderViewModel(
+                            totalCost: totalCost,
+                            onConfirm: {
+                                viewModel.createOrder()
+                                router.dismiss()
+                            },
+                            onCancel: {
+                                router.dismiss()
+                            }
+                        )
                     )
-                    
-                    order.positions = self.viewModel.positions
-                    
-                    DatabaseService.shared.setOrder(order: order) { result in
-                        switch result {
-                        case .success(let order):
-                            print(order.cost)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                }, label: {
-                    Text("Заказать")
-                        .font(.body)
-                        .fontWeight(.bold)
-                        .padding()
-                        .foregroundColor(Color.white)
-                        .background(Color.green)
-                        .cornerRadius(24)
-                })
-                
-            }.padding()
+                }
+            }
+            .padding()
         }
         .navigationBarHidden(true)
     }

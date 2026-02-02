@@ -34,6 +34,9 @@ class DatabaseService: DatabaseServiceProtocol {
     private var setsReference: CollectionReference {
         return dataBase.collection("sets")
     }
+    private var ordersReference: CollectionReference {
+        return dataBase.collection("orders")
+    }
     
     private init() { }
     
@@ -64,22 +67,36 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func setOrder(order: Order, completion: @escaping (Result<Order, Error>) -> ()) {
-        ordersReferance.document(order.id).setData(order.representation) { error in
+    func setOrder(
+        order: Order,
+        completion: @escaping (Result<Order, Error>) -> ()
+    ) {
+        let orderData: [String: Any] = [
+            "userID": order.userID,
+            "date": Timestamp(date: order.date),
+            "status": order.status,
+            "cost": order.cost,
+            "positions": order.positions.map { position in
+                return [
+                    "id": position.id,
+                    "count": position.count,
+                    "cost": position.cost,
+                    "product": [
+                        "id": position.product.id,
+                        "title": position.product.title,
+                        "imageURL": position.product.imageURL,
+                        "price": position.product.price,
+                        "description": position.product.description,
+                        "weight": position.product.weight ?? ""
+                    ]
+                ]
+            }
+        ]
+        
+        ordersReference.addDocument(data: orderData) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
-                self.setPositions(
-                    orderID: order.id,
-                    positions: order.positions
-                ) { result in
-                    switch result {
-                    case .success(let positions):
-                        print(positions.count)
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
                 completion(.success(order))
             }
         }

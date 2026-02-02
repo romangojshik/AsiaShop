@@ -16,6 +16,9 @@
 		2043586F2EDDBC57007D5116 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2043586E2EDDBC57007D5116 /* GoogleService-Info.plist */; };
 		204358722EDDC5BF007D5116 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 204358712EDDC5BF007D5116 /* FirebaseAuth */; };
 		204358752EDDC605007D5116 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 204358742EDDC605007D5116 /* FirebaseFirestore */; };
+		2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC202F3018A20020A432 /* BasketRouter.swift */; };
+		2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */; };
+		2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */; };
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
@@ -50,6 +53,9 @@
 		20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiSet.swift; sourceTree = "<group>"; };
 		2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSetRowView.swift; sourceTree = "<group>"; };
 		2043586E2EDDBC57007D5116 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderView.swift; sourceTree = "<group>"; };
+		2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderViewModel.swift; sourceTree = "<group>"; };
+		2064FC202F3018A20020A432 /* BasketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRouter.swift; sourceTree = "<group>"; };
 		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		209918D72B1CC40C000A9A86 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
@@ -128,9 +134,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2064FC1F2F3018A20020A432 /* ConfirmOrder */ = {
+			isa = PBXGroup;
+			children = (
+				2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */,
+				2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */,
+			);
+			path = ConfirmOrder;
+			sourceTree = "<group>";
+		};
+		2064FC212F3018A20020A432 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				2064FC202F3018A20020A432 /* BasketRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		20A738F32F2B620B00EF5DD4 /* Basket */ = {
 			isa = PBXGroup;
 			children = (
+				2064FC1F2F3018A20020A432 /* ConfirmOrder */,
+				2064FC212F3018A20020A432 /* Router */,
 				30AE46122B0F988500C74BD8 /* BasketViewModel.swift */,
 				304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */,
 			);
@@ -363,6 +388,9 @@
 				2003E2CB2F2C9F9900CA574C /* QuantityButton.swift in Sources */,
 				20BE6BF72B211714009ABA83 /* OrderStatus.swift in Sources */,
 				30AE46162B0F98CB00C74BD8 /* Position.swift in Sources */,
+				2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */,
+				2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */,
+				2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */,
 				2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
