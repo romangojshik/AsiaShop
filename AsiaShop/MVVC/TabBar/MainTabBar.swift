@@ -21,7 +21,10 @@ struct MainTabBar: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .tabItem {
                 VStack {
-                    Image("catalog_32")
+                    Image("catalog")
+//                        .resizable()
+//                        .renderingMode(.template)
+//                        .frame(width: 24, height: 24)
                     Text("Каталог")
                 }
             }
@@ -29,11 +32,16 @@ struct MainTabBar: View {
             BasketView(viewModel: basketVM)
                 .tabItem {
                     VStack {
-                        Image("backet_32")
+                        Image("basket")
+//                            .resizable()
+//                            .renderingMode(.template)
+//                            .frame(width: 24, height: 24)
                         Text("Корзина")
                     }
                 }
             
+            // MARK - Убираем профиль
+            /*
             ProvileView(viewModel: ProfileViewModel(
                 profile: .init(
                     id: "",
@@ -48,6 +56,7 @@ struct MainTabBar: View {
                     Text("Профиль")
                 }
             }
+            */
         }
     }
 }
