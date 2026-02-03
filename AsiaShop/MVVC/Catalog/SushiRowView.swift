@@ -28,7 +28,7 @@ struct SushiRowView: View {
                 Text(sushi.description)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                    .lineLimit(2)
+                    .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
                 HStack {

@@ -64,38 +64,39 @@ struct CatalogView: View {
     var body: some View {
         VStack(spacing: 0) {
             CustomNavigationBarView(title: "Каталог")
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 24) {
-                    // Секция "Готовые сеты" - горизонтальный скролл
-                    if !viewModel.sushiSets.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Готовые сеты")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.horizontal)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
-                                        NavigationLink(
-                                            destination: ProductDetailView(
-                                                viewModel: ProductDetailViewModel(product: sushiSet.toProduct())
-                                            )
-                                        ) {
-                                            CatalogSetRowView(basket: basket, sushiSet: sushiSet)
-                                                .foregroundColor(.black)
+            ScreenContainer {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 24) {
+                        // Секция "Готовые сеты" - горизонтальный скролл
+                        if !viewModel.sushiSets.isEmpty {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Готовые сеты")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 16) {
+                                        ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
+                                            NavigationLink(
+                                                destination: ProductDetailView(
+                                                    viewModel: ProductDetailViewModel(product: sushiSet.toProduct())
+                                                )
+                                            ) {
+                                                CatalogSetRowView(basket: basket, sushiSet: sushiSet)
+                                                    .foregroundColor(.black)
+                                            }
                                         }
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
                             }
                         }
+                        
+                        mainMenuSection
                     }
-                    
-                    mainMenuSection
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
             }
         }
         .navigationBarHidden(true)

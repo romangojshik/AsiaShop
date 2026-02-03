@@ -15,6 +15,7 @@ struct Product {
     var description: String
     var weight: String?
     var callories: String?
+    var composition: String?
 //    var ordersCount: Int
 //    var isRecommend: Bool
 }

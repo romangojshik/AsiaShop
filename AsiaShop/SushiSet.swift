@@ -16,18 +16,7 @@ struct SushiSet {
     var description: String
     var weight: String
     var callories: String?
-    
-//    var representation: [String: Any] {
-//        [
-//            "id": id,
-//            "title": title,
-//            "imageURL": imageURL,
-//            "price": price,
-//            "description": description,
-//            "weight": weight
-//            callories: String? = nil
-//        ]
-//    }
+    var composition: String?
     
     init(
         id: String,
@@ -36,7 +25,8 @@ struct SushiSet {
         price: Double,
         description: String,
         weight: String,
-        callories: String? = nil
+        callories: String? = nil,
+        composition: String? = nil
     ) {
         self.id = id
         self.title = title
@@ -45,6 +35,7 @@ struct SushiSet {
         self.description = description
         self.weight = weight
         self.callories = callories
+        self.composition = composition
     }
     
     init?(document: QueryDocumentSnapshot) {
@@ -57,7 +48,7 @@ struct SushiSet {
             let price = data["price"] as? Double,
             let description = data["description"] as? String,
             let weight = data["weight"] as? String
-
+                
         else {
             return nil
         }
@@ -69,6 +60,7 @@ struct SushiSet {
         self.description = description
         self.weight = weight
         self.callories = data["callories"] as? String
+        self.composition = data["composition"] as? String
     }
 }
 
@@ -81,7 +73,8 @@ extension SushiSet {
             price: self.price,
             description: self.description,
             weight: self.weight,
-            callories: self.callories
+            callories: self.callories,
+            composition: self.composition
         )
     }
 }
