@@ -20,6 +20,8 @@
 		2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */; };
 		2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */; };
 		2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC252F31EE3F0020A432 /* ScreenContainer.swift */; };
+		2064FC292F336E070020A432 /* BasketRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC282F336DF90020A432 /* BasketRowView.swift */; };
+		2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */ = {isa = PBXBuildFile; fileRef = 2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */; };
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
@@ -58,6 +60,8 @@
 		2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderViewModel.swift; sourceTree = "<group>"; };
 		2064FC202F3018A20020A432 /* BasketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRouter.swift; sourceTree = "<group>"; };
 		2064FC252F31EE3F0020A432 /* ScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenContainer.swift; sourceTree = "<group>"; };
+		2064FC282F336DF90020A432 /* BasketRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRowView.swift; sourceTree = "<group>"; };
+		2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SWIFT_MARKS_DOC.md; sourceTree = "<group>"; };
 		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		209918D72B1CC40C000A9A86 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
@@ -121,8 +125,7 @@
 		2033AA1C2F28CDFD00CFE426 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
-				20C706F22F2C086C00B9B4DD /* SushiRowView.swift */,
-				2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */,
+				2064FC2A2F3371010020A432 /* Views */,
 				304CB7D92B0D000F00ABBEA9 /* CatalogViewModel.swift */,
 				304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */,
 			);
@@ -153,9 +156,27 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		2064FC272F336DE70020A432 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2064FC282F336DF90020A432 /* BasketRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2064FC2A2F3371010020A432 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				20C706F22F2C086C00B9B4DD /* SushiRowView.swift */,
+				2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		20A738F32F2B620B00EF5DD4 /* Basket */ = {
 			isa = PBXGroup;
 			children = (
+				2064FC272F336DE70020A432 /* Views */,
 				2064FC1F2F3018A20020A432 /* ConfirmOrder */,
 				2064FC212F3018A20020A432 /* Router */,
 				30AE46122B0F988500C74BD8 /* BasketViewModel.swift */,
@@ -245,6 +266,7 @@
 		30FD82BF2AF52E0300D94BA7 = {
 			isa = PBXGroup;
 			children = (
+				2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */,
 				2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */,
 				20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */,
 				2043586E2EDDBC57007D5116 /* GoogleService-Info.plist */,
@@ -352,6 +374,7 @@
 			files = (
 				30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */,
 				30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */,
+				2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */,
 				2003E2D02F2CC8F300CA574C /* DATABASE_FIELDS.md in Resources */,
 				2043586F2EDDBC57007D5116 /* GoogleService-Info.plist in Resources */,
 				20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */,
@@ -373,6 +396,7 @@
 				2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */,
 				20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */,
 				304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */,
+				2064FC292F336E070020A432 /* BasketRowView.swift in Sources */,
 				304CB7E12B0D1B9000ABBEA9 /* ProductDetailView.swift in Sources */,
 				304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */,
 				20229BE02F2ABA0A00E6A5A4 /* SushiSet.swift in Sources */,

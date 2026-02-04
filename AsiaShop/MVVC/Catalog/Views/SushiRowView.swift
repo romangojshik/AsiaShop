@@ -33,12 +33,8 @@ struct SushiRowView: View {
                 
                 HStack {
                     Text(String(format: "%.0fруб/8шт", sushi.price))
-                        .font(.subheadline)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.black.opacity(0.9))
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(Color.black.opacity(0.9))
                     
                     Spacer()
                     
@@ -62,7 +58,6 @@ struct SushiRowView: View {
                 }
             }
             
-            Spacer()
         }
         .padding(.horizontal)
     }
