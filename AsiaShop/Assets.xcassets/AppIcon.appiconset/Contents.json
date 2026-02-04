@@ -31,11 +31,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "asia_shop_appicon_120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "asia_shop_appicon_180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -86,6 +88,7 @@
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "asia_shop_appicon.svg.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
