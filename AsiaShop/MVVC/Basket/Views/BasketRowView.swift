@@ -8,21 +8,19 @@
 import SwiftUI
 
 struct BasketRowView: View {
-    // MARK: - Public properties
-    
     @ObservedObject var basketViewModel: BasketViewModel
+    
+    // MARK: - Public properties
     public let positionID: String
     
     // MARK: - Private properties
-    
     private var position: Position? {
         basketViewModel.positions.first { $0.id == positionID }
     }
     
-    
     var body: some View {
         HStack(spacing: 16) {
-            Image("placeholder_sushi_100")
+            Image(position?.product.imageURL ?? Constants.Images.placeholderSushi)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 96, height: 96)
@@ -31,18 +29,18 @@ struct BasketRowView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(position?.product.title ?? "")
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                 
                 Text(position?.product.description ?? "")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Constants.Colors.blackOpacity90)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
                 HStack {
                     Text(String(format: "%.2f руб", position?.cost ?? ""))
                         .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(Color.black.opacity(0.9))
+                        .foregroundColor(Constants.Colors.blackOpacity90)
                     
                     Spacer()
                     
@@ -57,7 +55,20 @@ struct BasketRowView: View {
                     )
                 }
             }
-            
         }
+    }
+}
+
+// MARK: - Constants
+
+private struct Constants {
+    struct Images {
+        static let placeholderSushi = "placeholder_sushi"
+    }
+    
+    struct Colors {
+        static let blackOpacity70 = Color.black.opacity(0.7)
+        static let blackOpacity90 = Color.black.opacity(0.9)
+        
     }
 }

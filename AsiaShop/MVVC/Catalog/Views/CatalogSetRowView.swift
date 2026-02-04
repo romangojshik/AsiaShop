@@ -67,24 +67,24 @@ struct CatalogSetRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
                     .font(.system(size: 18, weight: .regular))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .lineLimit(2)
                 
-                Text(String(format: "%.0f руб.", product.price))
+                Text(String(format: "%.0fруб.", product.price))
                     .font(.system(size: 16, weight: .bold))
                     .lineLimit(2)
                 
                 HStack {
                     Text(product.weight ?? "")
                         .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Constants.Colors.blackOpacity70)
                         .lineLimit(1)
                     
                     Spacer()
                     
                     Text(product.callories ?? "")
                         .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Constants.Colors.blackOpacity70)
                         .lineLimit(2)
                 }
             }
@@ -95,3 +95,10 @@ struct CatalogSetRowView: View {
     }
 }
 
+// MARK: - Constants
+
+private struct Constants {
+    struct Colors {
+        static let blackOpacity70 = Color.black.opacity(0.7)
+    }
+}

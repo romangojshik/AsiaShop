@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CatalogView: View {
+internal struct CatalogView: View {
     
     @StateObject private var viewModel: CatalogViewModel
     @ObservedObject private var basket: BasketViewModel
@@ -30,6 +30,7 @@ struct CatalogView: View {
                     Text("Основное меню")
                         .font(.title2)
                         .fontWeight(.bold)
+                        .foregroundColor(.black)
                         .padding(.horizontal)
                     
                     VStack(spacing: 0) {
@@ -73,6 +74,7 @@ struct CatalogView: View {
                                 Text("Готовые сеты")
                                     .font(.title2)
                                     .fontWeight(.bold)
+                                    .foregroundColor(.black)
                                     .padding(.horizontal)
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {

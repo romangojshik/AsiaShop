@@ -17,11 +17,13 @@ struct AsiaShopApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if let user = AuthService.shared.currentUser {
-                MainTabBar(viewModel: MainTapBarViewModel(user: user))
-            } else {
-                AuthView()
-            }
+            //TODO: - для автризации
+//            if let user = AuthService.shared.currentUser {
+//                MainTabBar(viewModel: MainTapBarViewModel(user: user))
+//            } else {
+//                AuthView()
+//            }
+            MainTabBar(viewModel: MainTapBarViewModel(user: AuthService.shared.currentUser))
         }
     }
     

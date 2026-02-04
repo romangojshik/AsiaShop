@@ -23,18 +23,18 @@ struct SushiRowView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(sushi.title)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                 
                 Text(sushi.description)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Color.black.opacity(0.7))
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
                 HStack {
                     Text(String(format: "%.0fруб/8шт", sushi.price))
                         .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(Color.black.opacity(0.9))
+                        .foregroundColor(Constants.Colors.blackOpacity90)
                     
                     Spacer()
                     
@@ -60,5 +60,15 @@ struct SushiRowView: View {
             
         }
         .padding(.horizontal)
+    }
+}
+
+// MARK: - Constants
+
+private struct Constants {
+    struct Colors {
+        static let blackOpacity70 = Color.black.opacity(0.7)
+        static let blackOpacity90 = Color.black.opacity(0.9)
+
     }
 }

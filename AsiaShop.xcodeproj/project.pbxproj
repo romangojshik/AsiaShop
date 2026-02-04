@@ -114,6 +114,7 @@
 		2033AA1B2F27E92300CFE426 /* MVVC */ = {
 			isa = PBXGroup;
 			children = (
+				20DB80BB2F33ADDC00F3DFD3 /* ProductDetailView */,
 				2003E2CC2F2CBDB500CA574C /* Navigation */,
 				20A738F42F2B69D300EF5DD4 /* TabBar */,
 				20A738F32F2B620B00EF5DD4 /* Basket */,
@@ -203,6 +204,15 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
+		20DB80BB2F33ADDC00F3DFD3 /* ProductDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				304CB7E02B0D1B9000ABBEA9 /* ProductDetailView.swift */,
+				3051E6932B0F7CD800575BD5 /* ProductDetailViewModel.swift */,
+			);
+			path = ProductDetailView;
+			sourceTree = "<group>";
+		};
 		20DBE8A72B18F589005F3FA7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,7 +228,6 @@
 				2064FC252F31EE3F0020A432 /* ScreenContainer.swift */,
 				304CB7C72B0A610B00ABBEA9 /* ProvileView.swift */,
 				20C706ED2F2BA97400B9B4DD /* Buttons */,
-				3051E6982B0F837500575BD5 /* Product */,
 				3051E6972B0F836800575BD5 /* Auth */,
 			);
 			path = Views;
@@ -241,7 +250,6 @@
 		304CB7DD2B0D001600ABBEA9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3051E6932B0F7CD800575BD5 /* ProductDetailViewModel.swift */,
 				20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
@@ -253,14 +261,6 @@
 				30FD82CD2AF52E0300D94BA7 /* AuthView.swift */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		3051E6982B0F837500575BD5 /* Product */ = {
-			isa = PBXGroup;
-			children = (
-				304CB7E02B0D1B9000ABBEA9 /* ProductDetailView.swift */,
-			);
-			path = Product;
 			sourceTree = "<group>";
 		};
 		30FD82BF2AF52E0300D94BA7 = {
@@ -548,6 +548,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AsiaShop/Preview Content\"";
+				DEVELOPMENT_TEAM = 5YQ567888B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AsiaShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -569,6 +570,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AsiaShop/Preview Content\"";
+				DEVELOPMENT_TEAM = 5YQ567888B;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = AsiaShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

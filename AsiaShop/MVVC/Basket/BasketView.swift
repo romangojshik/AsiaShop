@@ -78,11 +78,11 @@ struct BasketView: View {
         VStack(spacing: 16) {
             Text("Вы еще ничего не заказали, ваша карзина пустая.")
                 .font(.title2)
-                .foregroundColor(.secondary)
+                .foregroundColor(Constants.Colors.blackOpacity70)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 300)
             
-            Image("basket_empty2")
+            Image(Constants.Images.basketEmpty)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 90, height: 90)
@@ -108,5 +108,17 @@ struct BasketView: View {
                 }
             }
         }
+    }
+}
+
+private struct Constants {
+    struct Images {
+        static let basketEmpty = "basket_empty2"
+    }
+    
+    struct Colors {
+        static let blackOpacity70 = Color.black.opacity(0.7)
+        static let blackOpacity90 = Color.black.opacity(0.9)
+        
     }
 }
