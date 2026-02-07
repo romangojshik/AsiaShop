@@ -49,6 +49,7 @@ internal struct CatalogView: View {
                                         }
                                     )
                                 }
+                                .buttonStyle(.plain)
                                 
                                 if index < viewModel.sushi.count - 1 {
                                     Divider()
