@@ -11,6 +11,7 @@ internal struct CatalogView: View {
     
     @StateObject private var viewModel: CatalogViewModel
     @ObservedObject private var basket: BasketViewModel
+    @State private var selectedProduct: Product?
     
     init(basket: BasketViewModel) {
         self.basket = basket
@@ -36,11 +37,9 @@ internal struct CatalogView: View {
                     VStack(spacing: 0) {
                         ForEach(Array(viewModel.sushi.enumerated()), id: \.element.id) { index, sushi in
                             VStack(spacing: 0) {
-                                NavigationLink(
-                                    destination: ProductDetailView(
-                                        viewModel: ProductDetailViewModel(product: sushi.toProduct())
-                                    )
-                                ) {
+                                Button {
+                                    selectedProduct = sushi.toProduct()
+                                } label: {
                                     SushiRowView(
                                         basketViewModel: basket,
                                         sushi: sushi,
@@ -81,14 +80,13 @@ internal struct CatalogView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 16) {
                                         ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
-                                            NavigationLink(
-                                                destination: ProductDetailView(
-                                                    viewModel: ProductDetailViewModel(product: sushiSet.toProduct())
-                                                )
-                                            ) {
+                                            Button {
+                                                selectedProduct = sushiSet.toProduct()
+                                            } label: {
                                                 CatalogSetRowView(basket: basket, sushiSet: sushiSet)
                                                     .foregroundColor(.black)
                                             }
+                                            .buttonStyle(.plain)
                                         }
                                     }
                                     .padding(.horizontal)
@@ -103,6 +101,18 @@ internal struct CatalogView: View {
             }
         }
         .navigationBarHidden(true)
+        .sheet(item: $selectedProduct) { product in
+            Group {
+                if #available(iOS 16.4, *) {
+                    ProductDetailView(viewModel: ProductDetailViewModel(product: product))
+                        .presentationDetents([.fraction(0.82), .large])
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(Color.white)
+                } else {
+                    ProductDetailView(viewModel: ProductDetailViewModel(product: product))
+                }
+            }
+        }
         .onAppear {
             if viewModel.sushi.isEmpty {
                 viewModel.loadProducts()

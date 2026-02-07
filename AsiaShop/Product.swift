@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product {
+struct Product: Identifiable {
     var id: String
     var title: String
     var imageURL: String
