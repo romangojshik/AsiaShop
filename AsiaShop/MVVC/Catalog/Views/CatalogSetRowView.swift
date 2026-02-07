@@ -95,9 +95,7 @@ struct CatalogSetRowView: View {
     }
 }
 
-// MARK: - Constants
-
-private struct Constants {
+// MARK: - Constantsprivate struct Constants {
     struct Colors {
         static let blackOpacity70 = Color.black.opacity(0.7)
     }

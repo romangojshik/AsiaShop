@@ -21,33 +21,10 @@ struct MainTabBar: View {
     
     init(viewModel: MainTapBarViewModel) {
         self.viewModel = viewModel
-
-//        let appearance = UITabBarAppearance()
-//        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = .black
-//
-//        // цвет НЕактивных
-//        appearance.stackedLayoutAppearance.normal.iconColor = .gray
-//        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-//            .foregroundColor: UIColor.gray
-//        ]
-//
-//        // цвет АКТИВНЫХ
-//        appearance.stackedLayoutAppearance.selected.iconColor = .white
-//        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-//            .foregroundColor: UIColor.white
-//        ]
-//
-//        UITabBar.appearance().standardAppearance = appearance
-//        UITabBar.appearance().unselectedItemTintColor = .gray
-//        
-//        if #available(iOS 15.0, *) {
-//            UITabBar.appearance().scrollEdgeAppearance = appearance
-//        }
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .black
+        appearance.backgroundColor = UIColor(white: 0.15, alpha: 1.0)
 
         UITabBar.appearance().standardAppearance = appearance
         if #available(iOS 15.0, *) {

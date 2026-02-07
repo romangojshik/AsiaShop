@@ -22,13 +22,14 @@
 		2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC252F31EE3F0020A432 /* ScreenContainer.swift */; };
 		2064FC292F336E070020A432 /* BasketRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC282F336DF90020A432 /* BasketRowView.swift */; };
 		2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */ = {isa = PBXBuildFile; fileRef = 2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */; };
+		2085D8762F3508AD00D44A96 /* MIGRATION_YANDEX.md in Resources */ = {isa = PBXBuildFile; fileRef = 2085D8752F3508AD00D44A96 /* MIGRATION_YANDEX.md */; };
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
 		20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */; };
 		20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */; };
+		20A986B82F34A11400D21679 /* firebase.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A986B72F34A11400D21679 /* firebase.json */; };
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
-		20BE6BF72B211714009ABA83 /* OrderStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF62B211714009ABA83 /* OrderStatus.swift */; };
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
 		20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F22F2C086C00B9B4DD /* SushiRowView.swift */; };
 		20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DBE8A52B18F584005F3FA7 /* AuthService.swift */; };
@@ -62,13 +63,14 @@
 		2064FC252F31EE3F0020A432 /* ScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenContainer.swift; sourceTree = "<group>"; };
 		2064FC282F336DF90020A432 /* BasketRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRowView.swift; sourceTree = "<group>"; };
 		2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SWIFT_MARKS_DOC.md; sourceTree = "<group>"; };
+		2085D8752F3508AD00D44A96 /* MIGRATION_YANDEX.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MIGRATION_YANDEX.md; sourceTree = "<group>"; };
 		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		209918D72B1CC40C000A9A86 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPlusButton.swift; sourceTree = "<group>"; };
 		20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		20A986B72F34A11400D21679 /* firebase.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = firebase.json; sourceTree = "<group>"; };
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
-		20BE6BF62B211714009ABA83 /* OrderStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatus.swift; sourceTree = "<group>"; };
 		20C706F02F2BB56300B9B4DD /* Sushi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sushi.swift; sourceTree = "<group>"; };
 		20C706F22F2C086C00B9B4DD /* SushiRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowView.swift; sourceTree = "<group>"; };
 		20DBE8A52B18F584005F3FA7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -242,7 +244,6 @@
 				30AE46152B0F98CB00C74BD8 /* Position.swift */,
 				209918D72B1CC40C000A9A86 /* Profile.swift */,
 				20BE6BF42B20F967009ABA83 /* Order.swift */,
-				20BE6BF62B211714009ABA83 /* OrderStatus.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -266,6 +267,8 @@
 		30FD82BF2AF52E0300D94BA7 = {
 			isa = PBXGroup;
 			children = (
+				2085D8752F3508AD00D44A96 /* MIGRATION_YANDEX.md */,
+				20A986B72F34A11400D21679 /* firebase.json */,
 				2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */,
 				2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */,
 				20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */,
@@ -372,9 +375,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20A986B82F34A11400D21679 /* firebase.json in Resources */,
 				30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */,
 				30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */,
 				2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */,
+				2085D8762F3508AD00D44A96 /* MIGRATION_YANDEX.md in Resources */,
 				2003E2D02F2CC8F300CA574C /* DATABASE_FIELDS.md in Resources */,
 				2043586F2EDDBC57007D5116 /* GoogleService-Info.plist in Resources */,
 				20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */,
@@ -406,7 +411,6 @@
 				3051E6942B0F7CD800575BD5 /* ProductDetailViewModel.swift in Sources */,
 				304CB7C82B0A610B00ABBEA9 /* ProvileView.swift in Sources */,
 				2003E2CB2F2C9F9900CA574C /* QuantityButton.swift in Sources */,
-				20BE6BF72B211714009ABA83 /* OrderStatus.swift in Sources */,
 				30AE46162B0F98CB00C74BD8 /* Position.swift in Sources */,
 				2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */,
 				2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */,

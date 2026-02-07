@@ -69,13 +69,15 @@ class DatabaseService: DatabaseServiceProtocol {
     
     func setOrder(
         order: Order,
-        completion: @escaping (Result<Order, Error>) -> ()
+        completion: @escaping (Result<Order, Error>) -> Void
     ) {
-        let orderData: [String: Any] = [
-            "userID": order.userID,
-            "date": Timestamp(date: order.date),
-            "status": order.status,
-            "cost": order.cost,
+        var orderData: [String: Any] = [
+            "id": order.id,
+            "userName": order.userName,
+            "numberPhone": order.numberPhone,
+            "status": order.status.rawValue,
+            "total": order.total,
+            "createdAt": Timestamp(date: order.createdAt),
             "positions": order.positions.map { position in
                 return [
                     "id": position.id,
@@ -92,6 +94,10 @@ class DatabaseService: DatabaseServiceProtocol {
                 ]
             }
         ]
+        
+        if let readyBy = order.readyBy {
+            orderData["readyBy"] = Timestamp(date: readyBy)
+        }
         
         ordersReference.addDocument(data: orderData) { error in
             if let error = error {
@@ -116,45 +122,45 @@ class DatabaseService: DatabaseServiceProtocol {
         completion(.success(positions))
     }
     
-    func getOrders(userID: String?,  completion: @escaping (Result<[Order], Error>) -> ()) {
-        self.ordersReferance.getDocuments { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                var orders = [Order]()
-                for document in querySnapshot.documents {
-                    if let userID = userID {
-                        if let order = Order(document: document), order.userID == userID {
-                            orders.append(order)
-                        }
-                    } else {
-                        if let order = Order(document: document) {
-                            orders.append(order)
-                        }
-                    }
-                }
-                completion(.success(orders))
-            } else if let error = error {
-                completion(.failure(error))
-            }
-        }
-    }
-    
-    func getPositions(orderID: String?,  completion: @escaping (Result<[Position], Error>) -> ()) {
-        guard let orderID = orderID else { return }
-        let positionsReferance = ordersReferance.document(orderID).collection("positions")
-        positionsReferance.getDocuments { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                var positions = [Position]()
-                for document in querySnapshot.documents {
-                    if let position = Position(document: document) {
-                        positions.append(position)
-                    }
-                }
-                completion(.success(positions))
-            } else if let error = error {
-                completion(.failure(error))
-            }
-        }
-    }
+//    func getOrders(userID: String?,  completion: @escaping (Result<[Order], Error>) -> ()) {
+//        self.ordersReferance.getDocuments { querySnapshot, error in
+//            if let querySnapshot = querySnapshot {
+//                var orders = [Order]()
+//                for document in querySnapshot.documents {
+//                    if let userID = userID {
+//                        if let order = Order(document: document), order.userID == userID {
+//                            orders.append(order)
+//                        }
+//                    } else {
+//                        if let order = Order(document: document) {
+//                            orders.append(order)
+//                        }
+//                    }
+//                }
+//                completion(.success(orders))
+//            } else if let error = error {
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//    
+//    func getPositions(orderID: String?,  completion: @escaping (Result<[Position], Error>) -> ()) {
+//        guard let orderID = orderID else { return }
+//        let positionsReferance = ordersReferance.document(orderID).collection("positions")
+//        positionsReferance.getDocuments { querySnapshot, error in
+//            if let querySnapshot = querySnapshot {
+//                var positions = [Position]()
+//                for document in querySnapshot.documents {
+//                    if let position = Position(document: document) {
+//                        positions.append(position)
+//                    }
+//                }
+//                completion(.success(positions))
+//            } else if let error = error {
+//                completion(.failure(error))
+//            }
+//        }
+//    }
 
     // Загрузка списка продуктов из коллекции "products"
     func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) {

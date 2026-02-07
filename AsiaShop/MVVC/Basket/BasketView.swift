@@ -30,11 +30,13 @@ struct BasketView: View {
                     
                     if !viewModel.positions.isEmpty {
                         HStack {
-                            Text("ИТОГО:")
+                            Text(Constants.Texts.total)
                                 .fontWeight(.bold)
+                                .foregroundColor(Constants.Colors.blackOpacity90)
                             Spacer()
                             Text(String(format: "%.2f", viewModel.cost) + " руб")
                                 .fontWeight(.bold)
+                                .foregroundColor(Constants.Colors.blackOpacity90)
                         }.padding()
                         
                         Button(action: {
@@ -55,21 +57,7 @@ struct BasketView: View {
             }
         }
         .sheet(item: $router.currentRoute) { route in
-            switch route {
-            case .confirmOrder(let totalCost):
-                ConfirmOrderView(
-                    viewModel: ConfirmOrderViewModel(
-                        totalCost: totalCost,
-                        onConfirm: {
-                            viewModel.createOrder()
-                            router.dismiss()
-                        },
-                        onCancel: {
-                            router.dismiss()
-                        }
-                    )
-                )
-            }
+            sheetView(for: route)
         }
         .navigationBarHidden(true)
     }
@@ -109,6 +97,31 @@ struct BasketView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    private func sheetView(for route: BasketRoute) -> some View {
+        switch route {
+        case .confirmOrder(let totalCost):
+            ConfirmOrderView(
+                viewModel: ConfirmOrderViewModel(
+                    totalCost: totalCost,
+                    onConfirm: { userName, phone, readyBy in
+                        viewModel.createOrder(
+                            userName: userName,
+                            phone: phone,
+                            positions: viewModel.positions,
+                            readyBy: readyBy
+                        )
+                        router.dismiss()
+                    },
+                    onCancel: {
+                        router.dismiss()
+                    }
+                )
+            )
+        }
+    }
+    
 }
 
 private struct Constants {
@@ -119,6 +132,9 @@ private struct Constants {
     struct Colors {
         static let blackOpacity70 = Color.black.opacity(0.7)
         static let blackOpacity90 = Color.black.opacity(0.9)
-        
+    }
+    
+    struct Texts {
+        static let total = "ИТОГО:"
     }
 }
