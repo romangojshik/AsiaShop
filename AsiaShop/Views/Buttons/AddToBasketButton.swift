@@ -18,12 +18,31 @@ struct AddToBasketButton: View {
     
     var body: some View {
         Button(action: onTap) {
-            Text("В корзину \(String(format: "%.0f", totalPrice)) руб")
-                .font(.system(size: 16, weight: .bold))
+            Text("\(Constants.Texts.add) \(String(format: "%.0f", totalPrice)) руб")
+                .font(Constants.Fonts.buttonFont)
                 .foregroundColor(.white)
-                .padding(EdgeInsets(top: 16, leading: 32, bottom: 16, trailing: 32))
-                .background(Color.black.opacity(0.9))
+                .padding(Constants.Padding.basketButton)
+                .background(Constants.Colors.blackOpacity90)
                 .cornerRadius(10)
         }
+    }
+}
+
+
+private struct Constants {
+    struct Texts {
+        static let add = "Добавить"
+    }
+    
+    struct Colors {
+        static let blackOpacity90 = Color.black.opacity(0.9)
+    }
+    
+    struct Fonts {
+        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .bold)
+    }
+    
+    struct Padding {
+        static let basketButton = EdgeInsets(top: 16, leading: 32, bottom: 16, trailing: 32)
     }
 }

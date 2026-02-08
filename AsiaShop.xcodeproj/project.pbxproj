@@ -28,6 +28,7 @@
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
 		20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */; };
 		20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */; };
+		20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */; };
 		20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */; };
 		20A986B82F34A11400D21679 /* firebase.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A986B72F34A11400D21679 /* firebase.json */; };
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
@@ -70,6 +71,7 @@
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPlusButton.swift; sourceTree = "<group>"; };
 		20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToBasketButton.swift; sourceTree = "<group>"; };
+		20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityStepperButton.swift; sourceTree = "<group>"; };
 		20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		20A986B72F34A11400D21679 /* firebase.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = firebase.json; sourceTree = "<group>"; };
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */,
+				20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */,
 				20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */,
 				2003E2CA2F2C9F9900CA574C /* QuantityButton.swift */,
 			);
@@ -411,6 +414,7 @@
 				30FD82CE2AF52E0300D94BA7 /* AuthView.swift in Sources */,
 				304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */,
 				20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */,
+				20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */,
 				20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */,
 				3051E6942B0F7CD800575BD5 /* ProductDetailViewModel.swift in Sources */,
 				304CB7C82B0A610B00ABBEA9 /* ProvileView.swift in Sources */,

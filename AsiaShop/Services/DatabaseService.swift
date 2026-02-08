@@ -89,7 +89,10 @@ class DatabaseService: DatabaseServiceProtocol {
                         "imageURL": position.product.imageURL,
                         "price": position.product.price,
                         "description": position.product.description,
-                        "weight": position.product.weight ?? ""
+                        "weight": position.product.weight ?? "",
+                        "callories": position.product.callories ?? "",
+                        "protein": position.product.protein ?? "",
+                        "fats": position.product.fats ?? ""
                     ]
                 ]
             }
@@ -121,46 +124,6 @@ class DatabaseService: DatabaseServiceProtocol {
         
         completion(.success(positions))
     }
-    
-//    func getOrders(userID: String?,  completion: @escaping (Result<[Order], Error>) -> ()) {
-//        self.ordersReferance.getDocuments { querySnapshot, error in
-//            if let querySnapshot = querySnapshot {
-//                var orders = [Order]()
-//                for document in querySnapshot.documents {
-//                    if let userID = userID {
-//                        if let order = Order(document: document), order.userID == userID {
-//                            orders.append(order)
-//                        }
-//                    } else {
-//                        if let order = Order(document: document) {
-//                            orders.append(order)
-//                        }
-//                    }
-//                }
-//                completion(.success(orders))
-//            } else if let error = error {
-//                completion(.failure(error))
-//            }
-//        }
-//    }
-//    
-//    func getPositions(orderID: String?,  completion: @escaping (Result<[Position], Error>) -> ()) {
-//        guard let orderID = orderID else { return }
-//        let positionsReferance = ordersReferance.document(orderID).collection("positions")
-//        positionsReferance.getDocuments { querySnapshot, error in
-//            if let querySnapshot = querySnapshot {
-//                var positions = [Position]()
-//                for document in querySnapshot.documents {
-//                    if let position = Position(document: document) {
-//                        positions.append(position)
-//                    }
-//                }
-//                completion(.success(positions))
-//            } else if let error = error {
-//                completion(.failure(error))
-//            }
-//        }
-//    }
 
     // Загрузка списка продуктов из коллекции "products"
     func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) {
@@ -182,10 +145,10 @@ class DatabaseService: DatabaseServiceProtocol {
                     
                     let product = Product(
                         id: id,
-                        title: title,
                         imageURL: imageURL,
-                        price: price,
-                        description: description
+                        title: title,
+                        description: description,
+                        price: price
                     )
                     products.append(product)
                 }

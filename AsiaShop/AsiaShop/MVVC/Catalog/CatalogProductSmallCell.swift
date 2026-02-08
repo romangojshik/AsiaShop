@@ -44,10 +44,10 @@ struct CatalogProductSmallCell_Previews: PreviewProvider {
         CatalogProductSmallCell(
             product: Product(
                 id: "1",
-                title: "Тару",
                 imageURL: "taru",
-                price: 16.5,
-                description: "Ролл Тару — идеальное сочетание сливочного сыра, нежного лосося и тунца"
+                title: "Тару",
+                description: "Ролл Тару — идеальное сочетание сливочного сыра, нежного лосося и тунца",
+                price: 16.5
             )
         )
         .padding()

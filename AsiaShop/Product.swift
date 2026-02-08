@@ -9,13 +9,18 @@ import Foundation
 
 struct Product: Identifiable {
     var id: String
-    var title: String
     var imageURL: String
-    var price: Double
+    var title: String
     var description: String
-    var weight: String?
-    var callories: String?
-    var composition: String?
-//    var ordersCount: Int
-//    var isRecommend: Bool
+    var price: Double
+    var composition: String? = nil
+
+    var weight: String? = nil
+    var callories: String? = nil
+    var protein: String? = nil
+    var fats: String? = nil
+
+    var hasNutritionAttributes: Bool {
+        [weight, callories, protein, fats].contains { ($0 ?? "").isEmpty == false }
+    }
 }

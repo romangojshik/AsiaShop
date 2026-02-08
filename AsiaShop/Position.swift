@@ -46,10 +46,10 @@ struct Position: Identifiable {
         guard let price = data["price"] as? Double else { return nil }
         let product: Product = Product(
             id: "",
-            title: title,
             imageURL: "",
-            price: price,
-            description: ""
+            title: title,
+            description: "",
+            price: price
         )
         guard let count = data["count"] as? Int else { return nil }
 

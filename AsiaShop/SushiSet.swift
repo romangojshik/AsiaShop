@@ -10,71 +10,80 @@ import FirebaseFirestore
 
 struct SushiSet {
     var id: String
-    var title: String
     var imageURL: String
-    var price: Double
+    var title: String
     var description: String
-    var weight: String
-    var callories: String?
+    var price: Double
     var composition: String?
-    
+
+    var weight: String?
+    var callories: String?
+    var protein: String?
+    var fats: String?
+
     init(
         id: String,
-        title: String,
         imageURL: String,
-        price: Double,
+        title: String,
         description: String,
-        weight: String,
+        price: Double,
+        composition: String? = nil,
+        weight: String? = nil,
         callories: String? = nil,
-        composition: String? = nil
+        protein: String? = nil,
+        fats: String? = nil
     ) {
         self.id = id
-        self.title = title
         self.imageURL = imageURL
-        self.price = price
+        self.title = title
         self.description = description
+        self.price = price
+        self.composition = composition
         self.weight = weight
         self.callories = callories
-        self.composition = composition
+        self.protein = protein
+        self.fats = fats
     }
-    
+
     init?(document: QueryDocumentSnapshot) {
         let data = document.data()
-        
+
         guard
             let id = data["id"] as? String,
-            let title = data["title"] as? String,
             let imageURL = data["imageURL"] as? String,
-            let price = data["price"] as? Double,
+            let title = data["title"] as? String,
             let description = data["description"] as? String,
-            let weight = data["weight"] as? String
-                
+            let price = data["price"] as? Double
         else {
             return nil
         }
-        
+
         self.id = id
-        self.title = title
         self.imageURL = imageURL
-        self.price = price
+        self.title = title
         self.description = description
-        self.weight = weight
-        self.callories = data["callories"] as? String
+        self.price = price
         self.composition = data["composition"] as? String
+        self.weight = data["weight"] as? String
+        self.callories = data["callories"] as? String
+        self.protein = data["protein"] as? String
+        self.fats = data["fats"] as? String
     }
 }
 
 extension SushiSet {
     func toProduct() -> Product {
         return Product(
-            id: "set_\(self.id)", // Добавляем префикс "set_" чтобы отличать от обычных продуктов
-            title: self.title,
+            id: "set_\(self.id)",
             imageURL: self.imageURL,
-            price: self.price,
+            title: self.title,
             description: self.description,
+            price: self.price,
+            composition: self.composition,
             weight: self.weight,
             callories: self.callories,
-            composition: self.composition
+            protein: self.protein,
+            fats: self.fats
         )
     }
 }
