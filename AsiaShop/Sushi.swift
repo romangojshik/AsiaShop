@@ -16,10 +16,7 @@ struct Sushi: Identifiable {
     var price: Double
     var composition: String?
 
-    var weight: String?
-    var callories: String?
-    var protein: String?
-    var fats: String?
+    var nutrition: Nutrition?
 
     init(
         id: String,
@@ -28,10 +25,7 @@ struct Sushi: Identifiable {
         description: String,
         price: Double,
         composition: String? = nil,
-        weight: String? = nil,
-        callories: String? = nil,
-        protein: String? = nil,
-        fats: String? = nil
+        nutrition: Nutrition? = nil
     ) {
         self.id = id
         self.imageURL = imageURL
@@ -39,13 +33,15 @@ struct Sushi: Identifiable {
         self.description = description
         self.price = price
         self.composition = composition
-        self.weight = weight
-        self.callories = callories
-        self.protein = protein
-        self.fats = fats
+        self.nutrition = nutrition
     }
 
     init?(document: QueryDocumentSnapshot) {
+        self.init(document: document, nutritionData: nil)
+    }
+
+    /// Инициализация из документа суши и опциональных данных из подколлекции `nutrition`.
+    init?(document: QueryDocumentSnapshot, nutritionData: [String: Any]?) {
         let data = document.data()
 
         guard
@@ -64,10 +60,16 @@ struct Sushi: Identifiable {
         self.description = description
         self.price = price
         self.composition = data["composition"] as? String
-        self.weight = data["weight"] as? String
-        self.callories = data["callories"] as? String
-        self.protein = data["protein"] as? String
-        self.fats = data["fats"] as? String
+
+        // Питательность: приоритет у подколлекции `nutrition`, затем у полей документа
+        let fromDocument = Nutrition(from: data)
+        let fromSubcollection = Nutrition(from: nutritionData)
+        self.nutrition = Nutrition(
+            weight: fromSubcollection.weight ?? fromDocument.weight,
+            callories: fromSubcollection.callories ?? fromDocument.callories,
+            protein: fromSubcollection.protein ?? fromDocument.protein,
+            fats: fromSubcollection.fats ?? fromDocument.fats
+        )
     }
 }
 
@@ -81,10 +83,7 @@ extension Sushi {
             description: self.description,
             price: self.price,
             composition: self.composition,
-            weight: self.weight,
-            callories: self.callories,
-            protein: self.protein,
-            fats: self.fats
+            nutrition: self.nutrition
         )
     }
 }

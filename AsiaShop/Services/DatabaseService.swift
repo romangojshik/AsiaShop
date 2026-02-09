@@ -89,10 +89,10 @@ class DatabaseService: DatabaseServiceProtocol {
                         "imageURL": position.product.imageURL,
                         "price": position.product.price,
                         "description": position.product.description,
-                        "weight": position.product.weight ?? "",
-                        "callories": position.product.callories ?? "",
-                        "protein": position.product.protein ?? "",
-                        "fats": position.product.fats ?? ""
+                        "weight": position.product.nutrition?.weight ?? "",
+                        "callories": position.product.nutrition?.callories ?? "",
+                        "protein": position.product.nutrition?.protein ?? "",
+                        "fats": position.product.nutrition?.fats ?? ""
                     ]
                 ]
             }
@@ -148,7 +148,9 @@ class DatabaseService: DatabaseServiceProtocol {
                         imageURL: imageURL,
                         title: title,
                         description: description,
-                        price: price
+                        price: price,
+                        composition: nil,
+                        nutrition: nil
                     )
                     products.append(product)
                 }
@@ -159,36 +161,104 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    // Загрузка списка суши из коллекции "sushi"
+    // Загрузка списка суши из коллекции "sushi" и подколлекции "nutrition"
     func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
-        sushiReference.getDocuments { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                var sushi: [Sushi] = []
-                for document in querySnapshot.documents {
-                    if let sushiItem = Sushi(document: document) {
-                        sushi.append(sushiItem)
+        sushiReference.getDocuments { [weak self] querySnapshot, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let querySnapshot = querySnapshot else {
+                completion(.success([]))
+                return
+            }
+
+            let group = DispatchGroup()
+            var sushiByIndex: [Sushi?] = Array(repeating: nil, count: querySnapshot.documents.count)
+            var loadError: Error?
+
+            for (index, document) in querySnapshot.documents.enumerated() {
+                group.enter()
+
+                let nutritionRef = self.sushiReference
+                    .document(document.documentID)
+                    .collection("nutrition")
+
+                nutritionRef.getDocuments { nutritionSnapshot, nutritionError in
+                    defer { group.leave() }
+
+                    if let nutritionError = nutritionError, loadError == nil {
+                        loadError = nutritionError
+                        return
+                    }
+
+                    let nutritionData = nutritionSnapshot?.documents.first?.data()
+                    if let sushiItem = Sushi(document: document, nutritionData: nutritionData) {
+                        sushiByIndex[index] = sushiItem
                     }
                 }
-                completion(.success(sushi))
-            } else if let error = error {
-                completion(.failure(error))
+            }
+
+            group.notify(queue: .main) {
+                if let loadError = loadError {
+                    completion(.failure(loadError))
+                } else {
+                    completion(.success(sushiByIndex.compactMap { $0 }))
+                }
             }
         }
     }
     
-    // Загрузка списка сетов из коллекции "sets"
+    // Загрузка списка сетов из коллекции "sets" и подколлекции "nutrition"
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
-        setsReference.getDocuments { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                var sets: [SushiSet] = []
-                for document in querySnapshot.documents {
-                    if let sushiSet = SushiSet(document: document) {
-                        sets.append(sushiSet)
+        setsReference.getDocuments { [weak self] querySnapshot, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let querySnapshot = querySnapshot else {
+                completion(.success([]))
+                return
+            }
+
+            let group = DispatchGroup()
+            var setsByIndex: [SushiSet?] = Array(repeating: nil, count: querySnapshot.documents.count)
+            var loadError: Error?
+
+            for (index, document) in querySnapshot.documents.enumerated() {
+                group.enter()
+
+                let nutritionRef = self.setsReference
+                    .document(document.documentID)
+                    .collection("nutrition")
+
+                nutritionRef.getDocuments { nutritionSnapshot, nutritionError in
+                    defer { group.leave() }
+
+                    if let nutritionError = nutritionError, loadError == nil {
+                        loadError = nutritionError
+                        return
+                    }
+
+                    let nutritionData = nutritionSnapshot?.documents.first?.data()
+                    if let sushiSet = SushiSet(document: document, nutritionData: nutritionData) {
+                        setsByIndex[index] = sushiSet
                     }
                 }
-                completion(.success(sets))
-            } else if let error = error {
-                completion(.failure(error))
+            }
+
+            group.notify(queue: .main) {
+                if let loadError = loadError {
+                    completion(.failure(loadError))
+                } else {
+                    completion(.success(setsByIndex.compactMap { $0 }))
+                }
             }
         }
     }

@@ -47,7 +47,9 @@ struct CatalogProductSmallCell_Previews: PreviewProvider {
                 imageURL: "taru",
                 title: "Тару",
                 description: "Ролл Тару — идеальное сочетание сливочного сыра, нежного лосося и тунца",
-                price: 16.5
+                price: 16.5,
+                composition: nil,
+                nutrition: nil
             )
         )
         .padding()

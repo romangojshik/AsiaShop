@@ -10,6 +10,7 @@
 		2003E2CB2F2C9F9900CA574C /* QuantityButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003E2CA2F2C9F9900CA574C /* QuantityButton.swift */; };
 		2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */; };
 		2003E2D02F2CC8F300CA574C /* DATABASE_FIELDS.md in Resources */ = {isa = PBXBuildFile; fileRef = 2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */; };
+		200C3EFE2F392BE60070FF0B /* Nutrition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C3EFD2F392BE40070FF0B /* Nutrition.swift */; };
 		20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */ = {isa = PBXBuildFile; fileRef = 20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */; };
 		20229BE02F2ABA0A00E6A5A4 /* SushiSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */; };
 		2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */; };
@@ -55,6 +56,7 @@
 		2003E2CA2F2C9F9900CA574C /* QuantityButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityButton.swift; sourceTree = "<group>"; };
 		2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		2003E2CF2F2CC8F300CA574C /* DATABASE_FIELDS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DATABASE_FIELDS.md; sourceTree = "<group>"; };
+		200C3EFD2F392BE40070FF0B /* Nutrition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nutrition.swift; sourceTree = "<group>"; };
 		20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sushi_products.txt; sourceTree = "<group>"; };
 		20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiSet.swift; sourceTree = "<group>"; };
 		2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSetRowView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		304CB7D82B0CFFD900ABBEA9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				200C3EFD2F392BE40070FF0B /* Nutrition.swift */,
 				20C706F02F2BB56300B9B4DD /* Sushi.swift */,
 				20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */,
 				304CB7CB2B0CEF4F00ABBEA9 /* Product.swift */,
@@ -404,6 +407,7 @@
 				20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */,
 				20BE6BF52B20F967009ABA83 /* Order.swift in Sources */,
 				209918D82B1CC40C000A9A86 /* Profile.swift in Sources */,
+				200C3EFE2F392BE60070FF0B /* Nutrition.swift in Sources */,
 				2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */,
 				20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */,
 				304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */,

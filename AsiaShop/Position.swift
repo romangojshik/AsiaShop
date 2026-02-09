@@ -49,7 +49,9 @@ struct Position: Identifiable {
             imageURL: "",
             title: title,
             description: "",
-            price: price
+            price: price,
+            composition: nil,
+            nutrition: nil
         )
         guard let count = data["count"] as? Int else { return nil }
 

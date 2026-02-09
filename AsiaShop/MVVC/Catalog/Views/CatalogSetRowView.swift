@@ -75,14 +75,14 @@ struct CatalogSetRowView: View {
                     .lineLimit(2)
                 
                 HStack {
-                    Text(product.weight ?? "")
+                    Text(product.nutrition?.weight ?? "")
                         .font(.system(size: 13, weight: .regular))
                         .foregroundColor(Constants.Colors.blackOpacity70)
                         .lineLimit(1)
                     
                     Spacer()
                     
-                    Text(product.callories ?? "")
+                    Text(product.nutrition?.callories ?? "")
                         .font(.system(size: 13, weight: .regular))
                         .foregroundColor(Constants.Colors.blackOpacity70)
                         .lineLimit(2)

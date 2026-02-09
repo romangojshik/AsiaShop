@@ -44,17 +44,11 @@ struct ProductDetailView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
-                    if viewModel.product.hasNutritionAttributes {
-                        ProductAttributesRow(product: viewModel.product)
-                            .padding(.top, 16)
-                            .padding(.horizontal)
-                    }
-                    
                     Spacer()
                     
                     Text(Constants.Texts.composition)
                         .font(Constants.Fonts.titleDescriptionFont)
-                        .foregroundColor(Constants.Colors.blackOpacity70)
+                        .foregroundColor(Constants.Colors.blackOpacity90)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
@@ -63,6 +57,14 @@ struct ProductDetailView: View {
                         .foregroundColor(Constants.Colors.blackOpacity70)
                         .padding(.horizontal)
                         .padding(.top, 8)
+                    
+                    Spacer()
+                    
+                    if viewModel.product.nutrition != nil {
+                        ProductAttributesRow(product: viewModel.product)
+                            .padding(.top, 16)
+                            .padding(.horizontal)
+                    }
                 }
                 .padding(.bottom, 20)
             }
@@ -98,7 +100,7 @@ struct ProductDetailView: View {
 private struct ProductAttributeCell: View {
     let value: String
     let label: String
-
+    
     var body: some View {
         VStack(spacing: 4) {
             Text(value)
@@ -118,28 +120,33 @@ private struct ProductAttributeCell: View {
 
 private struct ProductAttributesRow: View {
     let product: Product
-
-    private static let attributes: [(keyPath: KeyPath<Product, String?>, label: String)] = [
-        (\.weight, "вес (г)"),
-        (\.callories, "ккал"),
-        (\.protein, "белки (г)"),
-        (\.fats, "жиры (г)")
-    ]
-
+    
     var body: some View {
-        let items = Self.attributes.compactMap { kp, label -> (String, String)? in
-            guard let value = product[keyPath: kp], !value.isEmpty else { return nil }
+        guard let nutrition = product.nutrition else {
+            return AnyView(EmptyView())
+        }
+        
+        let items: [(String, String)] = [
+            (nutrition.weight, "вес (г)"),
+            (nutrition.callories, "ккал"),
+            (nutrition.protein, "белки (г)"),
+            (nutrition.fats, "жиры (г)")
+        ].compactMap { value, label in
+            guard let value = value, !value.isEmpty else { return nil }
             return (value, label)
         }
+        
         if items.isEmpty {
-            EmptyView()
-        } else {
+            return AnyView(EmptyView())
+        }
+        
+        return AnyView(
             HStack(spacing: 8) {
                 ForEach(Array(items.enumerated()), id: \.offset) { _, item in
                     ProductAttributeCell(value: item.0, label: item.1)
                 }
             }
-        }
+        )
     }
 }
 
@@ -178,11 +185,8 @@ private struct Constants {
                 title: "Нори",
                 description: "Японское название различных съедобных видов красных водорослей из рода Порфира.",
                 price: 17.5,
-                composition: nil,
-                weight: "108",
-                callories: "45",
-                protein: "6",
-                fats: "1"
+                composition: "Креветка темпура, сыр, огурец",
+                nutrition: Nutrition(weight: "108", callories: "45", protein: "6", fats: "1")
             )
         )
     )
