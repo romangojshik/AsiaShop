@@ -10,6 +10,7 @@ import SwiftUI
 struct CatalogSetRowView: View {
     @ObservedObject var basket: BasketViewModel
     let sushiSet: SushiSet
+    var onCardTap: (() -> Void)? = nil
     
     private var product: Product {
         sushiSet.toProduct()
@@ -29,13 +30,16 @@ struct CatalogSetRowView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: cardWidth, height: cardWidth)
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .onTapGesture {
+                        onCardTap?()
+                    }
                 
                 QuantityPlusButton(
                     count: basket.getProductCount(productId: product.id),
                     containerWidth: cardWidth - 12,
                     onDecrease: {
                         if let position = basket.positions.first(where: { $0.product.id == product.id }) {
-                            basket.decreaseCount(positionId: position.id)
+                            basket.decreaseOrRemove(positionId: position.id)
                         }
                     },
                     onIncrease: {
@@ -91,6 +95,10 @@ struct CatalogSetRowView: View {
             .frame(maxWidth: cardWidth)
             .padding(.horizontal, 8)
             .padding(.bottom, 4)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onCardTap?()
+            }
         }
     }
 }

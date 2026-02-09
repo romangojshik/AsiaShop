@@ -36,7 +36,7 @@ struct QuantityButton: View {
                 addToBasketButtonView
             }
         }
-        .frame(width: 98, height: 28)
+        .frame(width: 114, height: 30)
         .background(Color.black.opacity(0.9))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
@@ -45,21 +45,27 @@ struct QuantityButton: View {
         HStack(spacing: 0) {
             Button(action: onDecrease) {
                 Text("-")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(Constants.Fonts.buttonFont)
                     .foregroundColor(.white)
-                    .frame(width: 26, height: 28)
+                    .frame(
+                        width: Constants.Padding.frameButton.width,
+                        height: Constants.Padding.frameButton.height
+                    )
             }
             
             Text("\(count)")
-                .font(.system(size: 13, weight: .medium))
+                .font(Constants.Fonts.buttonFont)
                 .foregroundColor(.white)
-                .frame(width: 30, height: 28)
+                .frame(width: 38, height: 30)
             
             Button(action: onIncrease) {
                 Text("+")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(Constants.Fonts.buttonFont)
                     .foregroundColor(.white)
-                    .frame(width: 26, height: 28)
+                    .frame(
+                        width: Constants.Padding.frameButton.width,
+                        height: Constants.Padding.frameButton.height
+                    )
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -69,12 +75,30 @@ struct QuantityButton: View {
         Button(action: {
             onAddToBasket?()
         }) {
-            Text("В корзину")
-                .font(.system(size: 13, weight: .medium))
+            Text(Constants.Texts.inBasket)
+                .font(Constants.Fonts.buttonFont)
                 .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 28)
         }
+    }
+}
+
+// MARK: - Constants
+
+private struct Constants {
+    struct Texts {
+        static let inBasket = "В корзину"
+    }
+    
+    struct Colors {
+        static let blackOpacity90 = Color.black.opacity(0.9)
+    }
+    
+    struct Fonts {
+        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .medium)
+    }
+    
+    struct Padding {
+        static let frameButton = CGSize(width: 38, height: 30)
     }
 }
 

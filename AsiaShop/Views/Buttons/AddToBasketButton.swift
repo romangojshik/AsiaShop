@@ -18,7 +18,7 @@ struct AddToBasketButton: View {
     
     var body: some View {
         Button(action: onTap) {
-            Text("\(Constants.Texts.add) \(String(format: "%.0f", totalPrice)) руб")
+            Text("\(Constants.Texts.add) \(String(format: "%.0f", totalPrice)) руб.")
                 .font(Constants.Fonts.buttonFont)
                 .foregroundColor(.white)
                 .padding(Constants.Padding.basketButton)

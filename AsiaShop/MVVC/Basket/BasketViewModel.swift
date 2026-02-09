@@ -16,7 +16,7 @@ protocol BasketViewModelProtocol: ObservableObject {
     func increaseCount(positionId: String)
     func decreaseCount(positionId: String)
     func removePosition(positionId: String)
-    func  createOrder(userName: String, phone: String, positions: [Position], readyBy: Date?)
+    func createOrder(userName: String, phone: String, positions: [Position], readyBy: Date?)
 }
 
 class BasketViewModel: BasketViewModelProtocol {
@@ -24,7 +24,6 @@ class BasketViewModel: BasketViewModelProtocol {
     
     init() {}
     
-    //var cost: Double { positions.reduce(0) { $0 + $1.cost } }
     var cost: Double {
         var sum = 0.0
         for pos in positions {
@@ -51,7 +50,17 @@ class BasketViewModel: BasketViewModelProtocol {
         }
     }
     
+    /// Для корзины: уменьшить, но не удалять позицию (минимум 1).
     func decreaseCount(positionId: String) {
+        if let index = positions.firstIndex(where: { $0.id == positionId }) {
+            if positions[index].count > 1 {
+                positions[index].count -= 1
+            }
+        }
+    }
+    
+    /// Для каталога: уменьшить, а при 1 — удалить позицию (чтобы вернуться к "В корзину").
+    func decreaseOrRemove(positionId: String) {
         if let index = positions.firstIndex(where: { $0.id == positionId }) {
             if positions[index].count > 1 {
                 positions[index].count -= 1
@@ -65,6 +74,10 @@ class BasketViewModel: BasketViewModelProtocol {
         positions.removeAll { $0.id == positionId }
     }
     
+    func clearBasket() {
+        positions.removeAll()
+    }
+    
     func createOrder(userName: String, phone: String, positions: [Position], readyBy: Date?) {
         let order = Order(
             userName: userName,
@@ -74,13 +87,12 @@ class BasketViewModel: BasketViewModelProtocol {
             createdAt: Date(),
             readyBy: readyBy
         )
-                
-        DatabaseService.shared.setOrder(order: order) { result in
+        
+        DatabaseService.shared.setOrder(order: order) { [weak self] result in
             switch result {
             case .success(let order):
                 print("Заказ создан: \(order.cost)")
-                // Можно очистить корзину после успешного заказа
-                // viewModel.clearBasket()
+                self?.clearBasket()
             case .failure(let error):
                 print("Ошибка: \(error.localizedDescription)")
             }

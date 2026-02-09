@@ -10,11 +10,11 @@ import SwiftUI
 internal struct CatalogView: View {
     
     @StateObject private var viewModel: CatalogViewModel
-    @ObservedObject private var basket: BasketViewModel
+    @ObservedObject private var basketViewModel: BasketViewModel
     @State private var selectedProduct: Product?
     
     init(basket: BasketViewModel) {
-        self.basket = basket
+        self.basketViewModel = basket
         _viewModel = StateObject(wrappedValue: CatalogViewModel(basket: basket))
     }
     
@@ -41,7 +41,7 @@ internal struct CatalogView: View {
                                     selectedProduct = sushi.toProduct()
                                 } label: {
                                     SushiRowView(
-                                        basketViewModel: basket,
+                                        basketViewModel: basketViewModel,
                                         sushi: sushi,
                                         onAddToBasket: {
                                             viewModel.addToBasket(product: sushi.toProduct())
@@ -80,13 +80,12 @@ internal struct CatalogView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 16) {
                                         ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
-                                            Button {
-                                                selectedProduct = sushiSet.toProduct()
-                                            } label: {
-                                                CatalogSetRowView(basket: basket, sushiSet: sushiSet)
-                                                    .foregroundColor(.black)
-                                            }
-                                            .buttonStyle(.plain)
+                                            CatalogSetRowView(
+                                                basket: basketViewModel,
+                                                sushiSet: sushiSet,
+                                                onCardTap: { selectedProduct = sushiSet.toProduct() }
+                                            )
+                                            .foregroundColor(.black)
                                         }
                                     }
                                     .padding(.horizontal)
@@ -104,12 +103,18 @@ internal struct CatalogView: View {
         .sheet(item: $selectedProduct) { product in
             Group {
                 if #available(iOS 16.4, *) {
-                    ProductDetailView(viewModel: ProductDetailViewModel(product: product))
+                    ProductDetailView(
+                        viewModel: ProductDetailViewModel(product: product),
+                        basketViewModel: basketViewModel
+                    )
                         .presentationDetents([.fraction(0.82), .large])
                         .presentationDragIndicator(.visible)
                         .presentationBackground(Color.white)
                 } else {
-                    ProductDetailView(viewModel: ProductDetailViewModel(product: product))
+                    ProductDetailView(
+                        viewModel: ProductDetailViewModel(product: product),
+                        basketViewModel: basketViewModel
+                    )
                 }
             }
         }

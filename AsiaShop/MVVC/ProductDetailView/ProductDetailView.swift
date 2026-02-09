@@ -10,6 +10,7 @@ import SwiftUI
 struct ProductDetailView: View {
     
     @ObservedObject var viewModel: ProductDetailViewModel
+    @ObservedObject var basketViewModel: BasketViewModel
     @State var count = 1
     
     var onDecrease: (() -> Void)? = nil
@@ -79,12 +80,12 @@ struct ProductDetailView: View {
                     price: viewModel.product.price,
                     count: count,
                     onTap: {
-                        var position = Position(
+                        let position = Position(
                             id: UUID().uuidString,
                             product: viewModel.product,
                             count: count
                         )
-                        position.product.price = viewModel.product.price
+                        basketViewModel.addPosition(position)
                         presentationMode.wrappedValue.dismiss()
                     }
                 )
@@ -188,6 +189,7 @@ private struct Constants {
                 composition: "Креветка темпура, сыр, огурец",
                 nutrition: Nutrition(weight: "108", callories: "45", protein: "6", fats: "1")
             )
-        )
+        ),
+        basketViewModel: BasketViewModel()
     )
 }

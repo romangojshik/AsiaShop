@@ -42,7 +42,7 @@ struct SushiRowView: View {
                         count: basketViewModel.getProductCount(productId: sushi.id),
                         onDecrease: {
                             if let position = basketViewModel.positions.first(where: { $0.product.id == sushi.id }) {
-                                basketViewModel.decreaseCount(positionId: position.id)
+                                basketViewModel.decreaseOrRemove(positionId: position.id)
                             }
                         },
                         onIncrease: {

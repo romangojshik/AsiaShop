@@ -41,10 +41,13 @@ public struct QuantityPlusButton: View {
                     Button {
                         onDecrease()
                     } label: {
-                        Text("-")
+                        Text(Constants.Texts.minus)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.black)
-                            .frame(width: 28, height: 28)
+                            .frame(
+                                width: Constants.Paddings.qtyButtonSize,
+                                height: Constants.Paddings.qtyButtonSize
+                            )
                     }
                     
                     Text("\(count)")
@@ -55,10 +58,13 @@ public struct QuantityPlusButton: View {
                     Button {
                         onIncrease()
                     } label: {
-                        Text("+")
+                        Text(Constants.Texts.plus)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.black)
-                            .frame(width: 28, height: 28)
+                            .frame(
+                                width: Constants.Paddings.qtyButtonSize,
+                                height: Constants.Paddings.qtyButtonSize
+                            )
                     }
                 }
                 .background(Color.white.opacity(0.9))
@@ -69,17 +75,40 @@ public struct QuantityPlusButton: View {
                 Button {
                     onAddToBasket()
                 } label: {
-                    Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .bold))
+                    Image(systemName: Constants.Images.plus)
                         .foregroundColor(.black)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 44, height: 44)
                         .background(Color.white)
                         .clipShape(Circle())
                 }
-                .frame(width: 36, height: 36)
             }
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: hasItems)
     }
 }
 
+// MARK: - Constants
+
+private struct Constants {
+    struct Images {
+        static let plus = "plus"
+    }
+    
+    struct Texts {
+        static let plus = "+"
+        static let minus = "-"
+    }
+    
+    struct Colors {
+        static let blackOpacity90 = Color.black.opacity(0.9)
+    }
+    
+    struct Fonts {
+        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .bold)
+    }
+    
+    struct Paddings {
+        static let qtyButtonSize = CGFloat(30)
+        
+    }
+}

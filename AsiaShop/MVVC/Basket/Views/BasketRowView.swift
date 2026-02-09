@@ -56,14 +56,22 @@ struct BasketRowView: View {
                 }
             }
         }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                basketViewModel.removePosition(positionId: positionID)
+            } label: {
+                Image(systemName: Constants.Images.trash)
+                    .foregroundColor(Constants.Colors.blackOpacity90)
+            }
+        }
     }
 }
 
 // MARK: - Constants
-
 private struct Constants {
     struct Images {
         static let placeholderSushi = "placeholder_sushi"
+        static let trash = "trash"
     }
     
     struct Colors {
