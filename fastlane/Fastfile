@@ -1,0 +1,39 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Run unit tests"
+  lane :test do
+    scan(
+      project: "AsiaShop.xcodeproj",
+      scheme: "AsiaShop",
+      devices: ["iPhone 17 Pro"]
+    )
+  end
+
+  desc "Build app for distribution"
+  lane :build do
+    gym(
+      project: "AsiaShop.xcodeproj",
+      scheme: "AsiaShop"
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    scan(
+      project: "AsiaShop.xcodeproj",
+      scheme: "AsiaShop",
+      devices: ["iPhone 17 Pro"]
+    )
+
+    gym(
+      project: "AsiaShop.xcodeproj",
+      scheme: "AsiaShop"
+    )
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      changelog: "New build from fastlane"
+    )
+  end
+end

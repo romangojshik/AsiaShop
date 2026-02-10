@@ -27,6 +27,7 @@
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
+		209B10872F3B73600030BAAB /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 209B10862F3B73600030BAAB /* SnapshotTesting */; };
 		20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */; };
 		20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */; };
 		20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */; };
@@ -118,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				209B10872F3B73600030BAAB /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +367,7 @@
 			);
 			name = AsiaShopTests;
 			packageProductDependencies = (
+				209B10862F3B73600030BAAB /* SnapshotTesting */,
 			);
 			productName = AsiaShopTests;
 			productReference = 209B107C2F3B69340030BAAB /* AsiaShopTests.xctest */;
@@ -420,6 +423,7 @@
 			mainGroup = 30FD82BF2AF52E0300D94BA7;
 			packageReferences = (
 				204358702EDDC1DC007D5116 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 30FD82C92AF52E0300D94BA7 /* Products */;
 			projectDirPath = "";
@@ -769,6 +773,14 @@
 				minimumVersion = 12.6.0;
 			};
 		};
+		209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.18.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -781,6 +793,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 204358702EDDC1DC007D5116 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		209B10862F3B73600030BAAB /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
