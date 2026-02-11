@@ -10,11 +10,14 @@ import SwiftUI
 // MARK: - Navigation Routes
 enum BasketRoute: Identifiable {
     case confirmOrder(totalCost: Double)
+    case orderAccepted
     
     var id: String {
         switch self {
         case .confirmOrder(let totalCost):
             return "confirmOrder_\(totalCost)"
+        case .orderAccepted:
+            return "orderAccepted"
         }
     }
 }

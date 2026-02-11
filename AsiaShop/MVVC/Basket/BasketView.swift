@@ -117,13 +117,37 @@ struct BasketView: View {
                             positions: viewModel.positions,
                             readyBy: readyBy
                         )
-                        router.dismiss()
+                        router.navigate(to: .orderAccepted)
                     },
                     onCancel: {
                         router.dismiss()
                     }
                 )
             )
+            
+        case .orderAccepted:
+            VStack(spacing: 24) {
+                Text("Ваш заказ принят")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                
+                Text("Ваш заказ принят, ожидайте — с вами свяжутся по номеру телефона.")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
+                WhiteOrBlackButton(
+                    title: "Ок",
+                    backgroundColor: Color(white: 0.15),
+                    foregroundColor: .white
+                ) {
+                    router.dismiss()
+                }
+                .padding(.horizontal)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
         }
     }
     
