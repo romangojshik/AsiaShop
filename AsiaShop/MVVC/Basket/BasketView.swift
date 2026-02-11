@@ -110,14 +110,14 @@ struct BasketView: View {
             ConfirmOrderView(
                 viewModel: ConfirmOrderViewModel(
                     totalCost: totalCost,
-                    onConfirm: { userName, phone, readyBy in
+                    onConfirm: { userName, userPhone, readyBy in
                         viewModel.createOrder(
                             userName: userName,
-                            phone: phone,
+                            userPhone: userPhone,
                             positions: viewModel.positions,
                             readyBy: readyBy
                         )
-                        router.navigate(to: .orderAccepted)
+                        router.navigate(to: .orderAccepted(userPhone: userPhone))
                     },
                     onCancel: {
                         router.dismiss()
@@ -126,28 +126,14 @@ struct BasketView: View {
             )
             
         case .orderAccepted:
-            VStack(spacing: 24) {
-                Text("Ваш заказ принят")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                
-                Text("Ваш заказ принят, ожидайте — с вами свяжутся по номеру телефона.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                
-                WhiteOrBlackButton(
-                    title: "Ок",
-                    backgroundColor: Color(white: 0.15),
-                    foregroundColor: .white
-                ) {
-                    router.dismiss()
-                }
-                .padding(.horizontal)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
+            OrderAcceptedView(
+                viewModel: OrderAcceptedViewModel(
+                    userPhoneNumber: "",
+                    onOk: {
+                        router.dismiss()
+                    }
+                )
+            )
         }
     }
     

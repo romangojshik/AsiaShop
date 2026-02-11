@@ -12,6 +12,7 @@ protocol ConfirmOrderViewModelProtocol: ObservableObject {
     var userName: String { get set }
     var phone: String { get set }
     var readyBy: Date? { get set }
+    
     func confirmOrder()
     func cancelOrder()
 }
@@ -38,9 +39,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     func confirmOrder() {
         // Не даём оформить заказ без номера телефона
         let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedPhone.isEmpty else {
-            return
-        }
+        guard !trimmedPhone.isEmpty else { return }
         
         onConfirm(userName, phone, readyBy)
     }

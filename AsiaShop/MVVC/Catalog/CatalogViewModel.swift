@@ -24,14 +24,14 @@ class CatalogViewModel: CatalogViewModelProtocol {
     @Published var isLoading: Bool = false
     
     private let database: DatabaseServiceProtocol
-    private let basket: any BasketViewModelProtocol
+    private let basketProtocol: any BasketViewModelProtocol
 
     init(
         database: DatabaseServiceProtocol = DatabaseService.shared,
         basket: any BasketViewModelProtocol
     ) {
         self.database = database
-        self.basket = basket
+        self.basketProtocol = basket
         loadProducts()
     }
     
@@ -75,6 +75,6 @@ class CatalogViewModel: CatalogViewModelProtocol {
             product: product,
             count: 1
         )
-        basket.addPosition(position)
+        basketProtocol.addPosition(position)
     }
 }

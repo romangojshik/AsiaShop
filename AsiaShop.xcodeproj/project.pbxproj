@@ -38,6 +38,8 @@
 		20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F22F2C086C00B9B4DD /* SushiRowView.swift */; };
 		20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DBE8A52B18F584005F3FA7 /* AuthService.swift */; };
 		20FA1D7A2F3CAF6F0025020E /* WhiteOrBlackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */; };
+		20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */; };
+		20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
 		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
 		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
@@ -94,6 +96,8 @@
 		20C706F22F2C086C00B9B4DD /* SushiRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowView.swift; sourceTree = "<group>"; };
 		20DBE8A52B18F584005F3FA7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteOrBlackButton.swift; sourceTree = "<group>"; };
+		20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedView.swift; sourceTree = "<group>"; };
+		20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedViewModel.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 		2033AA1B2F27E92300CFE426 /* MVVC */ = {
 			isa = PBXGroup;
 			children = (
+				2064FC1F2F3018A20020A432 /* ConfirmOrder */,
 				20DB80BB2F33ADDC00F3DFD3 /* ProductDetailView */,
 				2003E2CC2F2CBDB500CA574C /* Navigation */,
 				20A738F42F2B69D300EF5DD4 /* TabBar */,
@@ -177,6 +182,8 @@
 		2064FC1F2F3018A20020A432 /* ConfirmOrder */ = {
 			isa = PBXGroup;
 			children = (
+				20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */,
+				20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */,
 				2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */,
 				2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */,
 			);
@@ -212,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				2064FC272F336DE70020A432 /* Views */,
-				2064FC1F2F3018A20020A432 /* ConfirmOrder */,
 				2064FC212F3018A20020A432 /* Router */,
 				30AE46122B0F988500C74BD8 /* BasketViewModel.swift */,
 				304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */,
@@ -502,6 +508,8 @@
 				2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */,
 				2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */,
 				2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */,
+				20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */,
+				20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
 				20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */,

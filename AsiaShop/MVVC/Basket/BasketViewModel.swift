@@ -10,13 +10,14 @@ import Foundation
 protocol BasketViewModelProtocol: ObservableObject {
     var positions: [Position] { get set }
     var cost: Double { get }
+    
     func addPosition(_ position: Position)
     func isProductInBasket(productId: String) -> Bool
     func getProductCount(productId: String) -> Int
     func increaseCount(positionId: String)
     func decreaseCount(positionId: String)
     func removePosition(positionId: String)
-    func createOrder(userName: String, phone: String, positions: [Position], readyBy: Date?)
+    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?)
 }
 
 class BasketViewModel: BasketViewModelProtocol {
@@ -78,10 +79,10 @@ class BasketViewModel: BasketViewModelProtocol {
         positions.removeAll()
     }
     
-    func createOrder(userName: String, phone: String, positions: [Position], readyBy: Date?) {
+    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?) {
         let order = Order(
             userName: userName,
-            numberPhone: phone,
+            numberPhone: userPhone,
             positions: positions,
             status: .new,
             createdAt: Date(),
