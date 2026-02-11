@@ -37,6 +37,7 @@
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
 		20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F22F2C086C00B9B4DD /* SushiRowView.swift */; };
 		20DBE8A62B18F584005F3FA7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DBE8A52B18F584005F3FA7 /* AuthService.swift */; };
+		20FA1D7A2F3CAF6F0025020E /* WhiteOrBlackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
 		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
 		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
@@ -92,6 +93,7 @@
 		20C706F02F2BB56300B9B4DD /* Sushi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sushi.swift; sourceTree = "<group>"; };
 		20C706F22F2C086C00B9B4DD /* SushiRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowView.swift; sourceTree = "<group>"; };
 		20DBE8A52B18F584005F3FA7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteOrBlackButton.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		20C706ED2F2BA97400B9B4DD /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */,
 				20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */,
 				20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */,
 				20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */,
@@ -488,6 +491,7 @@
 				30FD82CE2AF52E0300D94BA7 /* AuthView.swift in Sources */,
 				304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */,
 				20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */,
+				20FA1D7A2F3CAF6F0025020E /* WhiteOrBlackButton.swift in Sources */,
 				20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */,
 				20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */,
 				3051E6942B0F7CD800575BD5 /* ProductDetailViewModel.swift in Sources */,

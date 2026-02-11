@@ -39,25 +39,30 @@ struct BasketView: View {
                                 .foregroundColor(Constants.Colors.blackOpacity90)
                         }.padding()
                         
-                        Button(action: {
-                            router.navigate(to: .confirmOrder(totalCost: viewModel.cost))
-                        }) {
-                            Text("Оформить заказ")
-                                .font(.body)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color(white: 0.15))
-                                .cornerRadius(12)
-                        }
+                        WhiteOrBlackButton(
+                            title: "Оформить заказ",
+                            backgroundColor: Color(white: 0.15),
+                            foregroundColor: .white,
+                            action: {
+                                router.navigate(to: .confirmOrder(totalCost: viewModel.cost))
+                            }
+                        )
                         .padding()
                     }
                 }
             }
         }
         .sheet(item: $router.currentRoute) { route in
-            sheetView(for: route)
+            Group {
+                if #available(iOS 16.4, *) {
+                    sheetView(for: route)
+                        .presentationDetents([.fraction(0.82), .large])
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(Color.white)
+                } else {
+                    sheetView(for: route)
+                }
+            }
         }
         .navigationBarHidden(true)
     }

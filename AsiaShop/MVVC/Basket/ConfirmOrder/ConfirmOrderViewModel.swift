@@ -36,6 +36,12 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     }
     
     func confirmOrder() {
+        // Не даём оформить заказ без номера телефона
+        let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedPhone.isEmpty else {
+            return
+        }
+        
         onConfirm(userName, phone, readyBy)
     }
     
