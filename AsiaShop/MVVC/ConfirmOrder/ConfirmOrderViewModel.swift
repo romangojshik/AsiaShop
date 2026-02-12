@@ -22,6 +22,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     @Published var userName: String = ""
     @Published var phone: String = ""
     @Published var readyBy: Date?
+    @Published var showPhoneValidationError: Bool = false
     
     private let onConfirm: (String, String, Date?) -> Void
     private let onCancel: () -> Void
@@ -37,10 +38,11 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     }
     
     func confirmOrder() {
-        // Не даём оформить заказ без номера телефона
         let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedPhone.isEmpty else { return }
-        
+        guard !trimmedPhone.isEmpty else {
+            showPhoneValidationError = true
+            return
+        }
         onConfirm(userName, phone, readyBy)
     }
     

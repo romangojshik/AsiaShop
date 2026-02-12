@@ -17,17 +17,18 @@ struct OrderAcceptedView: View {
     var body: some View {
         VStack(spacing: 24) {
             Text(Constants.Texts.title)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(Constants.Fonts.titleFont)
+                .foregroundColor(Constants.Colors.blackOpacity90)
                 .multilineTextAlignment(.center)
             
             Text(Constants.Texts.description)
-                .font(.body)
+                .font(Constants.Fonts.titleDescriptionFont)
+                .foregroundColor(Constants.Colors.blackOpacity90)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
             WhiteOrBlackButton(
-                title: "Ок",
+                title: Constants.Texts.okButton,
                 backgroundColor: Color(white: 0.15),
                 foregroundColor: .white
             ) {
@@ -48,6 +49,7 @@ private struct Constants {
     struct Texts {
         static let title = "Ваш заказ принят"
         static let description = "Ваш заказ принят, ожидайте — с вами свяжутся по номеру телефона."
+        static let okButton = "Ок"
     }
     
     struct Colors {

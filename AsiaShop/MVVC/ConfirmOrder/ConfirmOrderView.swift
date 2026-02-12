@@ -20,56 +20,78 @@ struct ConfirmOrderView: View {
                 Text(Constants.Texts.confirmText)
                     .font(Constants.Fonts.titleFont)
                     .foregroundColor(Constants.Colors.blackOpacity90)
+                    .padding(.top, Constants.Padding.padding16)
                 
                 Text("Итоговая сумма: \(String(format: "%.2f", viewModel.totalCost)) руб")
-                    .font(.headline)
+                    .font(Constants.Fonts.titleFont)
+                    .foregroundColor(Constants.Colors.blackOpacity90)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Введите ваше имя")
-                        .font(Constants.Fonts.titleTextFont)
-                        .foregroundColor(Constants.Colors.blackOpacity90)
-                    TextField("Имя", text: $viewModel.userName)
-                        .textFieldStyle(.roundedBorder)
-                        .textContentType(.name)
-                        .autocapitalization(.words)
-                }
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Введите номер телефона для подтверждения заказа")
-                        .font(Constants.Fonts.titleTextFont)
-                        .foregroundColor(Constants.Colors.blackOpacity90)
-                    TextField("+375 (XX) XXX-XX-XX", text: $viewModel.phone)
-                        .keyboardType(.phonePad)
-                        .textContentType(.telephoneNumber)
-                        .padding(10)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(
-                                    viewModel.phone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                    ? Color.red
-                                    : Color.gray.opacity(0.4),
-                                    lineWidth: 1
-                                )
-                        )
-                }
-                
-                Spacer()
+                makeInputField(
+                    title: Constants.Texts.enterUserName,
+                    placeholder: Constants.Texts.namePlaceholder,
+                    text: $viewModel.userName,
+                    textContentType: .name
+                )
+                                
+                makeInputField(
+                    title: Constants.Texts.enterUserPhone,
+                    placeholder: Constants.Texts.userPhonePlaceholder,
+                    text: $viewModel.phone,
+                    textContentType: .telephoneNumber,
+                    keyboardType: .phonePad,
+                    validateEmpty: true,
+                    showValidationError: viewModel.showPhoneValidationError
+                )
                 
                 makeDetaPickerSection
                 
+                makeConfirmSection
             }
             .padding(Constants.Padding.padding16)
         }
-        makeConfirmSection
-            .padding(.horizontal, Constants.Padding.padding16)
-            .padding(.bottom, Constants.Padding.padding16)
+        .padding(.bottom, Constants.Padding.padding16)
+    }
+    
+    private func makeInputField(
+        title: String,
+        placeholder: String,
+        text: Binding<String>,
+        textContentType: UITextContentType,
+        keyboardType: UIKeyboardType = .default,
+        validateEmpty: Bool = false,
+        showValidationError: Bool = false
+    ) -> some View {
+        VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
+            Text(title)
+                .font(Constants.Fonts.titleTextFont)
+                .foregroundColor(Constants.Colors.blackOpacity90)
+            
+            TextField(placeholder, text: text)
+                .foregroundColor(Constants.Colors.blackOpacity90)
+                .tint(Constants.Colors.blackOpacity90)
+                .padding(Constants.Padding.padding10)
+                .background(Color.white)
+                .keyboardType(keyboardType)
+                .textContentType(textContentType)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Constants.Padding.padding8)
+                        .stroke(
+                            validateEmpty && showValidationError && text.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                ? Color.red
+                                : .black,
+                            lineWidth: 1
+                        )
+                )
+        }
     }
     
     private var makeDetaPickerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Constants.Padding.padding8) {
             Text(Constants.Texts.detaPickerTitle)
                 .font(Constants.Fonts.titleTextFont)
                 .foregroundColor(Constants.Colors.blackOpacity90)
+            
             HStack {
                 Spacer()
                 
@@ -92,10 +114,10 @@ struct ConfirmOrderView: View {
     }
     
     private var makeConfirmSection: some View {
-        VStack {
+        VStack(spacing: Constants.Padding.padding12) {
             Text(Constants.Texts.confirmTitle)
-                .font(.body)
-                .foregroundColor(.secondary)
+                .font(Constants.Fonts.titleTextFont)
+                .foregroundColor(Constants.Colors.blackOpacity90)
             
             HStack(spacing: Constants.Padding.padding16) {
                 WhiteOrBlackButton(
@@ -115,7 +137,6 @@ struct ConfirmOrderView: View {
                         viewModel.confirmOrder()
                     }
                 )
-                .disabled(viewModel.phone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
         }
     }
@@ -130,6 +151,10 @@ private struct Constants {
     struct Texts {
         static let confirmText = "Подтверждение заказа"
         static let detaPickerTitle = "К какому времени приготовить ваш заказ"
+        static let enterUserName = "Введите ваше имя"
+        static let namePlaceholder = "Имя"
+        static let enterUserPhone = "Введите номер телефона для подтверждения заказа *"
+        static let userPhonePlaceholder = "+375 (XX) XXX-XX-XX"
         static let confirmTitle = "Вы хотите оформить заказ?"
         static let cancel = "Отмена"
         static let confirm = "Подтвердить"
@@ -147,6 +172,9 @@ private struct Constants {
     }
     
     struct Padding {
+        static let padding8 = 8.0
+        static let padding10 = 10.0
+        static let padding12 = 12.0
         static let padding16 = 16.0
         static let padding24 = 24.0
         static let padding32 = 32.0
