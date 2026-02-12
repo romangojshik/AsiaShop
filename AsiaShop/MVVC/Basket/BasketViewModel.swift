@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 protocol BasketViewModelProtocol: ObservableObject {
     var positions: [Position] { get set }
@@ -20,61 +21,58 @@ protocol BasketViewModelProtocol: ObservableObject {
 }
 
 class BasketViewModel: BasketViewModelProtocol {
-    @Published var positions = [Position]()
+    private let storage: OrderDataStorage
+    private var cancellables = Set<AnyCancellable>()
     
-    init() {}
+    var positions: [Position] {
+        get { storage.positions }
+        set { storage.positions = newValue }
+    }
     
     var cost: Double {
-        var sum = 0.0
-        for pos in positions {
-            sum += pos.cost
-        }
-        return sum
+        storage.cost
+    }
+    
+    init(storage: OrderDataStorage = .shared) {
+        self.storage = storage
+        storage.objectWillChange
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
     }
     
     func addPosition(_ position: Position) {
-        positions.append(position)
+        storage.addPosition(position)
     }
     
     func isProductInBasket(productId: String) -> Bool {
-        return positions.contains { $0.product.id == productId }
+        storage.isProductInBasket(productId: productId)
     }
     
     func getProductCount(productId: String) -> Int {
-        return positions.first(where: { $0.product.id == productId })?.count ?? 0
+        storage.getProductCount(productId: productId)
     }
     
     func increaseCount(positionId: String) {
-        if let index = positions.firstIndex(where: { $0.id == positionId }) {
-            positions[index].count += 1
-        }
+        storage.increaseCount(positionId: positionId)
     }
     
-    /// Для корзины: уменьшить, но не удалять позицию (минимум 1).
     func decreaseCount(positionId: String) {
-        if let index = positions.firstIndex(where: { $0.id == positionId }) {
-            if positions[index].count > 1 {
-                positions[index].count -= 1
-            }
-        }
+        storage.decreaseCount(positionId: positionId)
     }
     
-    /// Для каталога: уменьшить, а при 1 — удалить позицию (чтобы вернуться к "В корзину").
+    /// Для каталога: уменьшить, а при 1 — удалить позицию.
     func decreaseOrRemove(positionId: String) {
-        if let index = positions.firstIndex(where: { $0.id == positionId }) {
-            if positions[index].count > 1 {
-                positions[index].count -= 1
-            } else {
-                positions.remove(at: index)
-            }
-        }
+        storage.decreaseOrRemove(positionId: positionId)
     }
     
     func removePosition(positionId: String) {
-        positions.removeAll { $0.id == positionId }
+        storage.removePosition(positionId: positionId)
     }
     
     func clearBasket() {
-        positions.removeAll()
+        storage.clearBasket()
     }
 }

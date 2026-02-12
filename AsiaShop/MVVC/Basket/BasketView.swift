@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BasketView: View {
     @StateObject private var router = BasketRouter()
-    @ObservedObject var viewModel: BasketViewModel
+    @EnvironmentObject var storage: OrderDataStorage
     
     var body: some View {
         VStack(spacing: 0) {
@@ -19,7 +19,7 @@ struct BasketView: View {
                 VStack(spacing: 0) {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
-                            if viewModel.positions.isEmpty {
+                            if storage.positions.isEmpty {
                                 makeBasketEmptyView
                                 Spacer()
                             } else {
@@ -28,13 +28,13 @@ struct BasketView: View {
                         }
                     }
                     
-                    if !viewModel.positions.isEmpty {
+                    if !storage.positions.isEmpty {
                         HStack {
                             Text(Constants.Texts.total)
                                 .fontWeight(.bold)
                                 .foregroundColor(Constants.Colors.blackOpacity90)
                             Spacer()
-                            Text(String(format: "%.2f", viewModel.cost) + " руб")
+                            Text(String(format: "%.2f", storage.cost) + " руб")
                                 .fontWeight(.bold)
                                 .foregroundColor(Constants.Colors.blackOpacity90)
                         }.padding()
@@ -44,7 +44,7 @@ struct BasketView: View {
                             backgroundColor: Color(white: 0.15),
                             foregroundColor: .white,
                             action: {
-                                router.navigate(to: .confirmOrder(totalCost: viewModel.cost))
+                                router.navigate(to: .confirmOrder(totalCost: storage.cost))
                             }
                         )
                         .padding()
@@ -86,16 +86,15 @@ struct BasketView: View {
     }
     
     private var makeBasketRowView: some View {
-        ForEach(Array(viewModel.positions.enumerated()), id: \.element.id) { index, position in
+        ForEach(Array(storage.positions.enumerated()), id: \.element.id) { index, position in
             VStack(spacing: 0) {
                 BasketRowView(
-                    basketViewModel: viewModel,
                     positionID: position.id
                 )
                 .padding(.horizontal)
                 .padding(.vertical, 12)
 
-                if index < viewModel.positions.count - 1 {
+                if index < storage.positions.count - 1 {
                     Divider()
                         .padding(.horizontal, 16)
                 }
@@ -110,16 +109,14 @@ struct BasketView: View {
             ConfirmOrderView(
                 viewModel: ConfirmOrderViewModel(
                     totalCost: totalCost,
-                    positions: viewModel.positions,
+                    positions: storage.positions,
                     onOrderCreated: { userPhone in
                         router.navigate(to: .orderAccepted(userPhone: userPhone))
                     },
                     onCancel: {
                         router.dismiss()
                     },
-                    clearBasket: {
-                        viewModel.clearBasket()
-                    }
+                    clearBasket: { storage.clearBasket() }
                 )
             )
             

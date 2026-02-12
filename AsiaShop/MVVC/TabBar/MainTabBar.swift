@@ -13,15 +13,10 @@ enum Tab: Hashable {
 }
 
 struct MainTabBar: View {
-    
-    var viewModel: MainTapBarViewModel
-    
-    @StateObject private var basketVM = BasketViewModel()
+    @StateObject private var viewModel = MainTapBarViewModel()
     @State private var selectedTab: Tab = .catalog
     
-    init(viewModel: MainTapBarViewModel) {
-        self.viewModel = viewModel
-        
+    init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(white: 0.15, alpha: 1.0)
@@ -31,14 +26,13 @@ struct MainTabBar: View {
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
 
-        // Цвет НЕактивных элементов
         UITabBar.appearance().unselectedItemTintColor = .gray
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
-                CatalogView(basket: basketVM)
+                CatalogView()
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .tabItem {
@@ -50,7 +44,7 @@ struct MainTabBar: View {
             }
             .tag(Tab.catalog)
             
-            BasketView(viewModel: basketVM)
+            BasketView()
                 .tabItem {
                     VStack {
                         Image("basket")
@@ -60,6 +54,7 @@ struct MainTabBar: View {
                 }
             .tag(Tab.basket)
         }
+        .environmentObject(OrderDataStorage.shared)
         .tint(.white)
     }
 }

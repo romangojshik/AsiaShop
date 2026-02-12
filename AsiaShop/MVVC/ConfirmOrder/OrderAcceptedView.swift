@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct OrderAcceptedView: View {
-    @StateObject private var viewModel: OrderAcceptedViewModel
-    
-    init(viewModel: OrderAcceptedViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @StateObject var viewModel: OrderAcceptedViewModel
     
     var body: some View {
         VStack(spacing: 24) {

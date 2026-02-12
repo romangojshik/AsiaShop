@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ProductDetailView: View {
-    
     @ObservedObject var viewModel: ProductDetailViewModel
-    @ObservedObject var basketViewModel: BasketViewModel
+    @EnvironmentObject var storage: OrderDataStorage
     @State var count = 1
     
     var onDecrease: (() -> Void)? = nil
@@ -85,7 +84,7 @@ struct ProductDetailView: View {
                             product: viewModel.product,
                             count: count
                         )
-                        basketViewModel.addPosition(position)
+                        storage.addPosition(position)
                         presentationMode.wrappedValue.dismiss()
                     }
                 )
@@ -189,7 +188,7 @@ private struct Constants {
                 composition: "Креветка темпура, сыр, огурец",
                 nutrition: Nutrition(weight: "108", callories: "45", protein: "6", fats: "1")
             )
-        ),
-        basketViewModel: BasketViewModel()
+        )
     )
+    .environmentObject(OrderDataStorage.shared)
 }

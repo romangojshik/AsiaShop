@@ -8,15 +8,8 @@
 import SwiftUI
 
 internal struct CatalogView: View {
-    
-    @StateObject private var viewModel: CatalogViewModel
-    @ObservedObject private var basketViewModel: BasketViewModel
+    @StateObject private var viewModel = CatalogViewModel()
     @State private var selectedProduct: Product?
-    
-    init(basket: BasketViewModel) {
-        self.basketViewModel = basket
-        _viewModel = StateObject(wrappedValue: CatalogViewModel(basket: basket))
-    }
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -41,7 +34,6 @@ internal struct CatalogView: View {
                                     selectedProduct = sushi.toProduct()
                                 } label: {
                                     SushiRowView(
-                                        basketViewModel: basketViewModel,
                                         sushi: sushi,
                                         onAddToBasket: {
                                             viewModel.addToBasket(product: sushi.toProduct())
@@ -81,7 +73,6 @@ internal struct CatalogView: View {
                                     HStack(spacing: 16) {
                                         ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
                                             CatalogSetRowView(
-                                                basket: basketViewModel,
                                                 sushiSet: sushiSet,
                                                 onCardTap: { selectedProduct = sushiSet.toProduct() }
                                             )
@@ -104,19 +95,18 @@ internal struct CatalogView: View {
             Group {
                 if #available(iOS 16.4, *) {
                     ProductDetailView(
-                        viewModel: ProductDetailViewModel(product: product),
-                        basketViewModel: basketViewModel
+                        viewModel: ProductDetailViewModel(product: product)
                     )
                         .presentationDetents([.fraction(0.82), .large])
                         .presentationDragIndicator(.visible)
                         .presentationBackground(Color.white)
                 } else {
                     ProductDetailView(
-                        viewModel: ProductDetailViewModel(product: product),
-                        basketViewModel: basketViewModel
+                        viewModel: ProductDetailViewModel(product: product)
                     )
                 }
             }
+            .environmentObject(OrderDataStorage.shared)
         }
         .onAppear {
             if viewModel.sushi.isEmpty {

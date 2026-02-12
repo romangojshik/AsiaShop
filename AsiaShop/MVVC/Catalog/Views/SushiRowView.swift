@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SushiRowView: View {
-    @ObservedObject var basketViewModel: BasketViewModel
+    @EnvironmentObject var storage: OrderDataStorage
     let sushi: Sushi
     let onAddToBasket: () -> Void
     
@@ -39,20 +39,20 @@ struct SushiRowView: View {
                     Spacer()
                     
                     QuantityButton(
-                        count: basketViewModel.getProductCount(productId: sushi.id),
+                        count: storage.getProductCount(productId: sushi.id),
                         onDecrease: {
-                            if let position = basketViewModel.positions.first(where: { $0.product.id == sushi.id }) {
-                                basketViewModel.decreaseOrRemove(positionId: position.id)
+                            if let position = storage.positions.first(where: { $0.product.id == sushi.id }) {
+                                storage.decreaseOrRemove(positionId: position.id)
                             }
                         },
                         onIncrease: {
-                            if let position = basketViewModel.positions.first(where: { $0.product.id == sushi.id }) {
-                                basketViewModel.increaseCount(positionId: position.id)
+                            if let position = storage.positions.first(where: { $0.product.id == sushi.id }) {
+                                storage.increaseCount(positionId: position.id)
                             } else {
                                 onAddToBasket()
                             }
                         },
-                        isInBasket: basketViewModel.isProductInBasket(productId: sushi.id),
+                        isInBasket: storage.isProductInBasket(productId: sushi.id),
                         onAddToBasket: onAddToBasket
                     )
                 }

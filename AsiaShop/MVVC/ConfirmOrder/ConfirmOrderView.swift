@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ConfirmOrderView: View {
-    @StateObject private var viewModel: ConfirmOrderViewModel
-    
-    init(viewModel: ConfirmOrderViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @ObservedObject var viewModel: ConfirmOrderViewModel
     
     var body: some View {
         ScrollView {

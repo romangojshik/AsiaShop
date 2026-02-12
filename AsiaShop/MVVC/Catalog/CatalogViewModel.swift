@@ -18,20 +18,19 @@ protocol CatalogViewModelProtocol: ObservableObject {
 }
 
 class CatalogViewModel: CatalogViewModelProtocol {
-    
     @Published var sushiSets: [SushiSet] = []
     @Published var sushi: [Sushi] = []
     @Published var isLoading: Bool = false
     
     private let database: DatabaseServiceProtocol
-    private let basketProtocol: any BasketViewModelProtocol
+    private let storage: OrderDataStorage
 
     init(
         database: DatabaseServiceProtocol = DatabaseService.shared,
-        basket: any BasketViewModelProtocol
+        storage: OrderDataStorage = .shared
     ) {
         self.database = database
-        self.basketProtocol = basket
+        self.storage = storage
         loadProducts()
     }
     
@@ -75,6 +74,6 @@ class CatalogViewModel: CatalogViewModelProtocol {
             product: product,
             count: 1
         )
-        basketProtocol.addPosition(position)
+        storage.addPosition(position)
     }
 }

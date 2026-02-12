@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CatalogSetRowView: View {
-    @ObservedObject var basket: BasketViewModel
+    @EnvironmentObject var storage: OrderDataStorage
     let sushiSet: SushiSet
     var onCardTap: (() -> Void)? = nil
     
@@ -17,7 +17,7 @@ struct CatalogSetRowView: View {
     }
     
     private var isInBasket: Bool {
-        basket.isProductInBasket(productId: product.id)
+        storage.isProductInBasket(productId: product.id)
     }
     
     private let cardWidth: CGFloat = 120
@@ -35,23 +35,23 @@ struct CatalogSetRowView: View {
                     }
                 
                 QuantityPlusButton(
-                    count: basket.getProductCount(productId: product.id),
+                    count: storage.getProductCount(productId: product.id),
                     containerWidth: cardWidth - 12,
                     onDecrease: {
-                        if let position = basket.positions.first(where: { $0.product.id == product.id }) {
-                            basket.decreaseOrRemove(positionId: position.id)
+                        if let position = storage.positions.first(where: { $0.product.id == product.id }) {
+                            storage.decreaseOrRemove(positionId: position.id)
                         }
                     },
                     onIncrease: {
-                        if let position = basket.positions.first(where: { $0.product.id == product.id }) {
-                            basket.increaseCount(positionId: position.id)
+                        if let position = storage.positions.first(where: { $0.product.id == product.id }) {
+                            storage.increaseCount(positionId: position.id)
                         } else {
                             let position = Position(
                                 id: UUID().uuidString,
                                 product: product,
                                 count: 1
                             )
-                            basket.addPosition(position)
+                            storage.addPosition(position)
                         }
                     },
                     onAddToBasket: {
@@ -60,7 +60,7 @@ struct CatalogSetRowView: View {
                             product: product,
                             count: 1
                         )
-                        basket.addPosition(position)
+                        storage.addPosition(position)
                     }
                 )
                 .padding(.horizontal, 6)

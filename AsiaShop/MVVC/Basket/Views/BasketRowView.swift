@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct BasketRowView: View {
-    @ObservedObject var basketViewModel: BasketViewModel
+    @EnvironmentObject var storage: OrderDataStorage
     
     // MARK: - Public properties
     public let positionID: String
     
     // MARK: - Private properties
     private var position: Position? {
-        basketViewModel.positions.first { $0.id == positionID }
+        storage.positions.first { $0.id == positionID }
     }
     
     var body: some View {
@@ -47,10 +47,10 @@ struct BasketRowView: View {
                     QuantityButton(
                         count: position?.count ?? 0,
                         onDecrease: {
-                            basketViewModel.decreaseCount(positionId: positionID)
+                            storage.decreaseCount(positionId: positionID)
                         },
                         onIncrease: {
-                            basketViewModel.increaseCount(positionId: positionID)
+                            storage.increaseCount(positionId: positionID)
                         }
                     )
                 }
@@ -58,7 +58,7 @@ struct BasketRowView: View {
         }
         .overlay(alignment: .topTrailing) {
             Button {
-                basketViewModel.removePosition(positionId: positionID)
+                storage.removePosition(positionId: positionID)
             } label: {
                 Image(systemName: Constants.Images.trash)
                     .foregroundColor(Constants.Colors.blackOpacity90)

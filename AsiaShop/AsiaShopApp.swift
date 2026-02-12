@@ -23,7 +23,7 @@ struct AsiaShopApp: App {
 //            } else {
 //                AuthView()
 //            }
-            MainTabBar(viewModel: MainTapBarViewModel(user: AuthService.shared.currentUser))
+            MainTabBar()
         }
     }
     
