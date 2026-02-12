@@ -24,17 +24,23 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     @Published var readyBy: Date?
     @Published var showPhoneValidationError: Bool = false
     
-    private let onConfirm: (String, String, Date?) -> Void
+    private let positions: [Position]
+    private let onOrderCreated: (String) -> Void
     private let onCancel: () -> Void
+    private let clearBasket: () -> Void
     
     init(
         totalCost: Double,
-        onConfirm: @escaping (String, String, Date?) -> Void,
-        onCancel: @escaping () -> Void
+        positions: [Position],
+        onOrderCreated: @escaping (String) -> Void,
+        onCancel: @escaping () -> Void,
+        clearBasket: @escaping () -> Void
     ) {
         self.totalCost = totalCost
-        self.onConfirm = onConfirm
+        self.positions = positions
+        self.onOrderCreated = onOrderCreated
         self.onCancel = onCancel
+        self.clearBasket = clearBasket
     }
     
     func confirmOrder() {
@@ -43,7 +49,29 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             showPhoneValidationError = true
             return
         }
-        onConfirm(userName, phone, readyBy)
+        createOrder(userName: userName, userPhone: phone, positions: positions, readyBy: readyBy)
+    }
+    
+    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?) {
+        let order = Order(
+            userName: userName,
+            numberPhone: userPhone,
+            positions: positions,
+            status: .new,
+            createdAt: Date(),
+            readyBy: readyBy
+        )
+        
+        DatabaseService.shared.setOrder(order: order) { [weak self] result in
+            switch result {
+            case .success(let order):
+                print("Заказ создан: \(order.cost)")
+                self?.clearBasket()
+                self?.onOrderCreated(userPhone)
+            case .failure(let error):
+                print("Ошибка: \(error.localizedDescription)")
+            }
+        }
     }
     
     func cancelOrder() {

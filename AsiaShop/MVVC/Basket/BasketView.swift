@@ -110,17 +110,15 @@ struct BasketView: View {
             ConfirmOrderView(
                 viewModel: ConfirmOrderViewModel(
                     totalCost: totalCost,
-                    onConfirm: { userName, userPhone, readyBy in
-                        viewModel.createOrder(
-                            userName: userName,
-                            userPhone: userPhone,
-                            positions: viewModel.positions,
-                            readyBy: readyBy
-                        )
+                    positions: viewModel.positions,
+                    onOrderCreated: { userPhone in
                         router.navigate(to: .orderAccepted(userPhone: userPhone))
                     },
                     onCancel: {
                         router.dismiss()
+                    },
+                    clearBasket: {
+                        viewModel.clearBasket()
                     }
                 )
             )

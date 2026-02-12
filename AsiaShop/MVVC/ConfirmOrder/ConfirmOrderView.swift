@@ -191,12 +191,10 @@ private struct Constants {
     ConfirmOrderView(
         viewModel: ConfirmOrderViewModel(
             totalCost: 49.8,
-            onConfirm: { userName, phone, readyBy in
-                print("Confirm order for \(userName), phone: \(phone), readyBy: \(readyBy?.description ?? "nil")")
-            },
-            onCancel: {
-                print("Cancel order")
-            }
+            positions: [],
+            onOrderCreated: { _ in },
+            onCancel: {},
+            clearBasket: {}
         )
     )
 }

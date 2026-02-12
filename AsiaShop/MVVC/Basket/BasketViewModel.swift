@@ -17,7 +17,6 @@ protocol BasketViewModelProtocol: ObservableObject {
     func increaseCount(positionId: String)
     func decreaseCount(positionId: String)
     func removePosition(positionId: String)
-    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?)
 }
 
 class BasketViewModel: BasketViewModelProtocol {
@@ -77,26 +76,5 @@ class BasketViewModel: BasketViewModelProtocol {
     
     func clearBasket() {
         positions.removeAll()
-    }
-    
-    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?) {
-        let order = Order(
-            userName: userName,
-            numberPhone: userPhone,
-            positions: positions,
-            status: .new,
-            createdAt: Date(),
-            readyBy: readyBy
-        )
-        
-        DatabaseService.shared.setOrder(order: order) { [weak self] result in
-            switch result {
-            case .success(let order):
-                print("Заказ создан: \(order.cost)")
-                self?.clearBasket()
-            case .failure(let error):
-                print("Ошибка: \(error.localizedDescription)")
-            }
-        }
     }
 }
