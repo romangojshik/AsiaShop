@@ -8,7 +8,9 @@
 import SwiftUI
 
 internal struct CatalogView: View {
-    @StateObject private var viewModel = CatalogViewModel()
+    @StateObject private var viewModel = CatalogViewModel(
+        database: YandexCatalogService.shared
+    )
     @State private var selectedProduct: Product?
     
     private let columns = [
