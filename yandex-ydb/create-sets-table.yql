@@ -1,0 +1,14 @@
+-- Таблица sets для AsiaShop (аналог коллекции sets из Firebase)
+-- Выполнить в консоли Yandex Cloud: YDB → ваша БД → вкладка "Запросы" (Query)
+
+CREATE TABLE sets (
+    id Utf8 NOT NULL,
+    title Utf8 NOT NULL,
+    imageURL Utf8 NOT NULL,
+    description Utf8 NOT NULL,
+    price Double NOT NULL,
+    composition Utf8,
+    weight Utf8,
+    callories Utf8,
+    PRIMARY KEY (id)
+);

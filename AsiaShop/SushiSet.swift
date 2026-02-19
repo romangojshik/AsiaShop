@@ -71,6 +71,29 @@ struct SushiSet {
             fats: fromSubcollection.fats ?? fromDocument.fats
         )
     }
+
+    /// Инициализация из ответа API Yandex Cloud (JSON).
+    init?(apiResponse json: [String: Any]) {
+        guard
+            let id = json["id"] as? String,
+            let imageURL = json["imageURL"] as? String,
+            let title = json["title"] as? String,
+            let description = json["description"] as? String
+        else { return nil }
+        let price: Double
+        if let p = json["price"] as? Double { price = p }
+        else if let p = json["price"] as? Int { price = Double(p) }
+        else if let p = json["price"] as? String, let v = Double(p) { price = v }
+        else { return nil }
+
+        self.id = id
+        self.imageURL = imageURL
+        self.title = title
+        self.description = description
+        self.price = price
+        self.composition = json["composition"] as? String
+        self.nutrition = Nutrition(from: json["nutrition"] as? [String: Any])
+    }
 }
 
 extension SushiSet {
