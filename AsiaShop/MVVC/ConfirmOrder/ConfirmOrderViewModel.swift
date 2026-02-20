@@ -44,8 +44,8 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     }
     
     func confirmOrder() {
-        let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedPhone.isEmpty else {
+        let digitsOnly = phone.filter { $0.isNumber }
+        guard digitsOnly.count == 9 else {
             showPhoneValidationError = true
             return
         }
