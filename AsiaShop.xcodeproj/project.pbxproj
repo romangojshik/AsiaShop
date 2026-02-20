@@ -27,12 +27,12 @@
 		209918D62B1A3FB6000A9A86 /* MainTapBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */; };
 		209918D82B1CC40C000A9A86 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D72B1CC40C000A9A86 /* Profile.swift */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
-		20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D12F40000100A432 /* YandexCatalogService.swift */; };
 		209B10872F3B73600030BAAB /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 209B10862F3B73600030BAAB /* SnapshotTesting */; };
 		20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */; };
 		20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */; };
 		20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */; };
 		20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */; };
+		20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D12F40000100A432 /* YandexCatalogService.swift */; };
 		20A986B82F34A11400D21679 /* firebase.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A986B72F34A11400D21679 /* firebase.json */; };
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
@@ -87,12 +87,12 @@
 		209918D52B1A3FB6000A9A86 /* MainTapBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTapBarViewModel.swift; sourceTree = "<group>"; };
 		209918D72B1CC40C000A9A86 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
-		20A1C0D12F40000100A432 /* YandexCatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexCatalogService.swift; sourceTree = "<group>"; };
 		209B107C2F3B69340030BAAB /* AsiaShopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsiaShopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPlusButton.swift; sourceTree = "<group>"; };
 		20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToBasketButton.swift; sourceTree = "<group>"; };
 		20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityStepperButton.swift; sourceTree = "<group>"; };
 		20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		20A1C0D12F40000100A432 /* YandexCatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexCatalogService.swift; sourceTree = "<group>"; };
 		20A986B72F34A11400D21679 /* firebase.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = firebase.json; sourceTree = "<group>"; };
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		20C706F02F2BB56300B9B4DD /* Sushi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sushi.swift; sourceTree = "<group>"; };
