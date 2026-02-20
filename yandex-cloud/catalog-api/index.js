@@ -1,43 +1,196 @@
 /**
- * Упрощённая HTTP-функция: отдаёт каталог сетов статически.
- * Так мы быстро подключим приложение, а чтение из YDB добавим позже.
+ * HTTP-функция каталога: сеты из таблицы `set`, питательность из таблицы `nutrition` (join по set_id).
+ * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
  */
 
-module.exports.handler = async function (event, context) {
-  const method = event.httpMethod || event.requestContext?.http?.method || 'GET';
-  if (method !== 'GET') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: 'Method not allowed' }),
-      headers: { 'Content-Type': 'application/json' },
-    };
-  }
+const TABLE_SET = '`set`';
+const TABLE_NUTRITION = 'nutrition';
 
-  // Здесь можно руками добавить все ваши сеты.
-  const sets = [
-    {
-      id: '1',
-      title: 'Асами',
-      imageURL: 'asami',
-      description:
-        'Сочный лосось, кремовый сыр, хрустящие огурец и снежный краб. Идеальный баланс в каждом кусочке. Попробуй яркое настроение!',
-      price: 99.9,
-      composition: 'Лосось, сыр, огурец, снежный краб, тобико.',
-      nutrition: {
-        callories: '1200ккал',
+function noop() {}
+const logger = {
+  debug: noop,
+  trace: noop,
+  info: noop,
+  warn: noop,
+  error: noop,
+};
+
+let driver = null;
+let ydbSdk = null;
+
+function getYdbSdk() {
+  if (ydbSdk) return ydbSdk;
+  try {
+    ydbSdk = require('ydb-sdk');
+    return ydbSdk;
+  } catch (e) {
+    console.error('YDB: require("ydb-sdk") failed:', e && e.message ? e.message : String(e));
+    return null;
+  }
+}
+
+async function getDriver() {
+  if (driver) return driver;
+  const sdk = getYdbSdk();
+  if (!sdk) return null;
+  try {
+    let endpoint = (process.env.YDB_ENDPOINT || '').trim();
+    const database = (process.env.YDB_DATABASE || '').trim();
+    if (!endpoint || !database) {
+      console.error('YDB: YDB_ENDPOINT или YDB_DATABASE не заданы');
+      return null;
+    }
+    if (!endpoint.startsWith('grpcs://') && !endpoint.startsWith('https://')) {
+      endpoint = 'grpcs://' + endpoint;
+    }
+    const authService = new sdk.MetadataAuthService();
+    driver = new sdk.Driver({
+      endpoint,
+      database,
+      authService,
+      logger: typeof sdk.getDefaultLogger === 'function' ? sdk.getDefaultLogger() : logger,
+    });
+    const ok = await driver.ready(10000);
+    if (!ok) {
+      driver = null;
+      console.error('YDB: driver.ready() истёк по таймауту');
+      return null;
+    }
+    console.log('YDB: driver.ready() ok');
+    return driver;
+  } catch (e) {
+    driver = null;
+    console.error('YDB getDriver error:', e && e.message ? e.message : String(e), e && e.stack);
+    return null;
+  }
+}
+
+function runQuery(query) {
+  // withSessionRetry(callback, timeout?, maxRetries?) — контекст подставляет ensureContext
+  return driver.tableClient.withSessionRetry(
+    (session) => session.executeQuery(query),
+    5000,
+    3
+  );
+}
+
+function rowsFromResult(result, logLabel) {
+  if (!result || !result.resultSets || !result.resultSets.length) {
+    if (logLabel) console.log('YDB: ' + logLabel + ' — нет resultSets');
+    return [];
+  }
+  const rawRows = result.resultSets[0].rows || [];
+  if (logLabel) console.log('YDB: ' + logLabel + ' — сырых строк:', rawRows.length);
+  const sdk = getYdbSdk();
+  if (!sdk || !sdk.TypedData) return [];
+  const rows = sdk.TypedData.createNativeObjects(result.resultSets[0]);
+  return Array.isArray(rows) ? rows : [];
+}
+
+function rowToSetRow(r) {
+  const id = r.id ?? r.Id ?? '';
+  const title = r.title ?? r.Title ?? '';
+  const imageURL = r.imageURL ?? r.image_url ?? '';
+  const description = r.description ?? r.Description ?? '';
+  const price = Number(r.price ?? r.Price ?? 0);
+  const composition = r.composition ?? r.Composition ?? null;
+  return {
+    id: String(id),
+    title: String(title),
+    imageURL: String(imageURL),
+    description: String(description),
+    price,
+    composition: composition != null ? String(composition) : null,
+  };
+}
+
+function rowToNutrition(r) {
+  const setId = r.set_id ?? r.setId ?? '';
+  const callories = r.callories ?? r.Callories ?? null;
+  const fats = r.fats ?? r.Fats ?? null;
+  const protein = r.protein ?? r.Protein ?? null;
+  const weight = r.weight ?? r.Weight ?? null;
+  return {
+    set_id: String(setId),
+    callories: callories != null ? String(callories) : null,
+    fats: fats != null ? String(fats) : null,
+    protein: protein != null ? String(protein) : null,
+    weight: weight != null ? String(weight) : null,
+  };
+}
+
+async function loadSetsFromYdb() {
+  const d = await getDriver();
+  if (!d) {
+    console.error('YDB: getDriver() вернул null');
+    return null;
+  }
+  try {
+    const [setsResult, nutritionResult] = await Promise.all([
+      runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SET}`),
+      runQuery(`SELECT set_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`),
+    ]);
+    const setRows = rowsFromResult(setsResult, 'set').map(rowToSetRow);
+    const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToNutrition);
+    console.log('YDB: set rows=', setRows.length, 'nutrition rows=', nutritionRows.length);
+    const nutritionBySetId = {};
+    for (const n of nutritionRows) {
+      nutritionBySetId[n.set_id] = {
+        callories: n.callories,
+        fats: n.fats,
+        protein: n.protein,
+        weight: n.weight,
+      };
+    }
+    const sets = setRows.map((s) => ({
+      ...s,
+      nutrition: nutritionBySetId[s.id] || {
+        callories: null,
         fats: null,
         protein: null,
-        weight: '930г',
+        weight: null,
       },
-    },
-  ];
+    }));
+    return sets;
+  } catch (e) {
+    console.error('YDB loadSetsFromYdb error:', e && e.message ? e.message : String(e), e && e.stack);
+    return null;
+  }
+}
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ sets }),
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
+module.exports.handler = async function (event, context) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   };
+  try {
+    const method = event.httpMethod || event.requestContext?.http?.method || 'GET';
+    if (method !== 'GET') {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ error: 'Method not allowed' }),
+        headers,
+      };
+    }
+
+    let sets = await loadSetsFromYdb();
+    if (sets === null) {
+      console.error('YDB: loadSetsFromYdb() вернул null');
+      sets = [];
+    }
+    console.log('YDB: возвращаем sets.length=', sets.length);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ sets }),
+      headers,
+    };
+  } catch (e) {
+    console.error('handler error:', e && e.message ? e.message : String(e), e && e.stack);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ sets: [], _error: 'Catalog temporarily unavailable' }),
+      headers,
+    };
+  }
 };

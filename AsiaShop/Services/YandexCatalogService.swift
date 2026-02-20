@@ -13,8 +13,8 @@ final class YandexCatalogService: DatabaseServiceProtocol {
 
     static let shared = YandexCatalogService()
 
-    /// URL вашей Cloud Function (каталог). Например: https://xxx.apigw.yandexcloud.net/xxx
-    var baseURL: String = ""
+    /// URL API Gateway (каталог). От поддержки Yandex Cloud.
+    var baseURL: String = "https://d5di93907ln32br63enu.emzafcgx.apigw.yandexcloud.net"
 
     private let session: URLSession = {
         let c = URLSessionConfiguration.default
@@ -34,26 +34,57 @@ final class YandexCatalogService: DatabaseServiceProtocol {
     }
 
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
-        // Временный вариант: статический список сетов без HTTP.
-        let sets: [SushiSet] = [
-            SushiSet(
-                id: "1",
-                imageURL: "asami",
-                title: "Асами",
-                description: "Сочный лосось, кремовый сыр, хрустящие огурец и снежный краб. Идеальный баланс в каждом кусочке. Попробуй яркое настроение!",
-                price: 99.9,
-                composition: "Лосось, сыр, огурец, снежный краб, тобико.",
-                nutrition: Nutrition(
-                    weight: "930г",
-                    callories: "1200ккал",
-                    protein: nil,
-                    fats: nil
-                )
-            )
-        ]
-        DispatchQueue.main.async {
-            completion(.success(sets))
+        guard !baseURL.isEmpty, let url = URL(string: baseURL.hasSuffix("/") ? baseURL : baseURL + "/") else {
+            DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
+            return
         }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
+                DispatchQueue.main.async { completion(.failure(error)) }
+                return
+            }
+            guard let data = data else {
+                print("[YandexCatalog] Пустой ответ")
+                DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
+                return
+            }
+            if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+                let body = String(data: data, encoding: .utf8) ?? ""
+                print("[YandexCatalog] HTTP \(http.statusCode): \(body.prefix(150))")
+                let err = NSError(domain: "YandexCatalog", code: http.statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"])
+                DispatchQueue.main.async { completion(.failure(err)) }
+                return
+            }
+            do {
+                let decoded = try JSONDecoder().decode(CatalogResponse.self, from: data)
+                let sets = decoded.sets.map { item in
+                    SushiSet(
+                        id: item.id,
+                        imageURL: item.imageURL,
+                        title: item.title,
+                        description: item.description,
+                        price: item.price,
+                        composition: item.composition,
+                        nutrition: item.nutrition.map { Nutrition(
+                            weight: $0.weight,
+                            callories: $0.callories,
+                            protein: $0.protein,
+                            fats: $0.fats
+                        ) }
+                    )
+                }
+                if sets.isEmpty {
+                    print("[YandexCatalog] API вернул пустой список")
+                }
+                DispatchQueue.main.async { completion(.success(sets)) }
+            } catch {
+                print("[YandexCatalog] Ошибка декодирования: \(error)")
+                DispatchQueue.main.async { completion(.failure(error)) }
+            }
+        }.resume()
     }
 
     func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ()) {
@@ -70,4 +101,27 @@ final class YandexCatalogService: DatabaseServiceProtocol {
 
 private struct NotSupportedError: LocalizedError {
     var errorDescription: String? { "Метод не поддерживается в YandexCatalogService" }
+}
+
+// MARK: - Ответ API каталога (Cloud Function)
+
+private struct CatalogResponse: Decodable {
+    let sets: [CatalogSetItem]
+}
+
+private struct CatalogSetItem: Decodable {
+    let id: String
+    let title: String
+    let imageURL: String
+    let description: String
+    let price: Double
+    let composition: String?
+    let nutrition: CatalogNutrition?
+}
+
+private struct CatalogNutrition: Decodable {
+    let weight: String?
+    let callories: String?
+    let protein: String?
+    let fats: String?
 }
