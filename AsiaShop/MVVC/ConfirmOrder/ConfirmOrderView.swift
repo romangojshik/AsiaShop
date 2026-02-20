@@ -32,12 +32,10 @@ struct ConfirmOrderView: View {
                     showValidationError: viewModel.showNameValidationError
                 )
                                 
-                makeInputField(
+                makePhoneInputField(
                     title: Constants.Texts.enterUserPhone,
                     placeholder: Constants.Texts.userPhonePlaceholder,
                     text: $viewModel.phone,
-                    textContentType: .telephoneNumber,
-                    keyboardType: .phonePad,
                     validateEmpty: true,
                     showValidationError: viewModel.showPhoneValidationError
                 )
@@ -81,6 +79,38 @@ struct ConfirmOrderView: View {
                             lineWidth: 1
                         )
                 )
+        }
+    }
+    
+    private func makePhoneInputField(
+        title: String,
+        placeholder: String,
+        text: Binding<String>,
+        validateEmpty: Bool = false,
+        showValidationError: Bool = false
+    ) -> some View {
+        VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
+            Text(title)
+                .font(Constants.Fonts.titleTextFont)
+                .foregroundColor(Constants.Colors.blackOpacity90)
+            
+            PhoneFieldView(
+                placeholder: placeholder,
+                countryCode: "375",
+                title: nil,
+                keyboardType: .phonePad,
+                text: text
+            )
+            .padding(Constants.Padding.padding10)
+            .overlay(
+                RoundedRectangle(cornerRadius: Constants.Padding.padding8)
+                    .stroke(
+                        validateEmpty && showValidationError && PhoneMask.digits(from: text.wrappedValue).isEmpty
+                            ? Color.red
+                            : .black,
+                        lineWidth: 1
+                    )
+            )
         }
     }
     

@@ -52,6 +52,13 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         guard !trimmedName.isEmpty else { return }
         guard !trimmedPhone.isEmpty else { return }
         createOrder(userName: trimmedName, userPhone: trimmedPhone)
+
+        let digitsOnly = phone.filter { $0.isNumber }
+        guard digitsOnly.count == 9 else {
+            showPhoneValidationError = true
+            return
+        }
+        createOrder(userName: userName, userPhone: phone, positions: positions, readyBy: readyBy)
     }
     
     func createOrder(userName: String, userPhone: String) {

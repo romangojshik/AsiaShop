@@ -18,6 +18,7 @@
 		2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */; };
 		2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */; };
 		2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC252F31EE3F0020A432 /* ScreenContainer.swift */; };
+		20PHONE012F40000100A432 /* PhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20PHONE022F40000100A432 /* PhoneNumberTextField.swift */; };
 		2064FC292F336E070020A432 /* BasketRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC282F336DF90020A432 /* BasketRowView.swift */; };
 		2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */ = {isa = PBXBuildFile; fileRef = 2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */; };
 		209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209918D92B1CC5D1000A9A86 /* DatabaseService.swift */; };
@@ -70,6 +71,7 @@
 		2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderViewModel.swift; sourceTree = "<group>"; };
 		2064FC202F3018A20020A432 /* BasketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRouter.swift; sourceTree = "<group>"; };
 		2064FC252F31EE3F0020A432 /* ScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenContainer.swift; sourceTree = "<group>"; };
+		20PHONE022F40000100A432 /* PhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberTextField.swift; sourceTree = "<group>"; };
 		2064FC282F336DF90020A432 /* BasketRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRowView.swift; sourceTree = "<group>"; };
 		2064FC2B2F337EAA0020A432 /* SWIFT_MARKS_DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SWIFT_MARKS_DOC.md; sourceTree = "<group>"; };
 		209918D92B1CC5D1000A9A86 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				2064FC252F31EE3F0020A432 /* ScreenContainer.swift */,
+				20PHONE022F40000100A432 /* PhoneNumberTextField.swift */,
 				20C706ED2F2BA97400B9B4DD /* Buttons */,
 			);
 			path = Views;
@@ -445,6 +448,7 @@
 				20BE6BF52B20F967009ABA83 /* Order.swift in Sources */,
 				200C3EFE2F392BE60070FF0B /* Nutrition.swift in Sources */,
 				2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */,
+				20PHONE012F40000100A432 /* PhoneNumberTextField.swift in Sources */,
 				20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */,
 				304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */,
 				2064FC292F336E070020A432 /* BasketRowView.swift in Sources */,
