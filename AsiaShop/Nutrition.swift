@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Nutrition {
+struct Nutrition: Decodable {
     var weight: String?
     var callories: String?
     var protein: String?
@@ -25,7 +25,7 @@ struct Nutrition {
         self.fats = fats
     }
 
-    /// Инициализация из данных Firestore (документ или подколлекция `nutrition`).
+    /// Инициализация из JSON-словаря (ответ API Yandex и т.п.).
     init(from data: [String: Any]?) {
         self.weight = data?["weight"] as? String
         self.callories = data?["callories"] as? String

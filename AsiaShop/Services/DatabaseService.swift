@@ -8,10 +8,8 @@
 import FirebaseFirestore
 
 protocol DatabaseServiceProtocol {
-    func getProducts(completion: @escaping (Result<[Product], Error>) -> ())
     func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ())
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ())
-    func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ())
 }
 
 class DatabaseService: DatabaseServiceProtocol {
@@ -24,9 +22,6 @@ class DatabaseService: DatabaseServiceProtocol {
     }
     private var ordersReferance: CollectionReference {
         return dataBase.collection("orders")
-    }
-    private var productsReference: CollectionReference {
-        return dataBase.collection("products")
     }
     private var sushiReference: CollectionReference {
         return dataBase.collection("sushi")
@@ -125,42 +120,6 @@ class DatabaseService: DatabaseServiceProtocol {
         completion(.success(positions))
     }
 
-    // Загрузка списка продуктов из коллекции "products"
-    func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) {
-        productsReference.getDocuments { querySnapshot, error in
-            if let querySnapshot = querySnapshot {
-                var products: [Product] = []
-                for document in querySnapshot.documents {
-                    let data = document.data()
-                    
-                    guard
-                        let id = data["id"] as? String,
-                        let title = data["title"] as? String,
-                        let imageURL = data["imageURL"] as? String,
-                        let price = data["price"] as? Double,
-                        let description = data["description"] as? String
-                    else {
-                        continue
-                    }
-                    
-                    let product = Product(
-                        id: id,
-                        imageURL: imageURL,
-                        title: title,
-                        description: description,
-                        price: price,
-                        composition: nil,
-                        nutrition: nil
-                    )
-                    products.append(product)
-                }
-                completion(.success(products))
-            } else if let error = error {
-                completion(.failure(error))
-            }
-        }
-    }
-    
     // Загрузка списка суши из коллекции "sushi" и подколлекции "nutrition"
     func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
         sushiReference.getDocuments { [weak self] querySnapshot, error in
@@ -247,7 +206,7 @@ class DatabaseService: DatabaseServiceProtocol {
                     }
 
                     let nutritionData = nutritionSnapshot?.documents.first?.data()
-                    if let sushiSet = SushiSet(document: document, nutritionData: nutritionData) {
+                    if let sushiSet = SushiSet(fromDocumentData: document.data(), nutritionData: nutritionData) {
                         setsByIndex[index] = sushiSet
                     }
                 }
@@ -259,47 +218,6 @@ class DatabaseService: DatabaseServiceProtocol {
                 } else {
                     completion(.success(setsByIndex.compactMap { $0 }))
                 }
-            }
-        }
-    }
-    
-    // Параллельная загрузка суши и сетов с использованием DispatchGroup
-    func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ()) {
-        let group = DispatchGroup()
-        var loadedSushi: [Sushi] = []
-        var loadedSets: [SushiSet] = []
-        var loadError: Error?
-        
-        // Загружаем суши
-        group.enter()
-        getSushi { result in
-            switch result {
-            case .success(let sushi):
-                loadedSushi = sushi
-            case .failure(let error):
-                loadError = error
-            }
-            group.leave()
-        }
-        
-        // Загружаем сеты
-        group.enter()
-        getSets { result in
-            switch result {
-            case .success(let sets):
-                loadedSets = sets
-            case .failure(let error):
-                loadError = error
-            }
-            group.leave()
-        }
-        
-        // Ждём завершения обоих запросов
-        group.notify(queue: .main) {
-            if let error = loadError {
-                completion(.failure(error))
-            } else {
-                completion(.success((sushi: loadedSushi, sets: loadedSets)))
             }
         }
     }

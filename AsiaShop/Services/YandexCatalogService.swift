@@ -8,7 +8,7 @@
 import Foundation
 
 /// Сервис каталога из Yandex Cloud Functions (читает из YDB).
-/// Реализует только getSets / getSushi / getSushiAndSets; остальные методы не поддерживаются.
+/// Реализует getSets и getSushi (суши пока пусто).
 final class YandexCatalogService: DatabaseServiceProtocol {
 
     static let shared = YandexCatalogService()
@@ -23,10 +23,6 @@ final class YandexCatalogService: DatabaseServiceProtocol {
     }()
 
     private init() {}
-
-    func getProducts(completion: @escaping (Result<[Product], Error>) -> ()) {
-        completion(.failure(NotSupportedError()))
-    }
 
     func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
         // Пока суши не перенесены в YDB — возвращаем пустой массив
@@ -59,43 +55,16 @@ final class YandexCatalogService: DatabaseServiceProtocol {
                 return
             }
             do {
-                let decoded = try JSONDecoder().decode(CatalogResponse.self, from: data)
-                let sets = decoded.sets.map { item in
-                    SushiSet(
-                        id: item.id,
-                        imageURL: item.imageURL,
-                        title: item.title,
-                        description: item.description,
-                        price: item.price,
-                        composition: item.composition,
-                        nutrition: item.nutrition.map { Nutrition(
-                            weight: $0.weight,
-                            callories: $0.callories,
-                            protein: $0.protein,
-                            fats: $0.fats
-                        ) }
-                    )
-                }
-                if sets.isEmpty {
+                let decoded = try JSONDecoder().decode(CatalogAPIResponse.self, from: data)
+                if decoded.sets.isEmpty {
                     print("[YandexCatalog] API вернул пустой список")
                 }
-                DispatchQueue.main.async { completion(.success(sets)) }
+                DispatchQueue.main.async { completion(.success(decoded.sets)) }
             } catch {
                 print("[YandexCatalog] Ошибка декодирования: \(error)")
                 DispatchQueue.main.async { completion(.failure(error)) }
             }
         }.resume()
-    }
-
-    func getSushiAndSets(completion: @escaping (Result<(sushi: [Sushi], sets: [SushiSet]), Error>) -> ()) {
-        getSets { result in
-            switch result {
-            case .success(let sets):
-                completion(.success((sushi: [], sets: sets)))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
     }
 }
 
@@ -103,25 +72,8 @@ private struct NotSupportedError: LocalizedError {
     var errorDescription: String? { "Метод не поддерживается в YandexCatalogService" }
 }
 
-// MARK: - Ответ API каталога (Cloud Function)
+// MARK: - Ответ API каталога (Yandex Cloud)
 
-private struct CatalogResponse: Decodable {
-    let sets: [CatalogSetItem]
-}
-
-private struct CatalogSetItem: Decodable {
-    let id: String
-    let title: String
-    let imageURL: String
-    let description: String
-    let price: Double
-    let composition: String?
-    let nutrition: CatalogNutrition?
-}
-
-private struct CatalogNutrition: Decodable {
-    let weight: String?
-    let callories: String?
-    let protein: String?
-    let fats: String?
+private struct CatalogAPIResponse: Decodable {
+    let sets: [SushiSet]
 }
