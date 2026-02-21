@@ -38,7 +38,7 @@ struct BasketRowView: View {
                     .multilineTextAlignment(.leading)
                 
                 HStack {
-                    Text(String(format: "%.2f руб", position?.cost ?? ""))
+                    Text(String(format: "%.2f руб", position?.cost ?? 0.0))
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(Constants.Colors.blackOpacity90)
                     

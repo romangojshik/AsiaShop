@@ -33,6 +33,7 @@
 		20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */; };
 		20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */; };
 		20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D12F40000100A432 /* YandexCatalogService.swift */; };
+		20A1C0D42F40000300A432 /* YandexOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D52F40000300A432 /* YandexOrderService.swift */; };
 		20A986B82F34A11400D21679 /* firebase.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A986B72F34A11400D21679 /* firebase.json */; };
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
@@ -93,6 +94,7 @@
 		20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityStepperButton.swift; sourceTree = "<group>"; };
 		20A14CBA2B1E7A680068A4CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		20A1C0D12F40000100A432 /* YandexCatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexCatalogService.swift; sourceTree = "<group>"; };
+		20A1C0D52F40000300A432 /* YandexOrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexOrderService.swift; sourceTree = "<group>"; };
 		20A986B72F34A11400D21679 /* firebase.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = firebase.json; sourceTree = "<group>"; };
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		20C706F02F2BB56300B9B4DD /* Sushi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sushi.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				20DBE8A52B18F584005F3FA7 /* AuthService.swift */,
 				209918D92B1CC5D1000A9A86 /* DatabaseService.swift */,
 				20A1C0D12F40000100A432 /* YandexCatalogService.swift */,
+				20A1C0D52F40000300A432 /* YandexOrderService.swift */,
 				20ORDER022F4000000A432 /* OrderDataStorage.swift */,
 			);
 			path = Services;
@@ -489,6 +492,7 @@
 			files = (
 				209918DA2B1CC5D1000A9A86 /* DatabaseService.swift in Sources */,
 				20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */,
+				20A1C0D42F40000300A432 /* YandexOrderService.swift in Sources */,
 				20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */,
 				2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */,
 				20A14CBB2B1E7A680068A4CC /* ProfileViewModel.swift in Sources */,

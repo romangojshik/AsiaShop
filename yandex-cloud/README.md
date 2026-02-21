@@ -54,6 +54,19 @@ yc serverless function version create \
 
 В Firebase Console в правилах Firestore разреши чтение коллекции `orders` для сервисного аккаунта (по ключу из `FIREBASE_SERVICE_ACCOUNT_JSON` доступ идёт от имени этого аккаунта).
 
+## Заказы в YDB + Telegram (orders-api)
+
+Отдельная HTTP-функция **orders-api** принимает POST с заказом, пишет в таблицу YDB `order` и шлёт уведомление в Telegram.
+
+1. Создай таблицу в YDB: см. [ydb-scripts/README.md](ydb-scripts/README.md) и выполни `create-order-table.yql`.
+2. Деплой функции: папка [orders-api](orders-api), переменные окружения: `YDB_ENDPOINT`, `YDB_DATABASE`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`. Токен и chat_id **не** храни в коде — только в настройках функции.
+3. Создай HTTP-триггер или привяжи функцию к API Gateway и скопируй URL.
+4. В приложении задай URL API заказов, чтобы заказы шли в YDB и в Telegram:
+   - В коде: `YandexOrderService.shared.ordersAPIURL = "https://твой-url-заказов"` (например в `AsiaShopApp` или `AppDelegate` при старте).
+   - Если `ordersAPIURL` пустой, заказы по-прежнему отправляются в Firebase.
+
+Подробности: [orders-api/README.md](orders-api/README.md).
+
 ## Дальше
 
 После проверки Этапа 1 см. [MIGRATION_YANDEX.md](../MIGRATION_YANDEX.md) — перенос данных и API в Yandex (Этапы 2–6).
