@@ -14,10 +14,10 @@ HTTP-функция возвращает каталог сетов из **YDB**.
 
 Используются две таблицы (БД `asiashopydb`):
 
-**Таблица `set`:**  
+**Таблица `sets`:**  
 `id`, `title`, `imageURL`, `description`, `price`, `composition`
 
-**Таблица `nutrition`:**  
+**Таблица `nutritions`:**  
 `set_id`, `callories`, `fats`, `protein`, `weight`
 
 Данные объединяются по `set.id = nutrition.set_id`. В ответе у каждого сета есть объект `nutrition` с полями из таблицы `nutrition` (или `null`-поля, если записи для этого сета нет).

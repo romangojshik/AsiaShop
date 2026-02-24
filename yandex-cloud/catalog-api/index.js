@@ -1,10 +1,10 @@
 /**
- * HTTP-функция каталога: сеты из таблицы `set`, питательность из таблицы `nutrition` (join по set_id).
+ * HTTP-функция каталога: сеты из таблицы `sets`, питательность из таблицы `nutritions` (join по set_id).
  * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
  */
 
-const TABLE_SET = '`set`';
-const TABLE_NUTRITION = 'nutrition';
+const TABLE_SET = 'sets';
+const TABLE_NUTRITION = 'nutritions';
 
 function noop() {}
 const logger = {
