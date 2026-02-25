@@ -25,8 +25,53 @@ final class YandexCatalogService: DatabaseServiceProtocol {
     private init() {}
 
     func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
-        // Пока суши не перенесены в YDB — возвращаем пустой массив
-        completion(.success([]))
+        guard
+            !baseURL.isEmpty,
+            let url = URL(string: (baseURL.hasSuffix("/") ? baseURL : baseURL + "/") + "sushi")
+        else {
+            DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("[YandexCatalog] Sushi error: \(error.localizedDescription)")
+                DispatchQueue.main.async { completion(.failure(error)) }
+                return
+            }
+
+            guard let data = data else {
+                print("[YandexCatalog] Sushi: empty response")
+                DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
+                return
+            }
+
+            if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+                let body = String(data: data, encoding: .utf8) ?? ""
+                print("[YandexCatalog] Sushi HTTP \(http.statusCode): \(body.prefix(150))")
+                let err = NSError(
+                    domain: "YandexCatalogSushi",
+                    code: http.statusCode,
+                    userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"]
+                )
+                DispatchQueue.main.async { completion(.failure(err)) }
+                return
+            }
+
+            do {
+                let decoded = try JSONDecoder().decode(SushiAPIResponse.self, from: data)
+                if decoded.sushi.isEmpty {
+                    print("[YandexCatalog] Sushi API вернул пустой список")
+                }
+                DispatchQueue.main.async { completion(.success(decoded.sushi)) }
+            } catch {
+                print("[YandexCatalog] Sushi decode error: \(error)")
+                DispatchQueue.main.async { completion(.failure(error)) }
+            }
+        }.resume()
     }
 
     func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
@@ -76,4 +121,8 @@ private struct NotSupportedError: LocalizedError {
 
 private struct CatalogAPIResponse: Decodable {
     let sets: [SushiSet]
+}
+
+private struct SushiAPIResponse: Decodable {
+    let sushi: [Sushi]
 }

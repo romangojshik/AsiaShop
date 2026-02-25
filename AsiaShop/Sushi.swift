@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Sushi: Identifiable {
+struct Sushi: Identifiable, Decodable {
     var id: String
     var imageURL: String
     var title: String
