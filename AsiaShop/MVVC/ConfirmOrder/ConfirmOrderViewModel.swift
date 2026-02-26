@@ -75,11 +75,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             }
         }
         
-        if YandexOrderService.shared.isConfigured {
-            YandexOrderService.shared.submitOrder(order, completion: completion)
-        } else {
-            DatabaseService.shared.setOrder(order: order, completion: completion)
-        }
+        YandexOrderService.shared.submitOrder(order, completion: completion)
     }
     
     func cancelOrder() {

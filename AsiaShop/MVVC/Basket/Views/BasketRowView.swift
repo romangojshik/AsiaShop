@@ -20,11 +20,24 @@ struct BasketRowView: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            Image(position?.product.imageURL ?? Constants.Images.placeholderSushi)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 96, height: 96)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+            AsyncImage(url: URL(string: position?.product.imageURL ?? "")) { phase in
+                switch phase {
+                case .empty:
+                    Color.gray.opacity(0.1)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                case .failure:
+                    Image(Constants.Images.placeholderSushi)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                @unknown default:
+                    Color.gray.opacity(0.1)
+                }
+            }
+            .frame(width: 96, height: 96)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(position?.product.title ?? "")

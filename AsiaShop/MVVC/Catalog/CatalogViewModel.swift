@@ -26,7 +26,7 @@ class CatalogViewModel: CatalogViewModelProtocol {
     private let storage: OrderDataStorage
 
     init(
-        database: DatabaseServiceProtocol = DatabaseService.shared,
+        database: DatabaseServiceProtocol = YandexCatalogService.shared,
         storage: OrderDataStorage = .shared
     ) {
         self.database = database
