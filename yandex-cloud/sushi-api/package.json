@@ -1,0 +1,11 @@
+{
+  "name": "asiashop-sushi-api",
+  "version": "1.0.0",
+  "description": "Yandex Cloud Function: HTTP API каталога суши из YDB",
+  "main": "index.js",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ydb-sdk": "^5.11.0",
+    "@yandex-cloud/nodejs-sdk": "^2.7.7"
+  }
+}

@@ -1,9 +1,10 @@
 /**
- * HTTP-функция каталога: сеты из таблицы `sets`, питательность из таблицы `nutritions` (join по product_id).
+ * HTTP-функция каталога суши: читает таблицу `sushi` в YDB,
+ * питательность из таблицы `nutritions` (join по product_id).
  * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
  */
 
-const TABLE_SET = '`sets`';
+const TABLE_SUSHI = '`sushi`';
 const TABLE_NUTRITION = 'nutritions';
 
 function noop() {}
@@ -68,7 +69,6 @@ async function getDriver() {
 }
 
 function runQuery(query) {
-  // withSessionRetry(callback, timeout?, maxRetries?) — контекст подставляет ensureContext
   return driver.tableClient.withSessionRetry(
     (session) => session.executeQuery(query),
     5000,
@@ -89,24 +89,7 @@ function rowsFromResult(result, logLabel) {
   return Array.isArray(rows) ? rows : [];
 }
 
-function rowToSetRow(r) {
-  const id = r.id ?? r.Id ?? '';
-  const title = r.title ?? r.Title ?? '';
-  const imageURL = r.imageURL ?? r.image_url ?? '';
-  const description = r.description ?? r.Description ?? '';
-  const price = Number(r.price ?? r.Price ?? 0);
-  const composition = r.composition ?? r.Composition ?? null;
-  return {
-    id: String(id),
-    title: String(title),
-    imageURL: String(imageURL),
-    description: String(description),
-    price,
-    composition: composition != null ? String(composition) : null,
-  };
-}
-
-function rowToNutrition(r) {
+function rowToSushiNutrition(r) {
   const productId = r.product_id ?? r.productId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
@@ -121,20 +104,40 @@ function rowToNutrition(r) {
   };
 }
 
-async function loadSetsFromYdb() {
+function rowToSushiRow(r) {
+  const id = r.id ?? r.Id ?? '';
+  const title = r.title ?? r.Title ?? '';
+  const imageURL = r.imageURL ?? r.image_url ?? '';
+  const description = r.description ?? r.Description ?? '';
+  const price = Number(r.price ?? r.Price ?? 0);
+  const composition = r.composition ?? r.Composition ?? null;
+
+  return {
+    id: String(id),
+    title: String(title),
+    imageURL: String(imageURL),
+    description: String(description),
+    price,
+    composition: composition != null ? String(composition) : null,
+    nutrition: null, // заполняется в loadSushiFromYdb
+  };
+}
+
+async function loadSushiFromYdb() {
   const d = await getDriver();
   if (!d) {
-    console.error('YDB: getDriver() вернул null');
+    console.error('YDB: getDriver() вернул null (sushi)');
     return null;
   }
   try {
-    const [setsResult, nutritionResult] = await Promise.all([
-      runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SET}`),
+    const [sushiResult, nutritionResult] = await Promise.all([
+      runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SUSHI}`),
       runQuery(`SELECT product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`),
     ]);
-    const setRows = rowsFromResult(setsResult, 'set').map(rowToSetRow);
-    const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToNutrition);
-    console.log('YDB: set rows=', setRows.length, 'nutrition rows=', nutritionRows.length);
+    const sushiRows = rowsFromResult(sushiResult, 'sushi').map(rowToSushiRow);
+    const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToSushiNutrition).filter((n) => n.product_id);
+    console.log('YDB: sushi rows=', sushiRows.length, 'nutrition rows=', nutritionRows.length);
+
     const nutritionByProductId = {};
     for (const n of nutritionRows) {
       nutritionByProductId[n.product_id] = {
@@ -144,18 +147,15 @@ async function loadSetsFromYdb() {
         weight: n.weight,
       };
     }
-    const sets = setRows.map((s) => ({
+    const emptyNutrition = { callories: null, fats: null, protein: null, weight: null };
+    const sushi = sushiRows.map((s) => ({
       ...s,
-      nutrition: nutritionByProductId[s.id] || {
-        callories: null,
-        fats: null,
-        protein: null,
-        weight: null,
-      },
+      nutrition: nutritionByProductId[s.id] || emptyNutrition,
     }));
-    return sets;
+
+    return sushi;
   } catch (e) {
-    console.error('YDB loadSetsFromYdb error:', e && e.message ? e.message : String(e), e && e.stack);
+    console.error('YDB loadSushiFromYdb error:', e && e.message ? e.message : String(e), e && e.stack);
     return null;
   }
 }
@@ -165,6 +165,7 @@ module.exports.handler = async function (event, context) {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   };
+
   try {
     const method = event.httpMethod || event.requestContext?.http?.method || 'GET';
     if (method !== 'GET') {
@@ -175,23 +176,21 @@ module.exports.handler = async function (event, context) {
       };
     }
 
-    let sets = await loadSetsFromYdb();
-    if (sets === null) {
-      console.error('YDB: loadSetsFromYdb() вернул null');
-      sets = [];
-    }
-    console.log('YDB: возвращаем sets.length=', sets.length);
+    let sushi = await loadSushiFromYdb();
+    if (sushi === null) sushi = [];
+
+    console.log('YDB: возвращаем sushi.length =', sushi.length);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ sets }),
+      body: JSON.stringify({ sushi }),
       headers,
     };
   } catch (e) {
     console.error('handler error:', e && e.message ? e.message : String(e), e && e.stack);
     return {
       statusCode: 200,
-      body: JSON.stringify({ sets: [], _error: 'Catalog temporarily unavailable' }),
+      body: JSON.stringify({ sushi: [], _error: 'Sushi catalog temporarily unavailable' }),
       headers,
     };
   }
