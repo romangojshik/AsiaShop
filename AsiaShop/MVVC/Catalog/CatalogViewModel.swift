@@ -26,7 +26,7 @@ class CatalogViewModel: CatalogViewModelProtocol {
     private let storage: OrderDataStorage
 
     init(
-        database: DatabaseServiceProtocol = DatabaseService.shared,
+        database: DatabaseServiceProtocol = YandexCatalogService.shared,
         storage: OrderDataStorage = .shared
     ) {
         self.database = database
@@ -44,8 +44,7 @@ class CatalogViewModel: CatalogViewModelProtocol {
                 switch result {
                 case .success(let sets):
                     self.sushiSets = sets
-                case .failure(let error):
-                    print("Ошибка загрузки сетов: \(error.localizedDescription)")
+                case .failure:
                     self.sushiSets = []
                 }
                 
@@ -60,8 +59,7 @@ class CatalogViewModel: CatalogViewModelProtocol {
                 switch result {
                 case .success(let sushi):
                     self.sushi = sushi
-                case .failure(let error):
-                    print("Ошибка загрузки суш: \(error.localizedDescription)")
+                case .failure:
                     self.sushi = []
                 }
             }

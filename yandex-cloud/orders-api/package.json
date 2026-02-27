@@ -1,0 +1,11 @@
+{
+  "name": "asiashop-orders-api",
+  "version": "1.0.0",
+  "description": "Yandex Cloud Function: приём заказов (YDB) + уведомление в Telegram",
+  "main": "index.js",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ydb-sdk": "^5.11.0",
+    "@yandex-cloud/nodejs-sdk": "^2.0.0"
+  }
+}

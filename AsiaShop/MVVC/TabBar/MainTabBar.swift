@@ -13,7 +13,6 @@ enum Tab: Hashable {
 }
 
 struct MainTabBar: View {
-    @StateObject private var viewModel = MainTapBarViewModel()
     @State private var selectedTab: Tab = .catalog
     
     init() {

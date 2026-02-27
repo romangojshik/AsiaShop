@@ -27,7 +27,9 @@ struct ConfirmOrderView: View {
                     title: Constants.Texts.enterUserName,
                     placeholder: Constants.Texts.namePlaceholder,
                     text: $viewModel.userName,
-                    textContentType: .name
+                    textContentType: .name,
+                    validateEmpty: true,
+                    showValidationError: viewModel.showNameValidationError
                 )
                                 
                 makeInputField(

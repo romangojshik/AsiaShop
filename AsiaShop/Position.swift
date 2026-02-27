@@ -5,7 +5,7 @@
 //  Created by Roman on 11/23/23.
 //
 
-import FirebaseFirestore
+import Foundation
 
 struct Position: Identifiable {
     var id: String
@@ -14,18 +14,6 @@ struct Position: Identifiable {
     
     var cost: Double {
         return product.price * Double(count)
-    }
-    
-    var representation: [String: Any] {
-        var repres = [String: Any]()
-        
-        repres["id"] = id
-        repres["count"] = count
-        repres["title"] = product.title
-        repres["price"] = product.price
-        repres["cost"] = self.cost
-
-        return repres
     }
     
     init(
@@ -37,27 +25,4 @@ struct Position: Identifiable {
         self.product = product
         self.count = count
     }
-    
-    init?(document: QueryDocumentSnapshot) {
-        let data = document.data()
-        
-        guard let id = data["id"] as? String else { return nil }
-        guard let title = data["title"] as? String else { return nil }
-        guard let price = data["price"] as? Double else { return nil }
-        let product: Product = Product(
-            id: "",
-            imageURL: "",
-            title: title,
-            description: "",
-            price: price,
-            composition: nil,
-            nutrition: nil
-        )
-        guard let count = data["count"] as? Int else { return nil }
-
-        self.id = id
-        self.product = product
-        self.count = count
-    }
-
 }

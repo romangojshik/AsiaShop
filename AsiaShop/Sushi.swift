@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import FirebaseFirestore
 
-struct Sushi: Identifiable {
+struct Sushi: Identifiable, Decodable {
     var id: String
     var imageURL: String
     var title: String
@@ -34,42 +33,6 @@ struct Sushi: Identifiable {
         self.price = price
         self.composition = composition
         self.nutrition = nutrition
-    }
-
-    init?(document: QueryDocumentSnapshot) {
-        self.init(document: document, nutritionData: nil)
-    }
-
-    /// Инициализация из документа суши и опциональных данных из подколлекции `nutrition`.
-    init?(document: QueryDocumentSnapshot, nutritionData: [String: Any]?) {
-        let data = document.data()
-
-        guard
-            let id = data["id"] as? String,
-            let imageURL = data["imageURL"] as? String,
-            let title = data["title"] as? String,
-            let description = data["description"] as? String,
-            let price = data["price"] as? Double
-        else {
-            return nil
-        }
-
-        self.id = id
-        self.imageURL = imageURL
-        self.title = title
-        self.description = description
-        self.price = price
-        self.composition = data["composition"] as? String
-
-        // Питательность: приоритет у подколлекции `nutrition`, затем у полей документа
-        let fromDocument = Nutrition(from: data)
-        let fromSubcollection = Nutrition(from: nutritionData)
-        self.nutrition = Nutrition(
-            weight: fromSubcollection.weight ?? fromDocument.weight,
-            callories: fromSubcollection.callories ?? fromDocument.callories,
-            protein: fromSubcollection.protein ?? fromDocument.protein,
-            fats: fromSubcollection.fats ?? fromDocument.fats
-        )
     }
 }
 

@@ -23,6 +23,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     @Published var phone: String = ""
     @Published var readyBy: Date?
     @Published var showPhoneValidationError: Bool = false
+    @Published var showNameValidationError: Bool = false
     
     private let positions: [Position]
     private let onOrderCreated: (String) -> Void
@@ -44,15 +45,16 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     }
     
     func confirmOrder() {
+        let trimmedName = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedPhone.isEmpty else {
-            showPhoneValidationError = true
-            return
-        }
-        createOrder(userName: userName, userPhone: phone, positions: positions, readyBy: readyBy)
+        showNameValidationError = trimmedName.isEmpty
+        showPhoneValidationError = trimmedPhone.isEmpty
+        guard !trimmedName.isEmpty else { return }
+        guard !trimmedPhone.isEmpty else { return }
+        createOrder(userName: trimmedName, userPhone: trimmedPhone)
     }
     
-    func createOrder(userName: String, userPhone: String, positions: [Position], readyBy: Date?) {
+    func createOrder(userName: String, userPhone: String) {
         let order = Order(
             userName: userName,
             numberPhone: userPhone,
@@ -62,7 +64,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             readyBy: readyBy
         )
         
-        DatabaseService.shared.setOrder(order: order) { [weak self] result in
+        let completion: (Result<Order, Error>) -> Void = { [weak self] result in
             switch result {
             case .success(let order):
                 print("Заказ создан: \(order.cost)")
@@ -72,6 +74,8 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
                 print("Ошибка: \(error.localizedDescription)")
             }
         }
+        
+        YandexOrderService.shared.submitOrder(order, completion: completion)
     }
     
     func cancelOrder() {

@@ -21,12 +21,23 @@ struct ProductDetailView: View {
         VStack(spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Image(viewModel.product.imageURL)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 220)
-                        .clipped()
+                    AsyncImage(url: URL(string: viewModel.product.imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            Color.gray.opacity(0.1)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        case .failure:
+                            Color.gray.opacity(0.1)
+                        @unknown default:
+                            Color.gray.opacity(0.1)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 220)
+                    .clipped()
                     
                     Spacer()
                     

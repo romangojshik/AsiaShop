@@ -1,0 +1,15 @@
+-- Таблица заказов для AsiaShop (как в Firebase: id, контакты, позиции, даты).
+-- Выполнить в консоли YDB или через ydb CLI в нужной базе.
+-- created_at и ready_by — String (Utf8), в коде передаём ISO 8601.
+
+CREATE TABLE `orders` (
+    id Utf8 NOT NULL,
+    user_name Utf8 NOT NULL,
+    user_phone_number Utf8 NOT NULL,
+    status Utf8 NOT NULL,
+    total Double NOT NULL,
+    created_at Utf8 NOT NULL,
+    ready_by Utf8,
+    positions Json,
+    PRIMARY KEY (id)
+);

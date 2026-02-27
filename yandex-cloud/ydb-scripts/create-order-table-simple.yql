@@ -1,0 +1,12 @@
+-- Упрощённая таблица заказов: только id, user_name, user_phone_number, total.
+-- Если таблица orders уже есть — удалите её в консоли YDB (Удалить таблицу) или выполните:
+-- DROP TABLE `orders`;
+-- затем выполните этот скрипт.
+
+CREATE TABLE `orders` (
+    id Utf8 NOT NULL,
+    user_name Utf8 NOT NULL,
+    user_phone_number Utf8 NOT NULL,
+    total Double NOT NULL,
+    PRIMARY KEY (id)
+);

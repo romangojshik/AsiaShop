@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  title: AsiaShop API
+  version: 1.0.0
+servers:
+  - url: https://d5di93907ln32br63enu.emzafcgx.apigw.yandexcloud.net
+paths:
+  /:
+    get:
+      summary: Root
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: d4evbpgnaajec4j7e260
+        tag: "$latest"
+      responses:
+        "200":
+          description: OK
+  /order:
+    post:
+      summary: Create order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: d4emr4hs7k8kash5bl3u
+        tag: "$latest"
+        payload_format_version: "1.0"
+      responses:
+        "200":
+          description: OK

@@ -25,14 +25,25 @@ struct CatalogSetRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             ZStack(alignment: .bottomTrailing) {
-                Image(sushiSet.imageURL)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: cardWidth, height: cardWidth)
-                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                    .onTapGesture {
-                        onCardTap?()
+                AsyncImage(url: URL(string: sushiSet.imageURL)) { phase in
+                    switch phase {
+                    case .empty:
+                        Color.gray.opacity(0.1)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    case .failure:
+                        Color.gray.opacity(0.1)
+                    @unknown default:
+                        Color.gray.opacity(0.1)
                     }
+                }
+                .frame(width: cardWidth, height: cardWidth)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .onTapGesture {
+                    onCardTap?()
+                }
                 
                 QuantityPlusButton(
                     count: storage.getProductCount(productId: product.id),
