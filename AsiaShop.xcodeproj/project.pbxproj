@@ -30,9 +30,11 @@
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
 		20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F22F2C086C00B9B4DD /* SushiRowView.swift */; };
+		20C878A32F539BE500D65BAF /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C878A22F539BD800D65BAF /* String+Extensions.swift */; };
 		20FA1D7A2F3CAF6F0025020E /* WhiteOrBlackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */; };
 		20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */; };
 		20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */; };
+		20FONT022F4000000A432 /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FONT012F4000000A432 /* Font+Extensions.swift */; };
 		20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ORDER022F4000000A432 /* OrderDataStorage.swift */; };
 		20PHONE012F40000100A432 /* PhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20PHONE022F40000100A432 /* PhoneNumberTextField.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
@@ -83,9 +85,11 @@
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		20C706F02F2BB56300B9B4DD /* Sushi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sushi.swift; sourceTree = "<group>"; };
 		20C706F22F2C086C00B9B4DD /* SushiRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowView.swift; sourceTree = "<group>"; };
+		20C878A22F539BD800D65BAF /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteOrBlackButton.swift; sourceTree = "<group>"; };
 		20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedView.swift; sourceTree = "<group>"; };
 		20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedViewModel.swift; sourceTree = "<group>"; };
+		20FONT012F4000000A432 /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		20ORDER022F4000000A432 /* OrderDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDataStorage.swift; sourceTree = "<group>"; };
 		20PHONE022F40000100A432 /* PhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberTextField.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
@@ -245,6 +249,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		20FONT042F4000000A432 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				20C878A22F539BD800D65BAF /* String+Extensions.swift */,
+				20FONT012F4000000A432 /* Font+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		304CB7CA2B0CEF0600ABBEA9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +305,7 @@
 		30FD82CA2AF52E0300D94BA7 /* AsiaShop */ = {
 			isa = PBXGroup;
 			children = (
+				20FONT042F4000000A432 /* Extensions */,
 				2033AA1B2F27E92300CFE426 /* MVVC */,
 				20DBE8A72B18F589005F3FA7 /* Services */,
 				30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */,
@@ -436,6 +450,7 @@
 				20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */,
 				20A1C0D42F40000300A432 /* YandexOrderService.swift in Sources */,
 				20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */,
+				20C878A32F539BE500D65BAF /* String+Extensions.swift in Sources */,
 				2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */,
 				20BE6BF52B20F967009ABA83 /* Order.swift in Sources */,
 				200C3EFE2F392BE60070FF0B /* Nutrition.swift in Sources */,
@@ -458,6 +473,7 @@
 				2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */,
 				2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */,
 				2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */,
+				20FONT022F4000000A432 /* Font+Extensions.swift in Sources */,
 				2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */,
 				20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */,
 				20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */,

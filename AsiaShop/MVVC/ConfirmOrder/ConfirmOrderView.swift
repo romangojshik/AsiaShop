@@ -14,12 +14,12 @@ struct ConfirmOrderView: View {
         ScrollView {
             VStack(spacing: Constants.Padding.padding24) {
                 Text(Constants.Texts.confirmText)
-                    .font(Constants.Fonts.titleFont)
+                    .font(.titleFont)
                     .foregroundColor(Constants.Colors.blackOpacity90)
                     .padding(.top, Constants.Padding.padding16)
                 
                 Text(String.totalCost(viewModel.totalCost))
-                    .font(Constants.Fonts.titleFont)
+                    .font(.titleFont)
                     .foregroundColor(Constants.Colors.blackOpacity90)
                 
                 
@@ -60,7 +60,7 @@ struct ConfirmOrderView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
             Text(title)
-                .font(Constants.Fonts.titleTextFont)
+                .font(.titleTextFont)
                 .foregroundColor(Constants.Colors.blackOpacity90)
             
             TextField(placeholder, text: text)
@@ -91,7 +91,7 @@ struct ConfirmOrderView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
             Text(title)
-                .font(Constants.Fonts.titleTextFont)
+                .font(.titleTextFont)
                 .foregroundColor(Constants.Colors.blackOpacity90)
             
             PhoneFieldView(
@@ -117,7 +117,7 @@ struct ConfirmOrderView: View {
     private var makeDetaPickerSection: some View {
         VStack(alignment: .leading, spacing: Constants.Padding.padding8) {
             Text(Constants.Texts.detaPickerTitle)
-                .font(Constants.Fonts.titleTextFont)
+                .font(.titleTextFont)
                 .foregroundColor(Constants.Colors.blackOpacity90)
             
             HStack {
@@ -144,7 +144,7 @@ struct ConfirmOrderView: View {
     private var makeConfirmSection: some View {
         VStack(spacing: Constants.Padding.padding12) {
             Text(Constants.Texts.confirmTitle)
-                .font(Constants.Fonts.titleTextFont)
+                .font(.titleTextFont)
                 .foregroundColor(Constants.Colors.blackOpacity90)
             
             HStack(spacing: Constants.Padding.padding16) {
@@ -170,15 +170,6 @@ struct ConfirmOrderView: View {
     }
 }
 
-// MARK: - String
-
-extension String {
-    static func totalCost(_ value: Double) -> String {
-        String(format: "Итоговая сумма: %.2f руб", value)
-    }
-}
-
-
 // MARK: - Constants
 
 private struct Constants {
@@ -199,12 +190,6 @@ private struct Constants {
     struct Colors {
         static let blackOpacity70 = Color.black.opacity(0.7)
         static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
-    struct Fonts {
-        static let titleFont = SwiftUI.Font.system(size: 20, weight: .bold)
-        static let titleDescriptionFont = SwiftUI.Font.system(size: 14, weight: .semibold)
-        static let titleTextFont = SwiftUI.Font.system(size: 16, weight: .medium)
     }
     
     struct Padding {
