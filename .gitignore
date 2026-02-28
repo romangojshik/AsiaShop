@@ -92,3 +92,7 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# Apple App Store Connect API
+# Приватный ключ для Fastlane/TestFlight
+AuthKey_*.p8
