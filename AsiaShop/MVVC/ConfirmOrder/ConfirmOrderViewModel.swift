@@ -47,18 +47,16 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     func confirmOrder() {
         let trimmedName = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         showNameValidationError = trimmedName.isEmpty
         showPhoneValidationError = trimmedPhone.isEmpty
-        guard !trimmedName.isEmpty else { return }
-        guard !trimmedPhone.isEmpty else { return }
+        
+        guard
+            !trimmedName.isEmpty,
+            !trimmedPhone.isEmpty
+        else { return }
+        
         createOrder(userName: trimmedName, userPhone: trimmedPhone)
-
-        let digitsOnly = phone.filter { $0.isNumber }
-        guard digitsOnly.count == 9 else {
-            showPhoneValidationError = true
-            return
-        }
-        createOrder(userName: userName, userPhone: phone, positions: positions, readyBy: readyBy)
     }
     
     func createOrder(userName: String, userPhone: String) {
@@ -74,7 +72,6 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         let completion: (Result<Order, Error>) -> Void = { [weak self] result in
             switch result {
             case .success(let order):
-                print("Заказ создан: \(order.cost)")
                 self?.clearBasket()
                 self?.onOrderCreated(userPhone)
             case .failure(let error):

@@ -18,7 +18,7 @@ struct ConfirmOrderView: View {
                     .foregroundColor(Constants.Colors.blackOpacity90)
                     .padding(.top, Constants.Padding.padding16)
                 
-                Text("Итоговая сумма: \(String(format: "%.2f", viewModel.totalCost)) руб")
+                Text(String.totalCost(viewModel.totalCost))
                     .font(Constants.Fonts.titleFont)
                     .foregroundColor(Constants.Colors.blackOpacity90)
                 
@@ -167,6 +167,14 @@ struct ConfirmOrderView: View {
                 )
             }
         }
+    }
+}
+
+// MARK: - String
+
+extension String {
+    static func totalCost(_ value: Double) -> String {
+        String(format: "Итоговая сумма: %.2f руб", value)
     }
 }
 
