@@ -14,20 +14,7 @@ struct SushiRowView: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: URL(string: sushi.imageURL)) { phase in
-                switch phase {
-                case .empty:
-                    Color.gray.opacity(0.1)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure:
-                    Color.gray.opacity(0.1)
-                @unknown default:
-                    Color.gray.opacity(0.1)
-                }
-            }
+            URLImageView(urlString: sushi.imageURL)
             .frame(width: 96, height: 96)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             

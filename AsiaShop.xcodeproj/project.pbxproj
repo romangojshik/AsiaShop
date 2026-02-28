@@ -37,6 +37,7 @@
 		20FONT022F4000000A432 /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FONT012F4000000A432 /* Font+Extensions.swift */; };
 		20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ORDER022F4000000A432 /* OrderDataStorage.swift */; };
 		20PHONE012F40000100A432 /* PhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20PHONE022F40000100A432 /* PhoneNumberTextField.swift */; };
+		20URLIMG012F539C0000A432 /* AsyncImage+URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
 		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
 		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
@@ -92,6 +93,7 @@
 		20FONT012F4000000A432 /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		20ORDER022F4000000A432 /* OrderDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDataStorage.swift; sourceTree = "<group>"; };
 		20PHONE022F40000100A432 /* PhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberTextField.swift; sourceTree = "<group>"; };
+		20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncImage+URLImage.swift"; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
@@ -258,14 +260,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		304CB7CA2B0CEF0600ABBEA9 /* Views */ = {
+		304CB7CA2B0CEF0600ABBEA9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				2064FC252F31EE3F0020A432 /* ScreenContainer.swift */,
 				20PHONE022F40000100A432 /* PhoneNumberTextField.swift */,
 				20C706ED2F2BA97400B9B4DD /* Buttons */,
+				20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */,
 			);
-			path = Views;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		304CB7D82B0CFFD900ABBEA9 /* Model */ = {
@@ -310,7 +313,7 @@
 				20DBE8A72B18F589005F3FA7 /* Services */,
 				30FD82CB2AF52E0300D94BA7 /* AsiaShopApp.swift */,
 				304CB7D82B0CFFD900ABBEA9 /* Model */,
-				304CB7CA2B0CEF0600ABBEA9 /* Views */,
+				304CB7CA2B0CEF0600ABBEA9 /* Components */,
 				30FD82CF2AF52E0E00D94BA7 /* Assets.xcassets */,
 				30FD82D42AF52E0E00D94BA7 /* Info.plist */,
 				30FD82D12AF52E0E00D94BA7 /* Preview Content */,
@@ -450,6 +453,7 @@
 				20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */,
 				20A1C0D42F40000300A432 /* YandexOrderService.swift in Sources */,
 				20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */,
+				20URLIMG012F539C0000A432 /* AsyncImage+URLImage.swift in Sources */,
 				20C878A32F539BE500D65BAF /* String+Extensions.swift in Sources */,
 				2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */,
 				20BE6BF52B20F967009ABA83 /* Order.swift in Sources */,

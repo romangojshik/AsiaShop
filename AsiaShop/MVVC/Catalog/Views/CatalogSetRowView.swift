@@ -25,20 +25,7 @@ struct CatalogSetRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             ZStack(alignment: .bottomTrailing) {
-                AsyncImage(url: URL(string: sushiSet.imageURL)) { phase in
-                    switch phase {
-                    case .empty:
-                        Color.gray.opacity(0.1)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    case .failure:
-                        Color.gray.opacity(0.1)
-                    @unknown default:
-                        Color.gray.opacity(0.1)
-                    }
-                }
+                URLImageView(urlString: sushiSet.imageURL)
                 .frame(width: cardWidth, height: cardWidth)
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                 .onTapGesture {
