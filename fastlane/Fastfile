@@ -21,9 +21,9 @@ platform :ios do
   desc "Build and upload to TestFlight"
   lane :beta do
     api_key = app_store_connect_api_key(
-      key_id: "WJ643CK74A",
-      issuer_id: "1a445c90-98c9-4289-b408-e2430ecb0569",
-      key_filepath: "fastlane/AuthKey_WJ643CK74A.p8"
+      key_id: "J62PGDU769",
+      issuer_id: "1a445c90-98e9-4289-b408-e2430ecb0569",
+      key_filepath: "fastlane/AuthKey_J62PGDU769.p8"
     )
 
     scan(
@@ -37,11 +37,10 @@ platform :ios do
       scheme: "AsiaShop",
       export_method: "app-store",
       export_team_id: "5YQ567888B",
-      codesigning_identity: "iPhone Distribution: Roman Hoishyk (5YQ567888B)",
       export_options: {
         signingStyle: "manual",
         provisioningProfiles: {
-          "Roman.AsiaShop" => "AsiaShop AppStore"
+          "Roman.AsiaShop" => "AsiaShop Distribution"
         }
       }
     )
