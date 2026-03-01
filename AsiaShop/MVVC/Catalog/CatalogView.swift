@@ -117,3 +117,12 @@ internal struct CatalogView: View {
         }
     }
 }
+
+// MARK: - Constants
+
+private struct Constants {
+    struct Texts {
+        static let mainMenu = "Основное меню"
+        static let catalog = "Каталог"
+    }
+}

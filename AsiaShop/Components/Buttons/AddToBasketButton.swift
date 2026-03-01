@@ -19,30 +19,23 @@ struct AddToBasketButton: View {
     var body: some View {
         Button(action: onTap) {
             Text("\(Constants.Texts.add) \(String(format: "%.0f", totalPrice)) руб.")
-                .font(Constants.Fonts.buttonFont)
+                .font(.buttonFont)
                 .foregroundColor(.white)
-                .padding(Constants.Padding.basketButton)
-                .background(Constants.Colors.blackOpacity90)
+                .padding(Constants.Size.basketButton)
+                .background(AppConstants.Colors.blackOpacity90)
                 .cornerRadius(10)
         }
     }
 }
 
+// MARK: - Constants
 
 private struct Constants {
     struct Texts {
         static let add = "Добавить"
     }
     
-    struct Colors {
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
-    struct Fonts {
-        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .bold)
-    }
-    
-    struct Padding {
+    struct Size {
         static let basketButton = EdgeInsets(top: 16, leading: 32, bottom: 16, trailing: 32)
     }
 }

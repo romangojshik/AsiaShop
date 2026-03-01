@@ -30,7 +30,7 @@ struct ProductDetailView: View {
                     
                     Text(viewModel.product.title)
                         .font(Constants.Fonts.titleFont)
-                        .foregroundColor(Constants.Colors.blackOpacity90)
+                        .foregroundColor(AppConstants.Colors.blackOpacity90)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
@@ -38,7 +38,7 @@ struct ProductDetailView: View {
                     
                     Text(viewModel.product.description)
                         .font(.subheadline)
-                        .foregroundColor(Constants.Colors.blackOpacity70)
+                        .foregroundColor(AppConstants.Colors.blackOpacity70)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
@@ -46,13 +46,13 @@ struct ProductDetailView: View {
                     
                     Text(Constants.Texts.composition)
                         .font(Constants.Fonts.titleDescriptionFont)
-                        .foregroundColor(Constants.Colors.blackOpacity90)
+                        .foregroundColor(AppConstants.Colors.blackOpacity90)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
                     Text(viewModel.product.composition ?? "")
                         .font(Constants.Fonts.descriptionFont)
-                        .foregroundColor(Constants.Colors.blackOpacity70)
+                        .foregroundColor(AppConstants.Colors.blackOpacity70)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
@@ -103,10 +103,10 @@ private struct ProductAttributeCell: View {
         VStack(spacing: 4) {
             Text(value)
                 .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
             Text(label)
                 .font(.system(size: 12, weight: .regular))
-                .foregroundColor(Constants.Colors.blackOpacity70)
+                .foregroundColor(AppConstants.Colors.blackOpacity70)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
@@ -157,10 +157,6 @@ private struct Constants {
         static let composition = "Состав:"
     }
     
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
     
     struct Fonts {
         static let titleFont = SwiftUI.Font.system(size: 18, weight: .bold)
@@ -168,8 +164,6 @@ private struct Constants {
         static let descriptionFont = SwiftUI.Font.system(size: 14, weight: .regular)
         static let buttonFont = SwiftUI.Font.system(size: 16, weight: .bold)
     }
-    
-    struct Padding {}
 }
 
 // MARK: - Preview

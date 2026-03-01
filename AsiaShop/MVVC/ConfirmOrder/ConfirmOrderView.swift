@@ -12,15 +12,15 @@ struct ConfirmOrderView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: Constants.Padding.padding24) {
+            VStack(spacing: AppConstants.Padding.padding24) {
                 Text(Constants.Texts.confirmText)
                     .font(.titleFont)
-                    .foregroundColor(Constants.Colors.blackOpacity90)
-                    .padding(.top, Constants.Padding.padding16)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
+                    .padding(.top, AppConstants.Padding.padding16)
                 
                 Text(String.totalCost(viewModel.totalCost))
                     .font(.titleFont)
-                    .foregroundColor(Constants.Colors.blackOpacity90)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
                 
                 
                 makeInputField(
@@ -44,9 +44,9 @@ struct ConfirmOrderView: View {
                 
                 makeConfirmSection
             }
-            .padding(Constants.Padding.padding16)
+            .padding(AppConstants.Padding.padding16)
         }
-        .padding(.bottom, Constants.Padding.padding16)
+        .padding(.bottom, AppConstants.Padding.padding16)
     }
     
     private func makeInputField(
@@ -58,20 +58,20 @@ struct ConfirmOrderView: View {
         validateEmpty: Bool = false,
         showValidationError: Bool = false
     ) -> some View {
-        VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
+        VStack(alignment: .leading, spacing: AppConstants.Padding.padding16) {
             Text(title)
                 .font(.titleTextFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
             
             TextField(placeholder, text: text)
-                .foregroundColor(Constants.Colors.blackOpacity90)
-                .tint(Constants.Colors.blackOpacity90)
-                .padding(Constants.Padding.padding10)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
+                .tint(AppConstants.Colors.blackOpacity90)
+                .padding(AppConstants.Padding.padding10)
                 .background(Color.white)
                 .keyboardType(keyboardType)
                 .textContentType(textContentType)
                 .overlay(
-                    RoundedRectangle(cornerRadius: Constants.Padding.padding8)
+                    RoundedRectangle(cornerRadius: AppConstants.Padding.padding8)
                         .stroke(
                             validateEmpty && showValidationError && text.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                 ? Color.red
@@ -89,10 +89,10 @@ struct ConfirmOrderView: View {
         validateEmpty: Bool = false,
         showValidationError: Bool = false
     ) -> some View {
-        VStack(alignment: .leading, spacing: Constants.Padding.padding16) {
+        VStack(alignment: .leading, spacing: AppConstants.Padding.padding16) {
             Text(title)
                 .font(.titleTextFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
             
             PhoneFieldView(
                 placeholder: placeholder,
@@ -101,9 +101,9 @@ struct ConfirmOrderView: View {
                 keyboardType: .phonePad,
                 text: text
             )
-            .padding(Constants.Padding.padding10)
+            .padding(AppConstants.Padding.padding10)
             .overlay(
-                RoundedRectangle(cornerRadius: Constants.Padding.padding8)
+                RoundedRectangle(cornerRadius: AppConstants.Padding.padding8)
                     .stroke(
                         validateEmpty && showValidationError && PhoneMask.digits(from: text.wrappedValue).isEmpty
                             ? Color.red
@@ -115,10 +115,10 @@ struct ConfirmOrderView: View {
     }
     
     private var makeDetaPickerSection: some View {
-        VStack(alignment: .leading, spacing: Constants.Padding.padding8) {
+        VStack(alignment: .leading, spacing: AppConstants.Padding.padding8) {
             Text(Constants.Texts.detaPickerTitle)
                 .font(.titleTextFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
             
             HStack {
                 Spacer()
@@ -142,15 +142,15 @@ struct ConfirmOrderView: View {
     }
     
     private var makeConfirmSection: some View {
-        VStack(spacing: Constants.Padding.padding12) {
+        VStack(spacing: AppConstants.Padding.padding12) {
             Text(Constants.Texts.confirmTitle)
                 .font(.titleTextFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
             
-            HStack(spacing: Constants.Padding.padding16) {
+            HStack(spacing: AppConstants.Padding.padding16) {
                 WhiteOrBlackButton(
                     title: Constants.Texts.cancel,
-                    backgroundColor: Constants.Colors.blackOpacity90,
+                    backgroundColor: AppConstants.Colors.blackOpacity90,
                     foregroundColor: .white,
                     action: {
                         viewModel.cancelOrder()
@@ -159,7 +159,7 @@ struct ConfirmOrderView: View {
                 
                 WhiteOrBlackButton(
                     title: Constants.Texts.confirm,
-                    backgroundColor: Constants.Colors.blackOpacity90,
+                    backgroundColor: AppConstants.Colors.blackOpacity90,
                     foregroundColor: .white,
                     action: {
                         viewModel.confirmOrder()
@@ -185,20 +185,6 @@ private struct Constants {
         static let confirmTitle = "Вы хотите оформить заказ?"
         static let cancel = "Отмена"
         static let confirm = "Подтвердить"
-    }
-    
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
-    struct Padding {
-        static let padding8 = 8.0
-        static let padding10 = 10.0
-        static let padding12 = 12.0
-        static let padding16 = 16.0
-        static let padding24 = 24.0
-        static let padding32 = 32.0
     }
     
     struct LocaleSettings {

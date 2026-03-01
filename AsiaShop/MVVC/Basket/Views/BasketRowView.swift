@@ -31,14 +31,14 @@ struct BasketRowView: View {
                 
                 Text(position?.product.description ?? "")
                     .font(.subheadline)
-                    .foregroundColor(Constants.Colors.blackOpacity90)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
                 HStack {
                     Text(String(format: "%.2f руб", position?.cost ?? 0.0))
                         .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(Constants.Colors.blackOpacity90)
+                        .foregroundColor(AppConstants.Colors.blackOpacity90)
                     
                     Spacer()
                     
@@ -59,7 +59,7 @@ struct BasketRowView: View {
                 storage.removePosition(positionId: positionID)
             } label: {
                 Image(systemName: Constants.Images.trash)
-                    .foregroundColor(Constants.Colors.blackOpacity90)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
             }
         }
     }
@@ -71,9 +71,4 @@ private struct Constants {
         static let trash = "trash"
     }
     
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-        
-    }
 }

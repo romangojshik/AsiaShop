@@ -14,12 +14,12 @@ struct OrderAcceptedView: View {
         VStack(spacing: 24) {
             Text(Constants.Texts.title)
                 .font(Constants.Fonts.titleFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
                 .multilineTextAlignment(.center)
             
             Text(Constants.Texts.description)
                 .font(Constants.Fonts.titleDescriptionFont)
-                .foregroundColor(Constants.Colors.blackOpacity90)
+                .foregroundColor(AppConstants.Colors.blackOpacity90)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
@@ -48,21 +48,10 @@ private struct Constants {
         static let okButton = "Ок"
     }
     
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
     struct Fonts {
         static let titleFont = SwiftUI.Font.system(size: 20, weight: .bold)
         static let titleDescriptionFont = SwiftUI.Font.system(size: 14, weight: .semibold)
         static let titleTextFont = SwiftUI.Font.system(size: 16, weight: .medium)
-    }
-    
-    struct Padding {
-        static let padding16 = 16.0
-        static let padding24 = 24.0
-        static let padding32 = 32.0
     }
     
     struct LocaleSettings {

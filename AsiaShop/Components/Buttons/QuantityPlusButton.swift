@@ -42,7 +42,7 @@ public struct QuantityPlusButton: View {
                         onDecrease()
                     } label: {
                         Text(Constants.Texts.minus)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.titleDescriptionFont)
                             .foregroundColor(.black)
                             .frame(
                                 width: Constants.Paddings.qtyButtonSize,
@@ -59,7 +59,7 @@ public struct QuantityPlusButton: View {
                         onIncrease()
                     } label: {
                         Text(Constants.Texts.plus)
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.titleDescriptionFont)
                             .foregroundColor(.black)
                             .frame(
                                 width: Constants.Paddings.qtyButtonSize,
@@ -99,16 +99,7 @@ private struct Constants {
         static let minus = "-"
     }
     
-    struct Colors {
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
-    struct Fonts {
-        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .bold)
-    }
-    
     struct Paddings {
         static let qtyButtonSize = CGFloat(30)
-        
     }
 }

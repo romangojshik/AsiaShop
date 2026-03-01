@@ -32,11 +32,11 @@ struct BasketView: View {
                         HStack {
                             Text(Constants.Texts.total)
                                 .fontWeight(.bold)
-                                .foregroundColor(Constants.Colors.blackOpacity90)
+                                .foregroundColor(AppConstants.Colors.blackOpacity90)
                             Spacer()
                             Text(String(format: "%.2f", storage.cost) + " руб")
                                 .fontWeight(.bold)
-                                .foregroundColor(Constants.Colors.blackOpacity90)
+                                .foregroundColor(AppConstants.Colors.blackOpacity90)
                         }.padding()
                         
                         WhiteOrBlackButton(
@@ -71,7 +71,7 @@ struct BasketView: View {
         VStack(spacing: 16) {
             Text("Вы еще ничего не заказали, ваша карзина пустая.")
                 .font(.title2)
-                .foregroundColor(Constants.Colors.blackOpacity70)
+                .foregroundColor(AppConstants.Colors.blackOpacity70)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 300)
             
@@ -139,10 +139,6 @@ private struct Constants {
         static let basketEmpty = "basket_empty2"
     }
     
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
     
     struct Texts {
         static let total = "ИТОГО:"

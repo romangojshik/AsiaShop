@@ -9,30 +9,31 @@ import SwiftUI
 
 struct SushiRowView: View {
     @EnvironmentObject var storage: OrderDataStorage
+    
     let sushi: Sushi
     let onAddToBasket: () -> Void
     
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: AppConstants.Padding.padding16) {
             URLImageView(urlString: sushi.imageURL)
-            .frame(width: 96, height: 96)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+                .frame(width: Constants.Size.sushiWidth, height: Constants.Size.sushiWidth)
+                .clipShape(RoundedRectangle(cornerRadius: AppConstants.Padding.padding16))
             
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: AppConstants.Padding.padding8) {
                 Text(sushi.title)
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                Text(sushi.description)
+                Text(sushi.composition ?? .empty)
                     .font(.subheadline)
-                    .foregroundColor(Color.black.opacity(0.7))
-                    .lineLimit(4)
+                    .foregroundColor(AppConstants.Colors.blackOpacity70)
+                    .lineLimit(3)
                     .multilineTextAlignment(.leading)
                 
                 HStack {
-                    Text(String(format: "%.0fруб/8шт", sushi.price))
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(Constants.Colors.blackOpacity90)
+                    Text(String.costForSyshi(sushi.price))
+                        .font(.system(size: AppConstants.Padding.padding16, weight: .bold))
+                        .foregroundColor(AppConstants.Colors.blackOpacity90)
                     
                     Spacer()
                     
@@ -64,9 +65,7 @@ struct SushiRowView: View {
 // MARK: - Constants
 
 private struct Constants {
-    struct Colors {
-        static let blackOpacity70 = Color.black.opacity(0.7)
-        static let blackOpacity90 = Color.black.opacity(0.9)
-
+    struct Size {
+        static let sushiWidth: CGFloat = 96.0
     }
 }

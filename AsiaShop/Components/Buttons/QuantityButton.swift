@@ -36,39 +36,35 @@ struct QuantityButton: View {
                 addToBasketButtonView
             }
         }
-        .frame(width: 114, height: 30)
+        .frame(width: 114, height: 35)
         .background(Color.black.opacity(0.9))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
     
     private var quantityStepperView: some View {
         HStack(spacing: 0) {
-            Button(action: onDecrease) {
-                Text("-")
-                    .font(Constants.Fonts.buttonFont)
-                    .foregroundColor(.white)
-                    .frame(
-                        width: Constants.Padding.frameButton.width,
-                        height: Constants.Padding.frameButton.height
-                    )
-            }
+            stepperButton(title: "-", action: onDecrease)
             
             Text("\(count)")
-                .font(Constants.Fonts.buttonFont)
+                .font(.buttonFont)
                 .foregroundColor(.white)
-                .frame(width: 38, height: 30)
+                .frame(width: 38, height: 35)
             
-            Button(action: onIncrease) {
-                Text("+")
-                    .font(Constants.Fonts.buttonFont)
-                    .foregroundColor(.white)
-                    .frame(
-                        width: Constants.Padding.frameButton.width,
-                        height: Constants.Padding.frameButton.height
-                    )
-            }
+            stepperButton(title: "+", action: onIncrease)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private func stepperButton(title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.buttonFont)
+                .foregroundColor(.white)
+                .frame(
+                    width: Constants.Paddings.frameButton.width,
+                    height: Constants.Paddings.frameButton.height
+                )
+        }
     }
     
     private var addToBasketButtonView: some View {
@@ -76,7 +72,7 @@ struct QuantityButton: View {
             onAddToBasket?()
         }) {
             Text(Constants.Texts.inBasket)
-                .font(Constants.Fonts.buttonFont)
+                .font(.buttonFont)
                 .foregroundColor(.white)
         }
     }
@@ -89,37 +85,7 @@ private struct Constants {
         static let inBasket = "В корзину"
     }
     
-    struct Colors {
-        static let blackOpacity90 = Color.black.opacity(0.9)
-    }
-    
-    struct Fonts {
-        static let buttonFont = SwiftUI.Font.system(size: 16, weight: .medium)
-    }
-    
-    struct Padding {
+    struct Paddings {
         static let frameButton = CGSize(width: 38, height: 30)
-    }
-}
-
-struct QuantityStepper_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 20) {
-            QuantityButton(
-                count: 0,
-                onDecrease: {},
-                onIncrease: {},
-                isInBasket: false,
-                onAddToBasket: { print("Add to basket") }
-            )
-            
-            QuantityButton(
-                count: 2,
-                onDecrease: { print("Decrease") },
-                onIncrease: { print("Increase") },
-                isInBasket: true
-            )
-        }
-        .padding()
     }
 }
