@@ -68,18 +68,16 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             createdAt: Date(),
             readyBy: readyBy
         )
-        
-        let completion: (Result<Order, Error>) -> Void = { [weak self] result in
-            switch result {
-            case .success(let order):
-                self?.clearBasket()
-                self?.onOrderCreated(userPhone)
-            case .failure(let error):
+
+        Task { @MainActor in
+            do {
+                _ = try await YandexOrderService.shared.submitOrder(order)
+                clearBasket()
+                onOrderCreated(userPhone)
+            } catch {
                 print("Ошибка: \(error.localizedDescription)")
             }
         }
-        
-        YandexOrderService.shared.submitOrder(order, completion: completion)
     }
     
     func cancelOrder() {

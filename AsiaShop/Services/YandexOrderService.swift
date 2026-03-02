@@ -7,10 +7,10 @@
 
 import Foundation
 
-// MARK: - YandexCatalogServiceProtocol
+// MARK: - YandexOrderServiceProtocol
 
 protocol YandexOrderServiceProtocol {
-    func submitOrder(_ order: Order,completion: @escaping (Result<Order, Error>) -> Void)
+    func submitOrder(_ order: Order) async throws -> Order
 }
 
 /// Сервис отправки заказов в Yandex Cloud Function (orders-api).
@@ -38,44 +38,36 @@ final class YandexOrderService {
     }
 }
 
+// MARK: - YandexOrderServiceProtocol
+
 extension YandexOrderService: YandexOrderServiceProtocol {
-    /// Отправляет заказ на orders-api. В тело уходят только id, user_name, user_phone_number, total.
-    func submitOrder(_ order: Order,completion: @escaping (Result<Order, Error>) -> Void) {
+    func submitOrder(_ order: Order) async throws -> Order {
         let base = ordersAPIURL.trimmingCharacters(in: .whitespacesAndNewlines)
         guard isConfigured, let url = URL(string: base.hasSuffix("/") ? base : base + "/") else {
-            completion(.failure(URLError(.badURL)))
-            return
+            throw URLError(.badURL)
         }
-        
+
         guard let body = orderPayload(order) else {
             print("[YandexOrder] Ошибка: не удалось собрать payload заказа")
-            DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
-            return
+            throw URLError(.cannotParseResponse)
         }
+        
         if let json = String(data: body, encoding: .utf8) {
             print("[YandexOrder] Отправляем поля:", json)
         }
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
-        
-        YandexAPIConfig.session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async { completion(.failure(error)) }
-                return
-            }
-            guard let data = data else {
-                DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
-                return
-            }
-            if let http = response as? HTTPURLResponse, http.statusCode != 200 {
-                let msg = String(data: data, encoding: .utf8) ?? ""
-                let err = NSError(domain: "YandexOrder", code: http.statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode): \(msg)"])
-                DispatchQueue.main.async { completion(.failure(err)) }
-                return
-            }
-            DispatchQueue.main.async { completion(.success(order)) }
-        }.resume()
+
+        let (_, response) = try await YandexAPIConfig.session.data(for: request)
+
+        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+            throw NSError(domain: "YandexOrder", code: statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP \(statusCode)"])
+        }
+
+        return order
     }
 }
