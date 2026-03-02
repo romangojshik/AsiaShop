@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct SushiAPIResponse: Decodable {
+    let sushi: [Sushi]
+}
+
 struct Sushi: Identifiable, Decodable {
     var id: String
     var imageURL: String

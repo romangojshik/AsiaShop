@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct CatalogAPIResponse: Decodable {
+    let sets: [SushiSet]
+}
+
 struct SushiSet: Decodable {
     var id: String
     var imageURL: String

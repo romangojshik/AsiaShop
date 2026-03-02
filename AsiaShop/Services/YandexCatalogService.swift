@@ -2,53 +2,50 @@
 //  YandexCatalogService.swift
 //  AsiaShop
 //
-//  Загрузка каталога (сеты, суши) из HTTP API Yandex Cloud вместо Firestore.
+//  Created by Roman Gojshik on 12/02/26.
 //
 
 import Foundation
 
-/// Сервис каталога из Yandex Cloud Functions (читает из YDB).
-/// Реализует getSets и getSushi (суши пока пусто).
-final class YandexCatalogService: DatabaseServiceProtocol {
+// MARK: - YandexCatalogServiceProtocol
 
+protocol YandexCatalogServiceProtocol {
+    func loadCatalog(completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void)
+}
+
+final class YandexCatalogService {
+    
     static let shared = YandexCatalogService()
 
-    /// URL API Gateway (каталог). От поддержки Yandex Cloud.
-    var baseURL: String = "https://d5di93907ln32br63enu.emzafcgx.apigw.yandexcloud.net"
-
-    private let session: URLSession = {
-        let c = URLSessionConfiguration.default
-        c.timeoutIntervalForRequest = 15
-        return URLSession(configuration: c)
-    }()
-
     private init() {}
-
-    func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
+    
+    // MARK: - Private methods
+    
+    private func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
         guard
-            !baseURL.isEmpty,
-            let url = URL(string: (baseURL.hasSuffix("/") ? baseURL : baseURL + "/") + "sushi")
+            !YandexAPIConfig.baseURL.isEmpty,
+            let url = URL(string: (YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/") + "sushi")
         else {
             DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
-        session.dataTask(with: request) { data, response, error in
+        
+        YandexAPIConfig.session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("[YandexCatalog] Sushi error: \(error.localizedDescription)")
                 DispatchQueue.main.async { completion(.failure(error)) }
                 return
             }
-
+            
             guard let data = data else {
                 print("[YandexCatalog] Sushi: empty response")
                 DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
                 return
             }
-
+            
             if let http = response as? HTTPURLResponse, http.statusCode != 200 {
                 let body = String(data: data, encoding: .utf8) ?? ""
                 print("[YandexCatalog] Sushi HTTP \(http.statusCode): \(body.prefix(150))")
@@ -60,7 +57,7 @@ final class YandexCatalogService: DatabaseServiceProtocol {
                 DispatchQueue.main.async { completion(.failure(err)) }
                 return
             }
-
+            
             do {
                 let decoded = try JSONDecoder().decode(SushiAPIResponse.self, from: data)
                 if decoded.sushi.isEmpty {
@@ -73,15 +70,15 @@ final class YandexCatalogService: DatabaseServiceProtocol {
             }
         }.resume()
     }
-
-    func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
-        guard !baseURL.isEmpty, let url = URL(string: baseURL.hasSuffix("/") ? baseURL : baseURL + "/") else {
+    
+    private func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
+        guard !YandexAPIConfig.baseURL.isEmpty, let url = URL(string: YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/") else {
             DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        session.dataTask(with: request) { data, response, error in
+        YandexAPIConfig.session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
                 DispatchQueue.main.async { completion(.failure(error)) }
@@ -113,16 +110,45 @@ final class YandexCatalogService: DatabaseServiceProtocol {
     }
 }
 
-private struct NotSupportedError: LocalizedError {
-    var errorDescription: String? { "Метод не поддерживается в YandexCatalogService" }
-}
+// MARK: - YandexCatalogServiceProtocol
 
-// MARK: - Ответ API каталога (Yandex Cloud)
+extension YandexCatalogService: YandexCatalogServiceProtocol {
+    func loadCatalog(completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void) {
+        let group = DispatchGroup()
+        var sushiResult: Result<[Sushi], Error>?
+        var setsResult: Result<[SushiSet], Error>?
+        let lock = NSLock()
 
-private struct CatalogAPIResponse: Decodable {
-    let sets: [SushiSet]
-}
+        group.enter()
+        getSushi { result in
+            lock.lock()
+            sushiResult = result
+            lock.unlock()
+            group.leave()
+        }
 
-private struct SushiAPIResponse: Decodable {
-    let sushi: [Sushi]
+        group.enter()
+        getSets { result in
+            lock.lock()
+            setsResult = result
+            lock.unlock()
+            group.leave()
+        }
+
+        group.notify(queue: .main) {
+            lock.lock()
+            let sushi = sushiResult
+            let sets = setsResult
+            lock.unlock()
+
+            switch (sushi, sets) {
+            case let (.success(s), .success(ss)):
+                completion(.success((s, ss)))
+            case let (.failure(e), _), let (_, .failure(e)):
+                completion(.failure(e))
+            default:
+                completion(.failure(URLError(.unknown)))
+            }
+        }
+    }
 }

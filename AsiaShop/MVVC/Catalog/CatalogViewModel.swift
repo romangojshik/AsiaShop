@@ -22,11 +22,11 @@ class CatalogViewModel: CatalogViewModelProtocol {
     @Published var sushi: [Sushi] = []
     @Published var isLoading: Bool = false
     
-    private let database: DatabaseServiceProtocol
+    private let database: YandexCatalogServiceProtocol
     private let storage: OrderDataStorage
 
     init(
-        database: DatabaseServiceProtocol = YandexCatalogService.shared,
+        database: YandexCatalogServiceProtocol = YandexCatalogService.shared,
         storage: OrderDataStorage = .shared
     ) {
         self.database = database
@@ -36,33 +36,18 @@ class CatalogViewModel: CatalogViewModelProtocol {
     
     func loadProducts() {
         isLoading = true
-        
-        database.getSets { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let sets):
-                    self.sushiSets = sets
-                case .failure:
-                    self.sushiSets = []
-                }
-                
-                self.isLoading = false
+
+        database.loadCatalog { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let (sushi, sets)):
+                self.sushi = sushi
+                self.sushiSets = sets
+            case .failure:
+                self.sushi = []
+                self.sushiSets = []
             }
-        }
-        
-        database.getSushi { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let sushi):
-                    self.sushi = sushi
-                case .failure:
-                    self.sushi = []
-                }
-            }
+            self.isLoading = false
         }
     }
     

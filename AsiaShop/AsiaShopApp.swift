@@ -25,11 +25,8 @@ struct AsiaShopApp: App {
             _ application: UIApplication,
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
         ) -> Bool {
-            // API Gateway не передаёт body в функцию — используйте URL HTTP-триггера функции:
-            // Cloud Functions → asiashop-orders → Триггеры → создать HTTP-триггер (если нет) → скопировать URL сюда.
-            YandexOrderService.shared.ordersAPIURL = "https://d5di93907ln32br63enu.emzafcgx.apigw.yandexcloud.net/order"
-            // Альтернатива (подставить свой URL HTTP-триггера, например https://functions.yandexcloud.net/...):
-            // YandexOrderService.shared.ordersAPIURL = "https://ВАШ_HTTP_ТРИГГЕР_URL"
+            // ordersAPIURL по умолчанию = YandexAPIConfig.baseURL + "/order"
+            // Чтобы изменить: YandexOrderService.shared.ordersAPIURL = "https://ваш-url/order"
             return true
         }
     }
