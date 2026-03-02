@@ -2,49 +2,73 @@
 //  ShimmerModifier.swift
 //  AsiaShop
 //
-//  Shimmer-эффект для skeleton loading.
+//  Shimmer-эффект по статье: https://habr.com/ru/articles/934756/
+//  TimelineView вместо @State — стабильная анимация без прыжков ScrollView.
 //
 
 import SwiftUI
 
-/// Модификатор, добавляющий shimmer-анимацию к View.
-struct ShimmerModifier: ViewModifier {
-    @State private var phase: CGFloat = 0
+// MARK: - ShimmeringModifier (TimelineView)
+
+struct ShimmeringModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        TimelineView(.animation) { timeline in
+            let phase = CGFloat(
+                timeline.date.timeIntervalSinceReferenceDate
+                    .truncatingRemainder(dividingBy: 1)
+            )
+            content.modifier(AnimatedShimmerMask(phase: phase))
+        }
+    }
+}
+
+// MARK: - AnimatedShimmerMask
+
+struct AnimatedShimmerMask: AnimatableModifier {
+    var phase: CGFloat
+
+    var animatableData: CGFloat {
+        get { phase }
+        set { phase = newValue }
+    }
 
     func body(content: Content) -> some View {
-        content
-            .overlay(
-                GeometryReader { geometry in
-                    LinearGradient(
-                        colors: [
-                            Color.gray.opacity(0.3),
-                            Color.gray.opacity(0.6),
-                            Color.gray.opacity(0.3)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: geometry.size.width * 2)
-                    .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
-                }
-                .mask(content)
-            )
-            .onAppear {
-                withAnimation(
-                    .linear(duration: 1.2)
-                    .repeatForever(autoreverses: false)
-                ) {
-                    phase = 1
-                }
-            }
+        content.mask(ShimmerGradientMask(phase: phase).scaleEffect(3))
     }
 }
 
-extension View {
-    func shimmer() -> some View {
-        modifier(ShimmerModifier())
+// MARK: - ShimmerGradientMask
+
+struct ShimmerGradientMask: View {
+    let phase: CGFloat
+
+    var body: some View {
+        GeometryReader { geo in
+            LinearGradient(
+                gradient: Gradient(stops: [
+                    .init(color: .white.opacity(0.1), location: phase),
+                    .init(color: .white.opacity(0.6), location: phase + 0.1),
+                    .init(color: .white.opacity(0.1), location: phase + 0.2),
+                ]),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .rotationEffect(.degrees(-45))
+            .offset(x: -geo.size.width, y: -geo.size.height)
+            .frame(width: geo.size.width * 3, height: geo.size.height * 3)
+        }
     }
 }
+
+// MARK: - View extension
+
+extension View {
+    func shimmering() -> some View {
+        modifier(ShimmeringModifier())
+    }
+}
+
+// MARK: - ShimmerRectangle
 
 /// Прямоугольник-заглушка с shimmer для skeleton.
 struct ShimmerRectangle: View {
@@ -62,6 +86,6 @@ struct ShimmerRectangle: View {
         RoundedRectangle(cornerRadius: cornerRadius)
             .fill(Color.gray.opacity(0.3))
             .frame(width: width, height: height)
-            .shimmer()
+            .shimmering()
     }
 }

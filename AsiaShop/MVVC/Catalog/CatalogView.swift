@@ -42,8 +42,8 @@ struct CatalogView: View {
                     ForEach(0..<5, id: \.self) { index in
                         SushiRowShimmerView()
                         if index < 4 {
-                            Divider()
-                                .padding(16)
+                            ShimmerRectangle(height: 1, cornerRadius: 0)
+                                .padding(.horizontal, 16)
                         }
                     }
                 }
