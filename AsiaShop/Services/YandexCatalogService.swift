@@ -7,6 +7,41 @@
 
 import Foundation
 
+// MARK: - ErrorLogEnum
+
+private enum ErrorLogEnum {
+    static func sushiError(_ error: Error) {
+        print("[YandexCatalog] Sushi error: \(error.localizedDescription)")
+    }
+    static func sushiEmptyResponse() {
+        print("[YandexCatalog] Sushi: empty response")
+    }
+    static func sushiHTTPError(_ statusCode: Int, _ body: String) {
+        print("[YandexCatalog] Sushi HTTP \(statusCode): \(body.prefix(150))")
+    }
+    static func sushiEmptyList() {
+        print("[YandexCatalog] Sushi API вернул пустой список")
+    }
+    static func sushiDecodeError(_ error: Error) {
+        print("[YandexCatalog] Sushi decode error: \(error)")
+    }
+    static func setsError(_ error: Error) {
+        print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
+    }
+    static func setsEmptyResponse() {
+        print("[YandexCatalog] Пустой ответ")
+    }
+    static func setsHTTPError(_ statusCode: Int, _ body: String) {
+        print("[YandexCatalog] HTTP \(statusCode): \(body.prefix(150))")
+    }
+    static func setsEmptyList() {
+        print("[YandexCatalog] API вернул пустой список")
+    }
+    static func setsDecodeError(_ error: Error) {
+        print("[YandexCatalog] Ошибка декодирования: \(error)")
+    }
+}
+
 // MARK: - YandexCatalogServiceProtocol
 
 protocol YandexCatalogServiceProtocol {
@@ -15,11 +50,19 @@ protocol YandexCatalogServiceProtocol {
 
 final class YandexCatalogService {
     
-    static let shared = YandexCatalogService()
-
-    private init() {}
+    // MARK: - shared
     
-    // MARK: - Private methods
+    static let shared = YandexCatalogService()
+    
+    // MARK: - Private Properties
+    
+    private var yandexAPIConfig: YandexAPIConfig
+
+    // MARK: - init
+    
+    private init(yandexAPIConfig: YandexAPIConfig = YandexAPIConfig()) {
+        self.yandexAPIConfig = yandexAPIConfig
+    }
     
     private func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
         guard
@@ -29,26 +72,24 @@ final class YandexCatalogService {
             DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
             return
         }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
+
+        let request = yandexAPIConfig.makeRequest(url: url)
         YandexAPIConfig.session.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("[YandexCatalog] Sushi error: \(error.localizedDescription)")
+                ErrorLogEnum.sushiError(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
                 return
             }
             
             guard let data = data else {
-                print("[YandexCatalog] Sushi: empty response")
+                ErrorLogEnum.sushiEmptyResponse()
                 DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
                 return
             }
             
             if let http = response as? HTTPURLResponse, http.statusCode != 200 {
                 let body = String(data: data, encoding: .utf8) ?? ""
-                print("[YandexCatalog] Sushi HTTP \(http.statusCode): \(body.prefix(150))")
+                ErrorLogEnum.sushiHTTPError(http.statusCode, body)
                 let err = NSError(
                     domain: "YandexCatalogSushi",
                     code: http.statusCode,
@@ -61,37 +102,40 @@ final class YandexCatalogService {
             do {
                 let decoded = try JSONDecoder().decode(SushiAPIResponse.self, from: data)
                 if decoded.sushi.isEmpty {
-                    print("[YandexCatalog] Sushi API вернул пустой список")
+                    ErrorLogEnum.sushiEmptyList()
                 }
                 DispatchQueue.main.async { completion(.success(decoded.sushi)) }
             } catch {
-                print("[YandexCatalog] Sushi decode error: \(error)")
+                ErrorLogEnum.sushiDecodeError(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
             }
         }.resume()
     }
     
     private func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
-        guard !YandexAPIConfig.baseURL.isEmpty, let url = URL(string: YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/") else {
+        guard
+            !YandexAPIConfig.baseURL.isEmpty,
+            let url = URL(string: YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/")
+        else {
             DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+
+        let request = yandexAPIConfig.makeRequest(url: url)
         YandexAPIConfig.session.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
+                ErrorLogEnum.setsError(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
                 return
             }
             guard let data = data else {
-                print("[YandexCatalog] Пустой ответ")
+                ErrorLogEnum.setsEmptyResponse()
                 DispatchQueue.main.async { completion(.failure(URLError(.cannotParseResponse))) }
                 return
             }
             if let http = response as? HTTPURLResponse, http.statusCode != 200 {
                 let body = String(data: data, encoding: .utf8) ?? ""
-                print("[YandexCatalog] HTTP \(http.statusCode): \(body.prefix(150))")
+                ErrorLogEnum.setsHTTPError(http.statusCode, body)
                 let err = NSError(domain: "YandexCatalog", code: http.statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"])
                 DispatchQueue.main.async { completion(.failure(err)) }
                 return
@@ -99,11 +143,11 @@ final class YandexCatalogService {
             do {
                 let decoded = try JSONDecoder().decode(CatalogAPIResponse.self, from: data)
                 if decoded.sets.isEmpty {
-                    print("[YandexCatalog] API вернул пустой список")
+                    ErrorLogEnum.setsEmptyList()
                 }
                 DispatchQueue.main.async { completion(.success(decoded.sets)) }
             } catch {
-                print("[YandexCatalog] Ошибка декодирования: \(error)")
+                ErrorLogEnum.setsDecodeError(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
             }
         }.resume()
@@ -118,7 +162,7 @@ extension YandexCatalogService: YandexCatalogServiceProtocol {
         var sushiResult: Result<[Sushi], Error>?
         var setsResult: Result<[SushiSet], Error>?
         let lock = NSLock()
-
+        
         group.enter()
         getSushi { result in
             lock.lock()
@@ -126,7 +170,7 @@ extension YandexCatalogService: YandexCatalogServiceProtocol {
             lock.unlock()
             group.leave()
         }
-
+        
         group.enter()
         getSets { result in
             lock.lock()
@@ -134,13 +178,13 @@ extension YandexCatalogService: YandexCatalogServiceProtocol {
             lock.unlock()
             group.leave()
         }
-
+        
         group.notify(queue: .main) {
             lock.lock()
             let sushi = sushiResult
             let sets = setsResult
             lock.unlock()
-
+            
             switch (sushi, sets) {
             case let (.success(s), .success(ss)):
                 completion(.success((s, ss)))

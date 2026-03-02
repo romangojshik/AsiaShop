@@ -18,13 +18,20 @@ final class YandexOrderService {
     
     static let shared = YandexOrderService()
     
-    /// URL API заказов. По умолчанию baseURL + "/order". Можно переопределить в AppDelegate.
     var ordersAPIURL: String = YandexAPIConfig.baseURL + "/order"
-    
-    private init() {}
     
     var isConfigured: Bool {
         !ordersAPIURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    // MARK: - Private Properties
+    
+    private var yandexAPIConfig: YandexAPIConfig
+
+    // MARK: - init
+    
+    private init(yandexAPIConfig: YandexAPIConfig = YandexAPIConfig()) {
+        self.yandexAPIConfig = yandexAPIConfig
     }
     
     private func orderPayload(_ order: Order) -> Data? {
@@ -56,11 +63,8 @@ extension YandexOrderService: YandexOrderServiceProtocol {
             print("[YandexOrder] Отправляем поля:", json)
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body
-
+        let request = yandexAPIConfig.makeRequest(url: url, method: "POST", jsonBody: body)
+        
         let (_, response) = try await YandexAPIConfig.session.data(for: request)
 
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
