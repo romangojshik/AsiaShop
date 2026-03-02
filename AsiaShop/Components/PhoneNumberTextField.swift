@@ -39,6 +39,22 @@ struct PhoneFieldView: View {
         guard text.count < mask.count else { return "" }
         return String(mask.dropFirst(text.count))
     }
+
+    /// Префикс до первой цифры пользователя: "+375 " или "+375 (" (при пустом вводе).
+    private var countryPrefix: String {
+        internationalCode + " "
+    }
+
+    /// Часть текста после кода страны (для отдельной окраски).
+    private var textAfterCountryCode: String {
+        guard text.hasPrefix(countryPrefix) else { return text }
+        return String(text.dropFirst(countryPrefix.count))
+    }
+
+    /// Текст "+375 (" — для чёрной окраски при фокусе без ввода.
+    private var countryCodeWithBracket: String {
+        internationalCode + " ("
+    }
     
     init(
         placeholder: String = "",
@@ -66,26 +82,41 @@ struct PhoneFieldView: View {
             }
             
             ZStack(alignment: .leading) {
-                if showFormatPlaceholder {
+                if showFormatPlaceholder && !isFocused {
                     Text(placeholder.isEmpty ? "+375 (XX) XXX-XX-XX" : placeholder)
-                        .foregroundStyle(Color.gray.opacity(0.8))
+                        .foregroundColor(.gray)
                         .padding(.leading, 8)
                 }
                 TextField("", text: $text)
                     .keyboardType(keyboardType)
                     .focused($isFocused)
+                    .foregroundColor(.clear)
+                    .tint(.black)
                     .padding(.horizontal, 8)
                     .overlay(
                         Group {
-                            if !showFormatPlaceholder && !maskSuffix.isEmpty {
+                            if showFormatPlaceholder && isFocused {
                                 HStack(spacing: 0) {
-                                    Text(text)
+                                    Text(countryCodeWithBracket)
                                         .font(.body)
-                                        .foregroundColor(.clear)
-                                        .fixedSize(horizontal: true, vertical: false)
+                                        .foregroundColor(.black)
                                     Text(maskSuffix)
                                         .font(.body)
-                                        .foregroundStyle(Color.gray.opacity(0.8))
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(.leading, 8)
+                                .allowsHitTesting(false)
+                            } else if !showFormatPlaceholder {
+                                HStack(spacing: 0) {
+                                    Text(countryPrefix)
+                                        .font(.body)
+                                        .foregroundColor(.black)
+                                    Text(textAfterCountryCode)
+                                        .font(.body)
+                                        .foregroundColor(.black)
+                                    Text(maskSuffix)
+                                        .font(.body)
+                                        .foregroundColor(.gray)
                                 }
                                 .padding(.leading, 8)
                                 .allowsHitTesting(false)
@@ -110,12 +141,12 @@ struct PhoneFieldView: View {
         }
         .onAppear {
             if text.isEmpty && isFocused {
-                text = internationalCode + " "
+                text = internationalCode + " ("
             }
         }
         .onChange(of: isFocused) { focused in
             if focused && text.isEmpty {
-                text = internationalCode + " "
+                text = internationalCode + " ("
             }
         }
     }
@@ -124,10 +155,13 @@ struct PhoneFieldView: View {
         let full = (countryCode + digits).filteredPhoneDigits
         let numbers = String(full.prefix(12))
         if numbers.isEmpty { return "" }
-        
+        if numbers == countryCode {
+            return "+" + countryCode + " ("
+        }
+
         var result = ""
         var index = numbers.startIndex
-        
+
         for ch in mask where index < numbers.endIndex {
             if ch == "X" {
                 result.append(numbers[index])

@@ -45,6 +45,10 @@ struct ConfirmOrderView: View {
                 makeConfirmSection
             }
             .padding(AppConstants.Padding.padding16)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
         }
         .padding(.bottom, AppConstants.Padding.padding16)
     }
@@ -63,14 +67,22 @@ struct ConfirmOrderView: View {
                 .font(.titleTextFont)
                 .foregroundColor(AppConstants.Colors.blackOpacity90)
             
-            TextField(placeholder, text: text)
-                .foregroundColor(AppConstants.Colors.blackOpacity90)
-                .tint(AppConstants.Colors.blackOpacity90)
-                .padding(AppConstants.Padding.padding10)
-                .background(Color.white)
-                .keyboardType(keyboardType)
-                .textContentType(textContentType)
-                .overlay(
+            ZStack(alignment: .leading) {
+                if text.wrappedValue.isEmpty {
+                    Text(placeholder)
+                        .foregroundColor(.gray)
+                        .padding(AppConstants.Padding.padding10)
+                        .allowsHitTesting(false)
+                }
+                TextField("", text: text)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
+                    .tint(.black)
+                    .keyboardType(keyboardType)
+                    .textContentType(textContentType)
+                    .padding(AppConstants.Padding.padding10)
+            }
+            .background(Color.white)
+            .overlay(
                     RoundedRectangle(cornerRadius: AppConstants.Padding.padding8)
                         .stroke(
                             validateEmpty && showValidationError && text.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
