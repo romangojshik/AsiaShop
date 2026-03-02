@@ -14,6 +14,9 @@
 		20229BDD2F2AAC8300E6A5A4 /* sushi_products.txt in Resources */ = {isa = PBXBuildFile; fileRef = 20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */; };
 		20229BE02F2ABA0A00E6A5A4 /* SushiSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */; };
 		2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */; };
+		2033AA202F29021700CFE427 /* CatalogSetRowShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1F2F29021700CFE427 /* CatalogSetRowShimmerView.swift */; };
+		20C706F42F2C086C00B9B4DE /* SushiRowShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F52F2C086C00B9B4DE /* SushiRowShimmerView.swift */; };
+		20SHIMMR22F4000000A432 /* ShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20SHIMMR12F4000000A432 /* ShimmerModifier.swift */; };
 		2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC202F3018A20020A432 /* BasketRouter.swift */; };
 		2064FC232F3018A20020A432 /* ConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */; };
 		2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */; };
@@ -26,7 +29,6 @@
 		20A0771E2F2C8548000B0DEE /* QuantityStepperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */; };
 		20A1C0D02F40000100A432 /* YandexCatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D12F40000100A432 /* YandexCatalogService.swift */; };
 		20A1C0D42F40000300A432 /* YandexOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A1C0D52F40000300A432 /* YandexOrderService.swift */; };
-		20YACFG12F4000000A432 /* YandexAPIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20YACFG02F4000000A432 /* YandexAPIConfig.swift */; };
 		20APPCONST2F4000000A432 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20APPCONST12F4000000A432 /* AppConstants.swift */; };
 		20BE6BF52B20F967009ABA83 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BE6BF42B20F967009ABA83 /* Order.swift */; };
 		20C706F12F2BB56900B9B4DD /* Sushi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F02F2BB56300B9B4DD /* Sushi.swift */; };
@@ -39,6 +41,7 @@
 		20ORDER012F4000000A432 /* OrderDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ORDER022F4000000A432 /* OrderDataStorage.swift */; };
 		20PHONE012F40000100A432 /* PhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20PHONE022F40000100A432 /* PhoneNumberTextField.swift */; };
 		20URLIMG012F539C0000A432 /* AsyncImage+URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */; };
+		20YACFG12F4000000A432 /* YandexAPIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20YACFG02F4000000A432 /* YandexAPIConfig.swift */; };
 		304CB7BD2B0A572500ABBEA9 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */; };
 		304CB7C12B0A60B100ABBEA9 /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */; };
 		304CB7C52B0A60ED00ABBEA9 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */; };
@@ -71,6 +74,9 @@
 		20229BDC2F2AAC8300E6A5A4 /* sushi_products.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sushi_products.txt; sourceTree = "<group>"; };
 		20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiSet.swift; sourceTree = "<group>"; };
 		2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSetRowView.swift; sourceTree = "<group>"; };
+		2033AA1F2F29021700CFE427 /* CatalogSetRowShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSetRowShimmerView.swift; sourceTree = "<group>"; };
+		20C706F52F2C086C00B9B4DE /* SushiRowShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowShimmerView.swift; sourceTree = "<group>"; };
+		20SHIMMR12F4000000A432 /* ShimmerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifier.swift; sourceTree = "<group>"; };
 		2064FC1D2F3018A20020A432 /* ConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderView.swift; sourceTree = "<group>"; };
 		2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderViewModel.swift; sourceTree = "<group>"; };
 		2064FC202F3018A20020A432 /* BasketRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketRouter.swift; sourceTree = "<group>"; };
@@ -82,7 +88,6 @@
 		20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToBasketButton.swift; sourceTree = "<group>"; };
 		20A0771F2F2C8549000B0DEF /* QuantityStepperButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityStepperButton.swift; sourceTree = "<group>"; };
 		20A1C0D12F40000100A432 /* YandexCatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexCatalogService.swift; sourceTree = "<group>"; };
-		20YACFG02F4000000A432 /* YandexAPIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexAPIConfig.swift; sourceTree = "<group>"; };
 		20A1C0D52F40000300A432 /* YandexOrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexOrderService.swift; sourceTree = "<group>"; };
 		20APPCONST12F4000000A432 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		20BE6BF42B20F967009ABA83 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -96,6 +101,7 @@
 		20ORDER022F4000000A432 /* OrderDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDataStorage.swift; sourceTree = "<group>"; };
 		20PHONE022F40000100A432 /* PhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberTextField.swift; sourceTree = "<group>"; };
 		20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncImage+URLImage.swift"; sourceTree = "<group>"; };
+		20YACFG02F4000000A432 /* YandexAPIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexAPIConfig.swift; sourceTree = "<group>"; };
 		304CB7BC2B0A572500ABBEA9 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		304CB7C02B0A60B100ABBEA9 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		304CB7C42B0A60ED00ABBEA9 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
@@ -197,7 +203,9 @@
 			isa = PBXGroup;
 			children = (
 				20C706F22F2C086C00B9B4DD /* SushiRowView.swift */,
+				20C706F52F2C086C00B9B4DE /* SushiRowShimmerView.swift */,
 				2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */,
+				2033AA1F2F29021700CFE427 /* CatalogSetRowShimmerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -263,10 +271,19 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		20SHIMMR32F4000000A432 /* Shimmer */ = {
+			isa = PBXGroup;
+			children = (
+				20SHIMMR12F4000000A432 /* ShimmerModifier.swift */,
+			);
+			path = Shimmer;
+			sourceTree = "<group>";
+		};
 		304CB7CA2B0CEF0600ABBEA9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				2064FC252F31EE3F0020A432 /* ScreenContainer.swift */,
+				20SHIMMR32F4000000A432 /* Shimmer */,
 				20PHONE022F40000100A432 /* PhoneNumberTextField.swift */,
 				20C706ED2F2BA97400B9B4DD /* Buttons */,
 				20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */,
@@ -488,6 +505,9 @@
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
 				20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */,
+				20C706F42F2C086C00B9B4DE /* SushiRowShimmerView.swift in Sources */,
+				2033AA202F29021700CFE427 /* CatalogSetRowShimmerView.swift in Sources */,
+				20SHIMMR22F4000000A432 /* ShimmerModifier.swift in Sources */,
 				30AE46132B0F988500C74BD8 /* BasketViewModel.swift in Sources */,
 				304CB7DA2B0D000F00ABBEA9 /* CatalogViewModel.swift in Sources */,
 			);

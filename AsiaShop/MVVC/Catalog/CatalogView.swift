@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct CatalogView: View {
+struct CatalogView: View {
     @StateObject private var viewModel = CatalogViewModel(
         database: YandexCatalogService.shared
     )
@@ -18,12 +18,74 @@ internal struct CatalogView: View {
         GridItem(.flexible(), spacing: 16)
     ]
     
+    private var shimmerContent: some View {
+        VStack(spacing: 24) {
+            VStack(alignment: .leading, spacing: 12) {
+                ShimmerRectangle(width: 140, height: 24, cornerRadius: 6)
+                    .padding(.horizontal)
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        ForEach(0..<4, id: \.self) { _ in
+                            CatalogSetRowShimmerView()
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 12) {
+                ShimmerRectangle(width: 140, height: 24, cornerRadius: 6)
+                    .padding(.horizontal)
+
+                VStack(spacing: 0) {
+                    ForEach(0..<5, id: \.self) { index in
+                        SushiRowShimmerView()
+                        if index < 4 {
+                            Divider()
+                                .padding(16)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var catalogContent: some View {
+        Group {
+            if !viewModel.sushiSets.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(Constants.Texts.readySets)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .padding(.horizontal)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
+                                CatalogSetRowView(
+                                    sushiSet: sushiSet,
+                                    onCardTap: { selectedProduct = sushiSet.toProduct() }
+                                )
+                                .foregroundColor(.black)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            }
+
+            mainMenuSection
+        }
+    }
+
     // Секция "Основное меню" - вертикальный список по одному продукту
     private var mainMenuSection: some View {
         Group {
             if !viewModel.sushi.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Основное меню")
+                    Text(Constants.Texts.mainMenu)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
@@ -62,31 +124,11 @@ internal struct CatalogView: View {
             ScreenContainer {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 24) {
-                        // Секция "Готовые сеты" - горизонтальный скролл
-                        if !viewModel.sushiSets.isEmpty {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("Готовые сеты")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.black)
-                                    .padding(.horizontal)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 16) {
-                                        ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
-                                            CatalogSetRowView(
-                                                sushiSet: sushiSet,
-                                                onCardTap: { selectedProduct = sushiSet.toProduct() }
-                                            )
-                                            .foregroundColor(.black)
-                                        }
-                                    }
-                                    .padding(.horizontal)
-                                }
-                            }
+                        if viewModel.isLoading {
+                            shimmerContent
+                        } else {
+                            catalogContent
                         }
-                        
-                        mainMenuSection
                     }
                     .padding(.vertical)
                 }
@@ -99,9 +141,9 @@ internal struct CatalogView: View {
                     ProductDetailView(
                         viewModel: ProductDetailViewModel(product: product)
                     )
-                        .presentationDetents([.fraction(0.82), .large])
-                        .presentationDragIndicator(.visible)
-                        .presentationBackground(Color.white)
+                    .presentationDetents([.fraction(0.82), .large])
+                    .presentationDragIndicator(.visible)
+                    .presentationBackground(Color.white)
                 } else {
                     ProductDetailView(
                         viewModel: ProductDetailViewModel(product: product)
@@ -124,5 +166,6 @@ private struct Constants {
     struct Texts {
         static let mainMenu = "Основное меню"
         static let catalog = "Каталог"
+        static let readySets = "Готовые сеты"
     }
 }
