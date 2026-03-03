@@ -11,6 +11,8 @@
 		2003E2CE2F2CBE1300CA574C /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2003E2CD2F2CBE1200CA574C /* CustomNavigationBarView.swift */; };
 		200C3EFE2F392BE60070FF0B /* Nutrition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C3EFD2F392BE40070FF0B /* Nutrition.swift */; };
 		20229BE02F2ABA0A00E6A5A4 /* SushiSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20229BDF2F2ABA0A00E6A5A4 /* SushiSet.swift */; };
+		20293E7C2F577F8D005D84C5 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 20293E7B2F577F8D005D84C5 /* Nuke */; };
+		20293E7E2F577F8D005D84C5 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 20293E7D2F577F8D005D84C5 /* NukeUI */; };
 		2033AA1E2F29021700CFE426 /* CatalogSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1D2F29021700CFE426 /* CatalogSetRowView.swift */; };
 		2033AA202F29021700CFE427 /* CatalogSetRowShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033AA1F2F29021700CFE427 /* CatalogSetRowShimmerView.swift */; };
 		2064FC222F3018A20020A432 /* BasketRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC202F3018A20020A432 /* BasketRouter.swift */; };
@@ -131,6 +133,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20293E7C2F577F8D005D84C5 /* Nuke in Frameworks */,
+				20293E7E2F577F8D005D84C5 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +388,8 @@
 			);
 			name = AsiaShop;
 			packageProductDependencies = (
+				20293E7B2F577F8D005D84C5 /* Nuke */,
+				20293E7D2F577F8D005D84C5 /* NukeUI */,
 			);
 			productName = AsiaShop;
 			productReference = 30FD82C82AF52E0300D94BA7 /* AsiaShop.app */;
@@ -418,6 +424,7 @@
 			mainGroup = 30FD82BF2AF52E0300D94BA7;
 			packageReferences = (
 				209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			productRefGroup = 30FD82C92AF52E0300D94BA7 /* Products */;
 			projectDirPath = "";
@@ -766,6 +773,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.9.0;
+			};
+		};
 		209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
@@ -777,6 +792,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		20293E7B2F577F8D005D84C5 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		20293E7D2F577F8D005D84C5 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
 		209B10862F3B73600030BAAB /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;

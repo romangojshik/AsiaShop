@@ -32,7 +32,7 @@ struct BasketRowView: View {
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                Text(position?.product.description ?? .empty)
+                Text(position?.product.composition ?? .empty)
                     .font(.subheadline)
                     .foregroundColor(AppConstants.Colors.blackOpacity90)
                     .lineLimit(4)

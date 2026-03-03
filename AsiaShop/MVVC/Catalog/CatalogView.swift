@@ -13,11 +13,6 @@ struct CatalogView: View {
     )
     @State private var selectedProduct: Product?
     
-    private let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
-    ]
-    
     private var shimmerContent: some View {
         VStack(spacing: 24) {
             VStack(alignment: .leading, spacing: 12) {
@@ -120,7 +115,7 @@ struct CatalogView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            CustomNavigationBarView(title: "Каталог")
+            CustomNavigationBarView(title: Constants.Texts.catalog)
             ScreenContainer {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 24) {

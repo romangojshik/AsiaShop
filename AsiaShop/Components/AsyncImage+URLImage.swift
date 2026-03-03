@@ -6,32 +6,30 @@
 //
 
 import SwiftUI
+import NukeUI
 
-/// Загружает изображение по URL с placeholder'ом и индикатором загрузки.
+/// Загружает изображение по URL с кешированием (через Nuke), placeholder'ом и индикатором загрузки.
 struct URLImageView: View {
     let urlString: String
     var loadingTint: Color = .gray
     var failurePlaceholder: Color = Color.gray.opacity(0.1)
 
     var body: some View {
-        AsyncImage(url: URL(string: urlString)) { phase in
-            switch phase {
-            case .empty:
+        LazyImage(url: URL(string: urlString)) { state in
+            if let image = state.image {
+                image
+                    .resizable()
+                    .scaledToFill()
+            } else if state.isLoading {
                 ZStack {
                     failurePlaceholder
                     ProgressView()
                         .tint(loadingTint)
                 }
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-            case .failure:
+            } else {
                 Image(Constants.Images.placeholderSushi)
                     .resizable()
                     .scaledToFill()
-            @unknown default:
-                failurePlaceholder
             }
         }
     }
