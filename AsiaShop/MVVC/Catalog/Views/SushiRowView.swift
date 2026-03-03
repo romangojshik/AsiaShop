@@ -19,7 +19,7 @@ struct SushiRowView: View {
                 .frame(width: Constants.Size.sushiWidth, height: Constants.Size.sushiWidth)
                 .clipShape(RoundedRectangle(cornerRadius: AppConstants.Padding.padding16))
             
-            VStack(alignment: .leading, spacing: AppConstants.Padding.padding8) {
+            VStack(alignment: .leading, spacing: AppConstants.Padding.padding4) {
                 Text(sushi.title)
                     .font(.headline)
                     .foregroundColor(.black)
@@ -27,8 +27,12 @@ struct SushiRowView: View {
                 Text(sushi.composition ?? .empty)
                     .font(.subheadline)
                     .foregroundColor(AppConstants.Colors.blackOpacity70)
-                    .lineLimit(3)
+                    .lineLimit(4)
                     .multilineTextAlignment(.leading)
+                
+                Text(String.defaultCountSushi(sushi.nutrition?.weight ?? .empty))
+                    .font(.descriptionFont)
+                    .foregroundColor(.gray)
                 
                 HStack {
                     Text(String.costForSyshi(sushi.price))
@@ -65,6 +69,8 @@ struct SushiRowView: View {
 // MARK: - Constants
 
 private struct Constants {
+    struct Texts {}
+    
     struct Size {
         static let sushiWidth: CGFloat = 96.0
     }

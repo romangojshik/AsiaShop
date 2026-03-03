@@ -19,17 +19,20 @@ struct BasketRowView: View {
     }
     
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: AppConstants.Padding.padding16) {
             URLImageView(urlString: position?.product.imageURL ?? "")
-            .frame(width: 96, height: 96)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+                .frame(
+                    width: AppConstants.Size.productImage.width,
+                    height: AppConstants.Size.productImage.height
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16))
             
             VStack(alignment: .leading, spacing: 8) {
-                Text(position?.product.title ?? "")
+                Text(position?.product.title ?? .empty)
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                Text(position?.product.description ?? "")
+                Text(position?.product.description ?? .empty)
                     .font(.subheadline)
                     .foregroundColor(AppConstants.Colors.blackOpacity90)
                     .lineLimit(4)
@@ -70,5 +73,4 @@ private struct Constants {
     struct Images {
         static let trash = "trash"
     }
-    
 }

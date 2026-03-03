@@ -10,9 +10,12 @@
 extension String {
     static var empty: String { "" }
     
-    /// Возвращает строку с суффиксом " г", или пустую строку если self пустой
     var withGrams: String {
         isEmpty ? "" : self + " г"
+    }
+    
+    static func defaultCountSushi(_ weight: String) -> String {
+        "8шт/\(weight)г"
     }
     
     static func totalCost(_ value: Double) -> String {
