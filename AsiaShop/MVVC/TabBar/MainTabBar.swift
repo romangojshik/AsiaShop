@@ -13,6 +13,7 @@ enum Tab: Hashable {
 }
 
 struct MainTabBar: View {
+    @ObservedObject private var storage = OrderDataStorage.shared
     @State private var selectedTab: Tab = .catalog
     
     init() {
@@ -26,6 +27,10 @@ struct MainTabBar: View {
         }
 
         UITabBar.appearance().unselectedItemTintColor = .gray
+    }
+    
+    private var basketItemsCount: Int {
+        storage.positions.reduce(0) { $0 + $1.count }
     }
     
     var body: some View {
@@ -51,7 +56,8 @@ struct MainTabBar: View {
                         Text("Корзина")
                     }
                 }
-            .tag(Tab.basket)
+                .badge(basketItemsCount)
+                .tag(Tab.basket)
         }
         .environmentObject(OrderDataStorage.shared)
         .tint(.white)
