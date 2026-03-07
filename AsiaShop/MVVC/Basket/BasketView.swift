@@ -24,6 +24,7 @@ struct BasketView: View {
                                 Spacer()
                             } else {
                                 makeBasketRowView
+                                BasketExtrasSectionView()
                             }
                         }
                     }
@@ -34,7 +35,7 @@ struct BasketView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(AppConstants.Colors.blackOpacity90)
                             Spacer()
-                            Text(String(format: "%.2f", storage.cost) + " руб")
+                            Text(String(format: "%.2f", storage.totalCost) + " руб")
                                 .fontWeight(.bold)
                                 .foregroundColor(AppConstants.Colors.blackOpacity90)
                         }.padding()
@@ -44,7 +45,7 @@ struct BasketView: View {
                             backgroundColor: Color(white: 0.15),
                             foregroundColor: .white,
                             action: {
-                                router.navigate(to: .confirmOrder(totalCost: storage.cost))
+                                router.navigate(to: .confirmOrder(totalCost: storage.totalCost))
                             }
                         )
                         .padding()
@@ -110,6 +111,7 @@ struct BasketView: View {
                 viewModel: ConfirmOrderViewModel(
                     totalCost: totalCost,
                     positions: storage.positions,
+                    getTotalCost: { storage.totalCost },
                     onOrderCreated: { userPhone in
                         router.navigate(to: .orderAccepted(userPhone: userPhone))
                     },

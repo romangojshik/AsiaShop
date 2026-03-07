@@ -49,7 +49,8 @@ struct Order: Identifiable {
         positions: [Position] = [],
         status: OrderStatus = .new,
         createdAt: Date = Date(),
-        readyBy: Date? = nil
+        readyBy: Date? = nil,
+        total: Double? = nil
     ) {
         self.id = id
         self.userName = userName
@@ -58,6 +59,6 @@ struct Order: Identifiable {
         self.status = status
         self.createdAt = createdAt
         self.readyBy = readyBy
-        self.total = positions.reduce(0) { $0 + $1.cost }
+        self.total = total ?? positions.reduce(0) { $0 + $1.cost }
     }
 }

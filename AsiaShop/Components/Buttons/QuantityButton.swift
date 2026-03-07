@@ -13,24 +13,28 @@ struct QuantityButton: View {
     let onIncrease: () -> Void
     let isInBasket: Bool
     let onAddToBasket: (() -> Void)?
+    /// Когда true, всегда показывать счётчик (− N +), даже при count == 0 (для дополнений в корзине).
+    let alwaysShowStepper: Bool
     
     init(
         count: Int,
         onDecrease: @escaping () -> Void,
         onIncrease: @escaping () -> Void,
         isInBasket: Bool = true,
-        onAddToBasket: (() -> Void)? = nil
+        onAddToBasket: (() -> Void)? = nil,
+        alwaysShowStepper: Bool = false
     ) {
         self.count = count
         self.onDecrease = onDecrease
         self.onIncrease = onIncrease
         self.isInBasket = isInBasket
         self.onAddToBasket = onAddToBasket
+        self.alwaysShowStepper = alwaysShowStepper
     }
     
     var body: some View {
         Group {
-            if isInBasket && count > 0 {
+            if alwaysShowStepper || (isInBasket && count > 0) {
                 quantityStepperView
             } else {
                 addToBasketButtonView

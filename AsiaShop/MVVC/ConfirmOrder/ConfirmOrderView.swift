@@ -203,17 +203,3 @@ private struct Constants {
         static let russian = Locale(identifier: "ru_RU")
     }
 }
-
-// MARK: - Preview
-
-#Preview {
-    ConfirmOrderView(
-        viewModel: ConfirmOrderViewModel(
-            totalCost: 49.8,
-            positions: [],
-            onOrderCreated: { _ in },
-            onCancel: {},
-            clearBasket: {}
-        )
-    )
-}

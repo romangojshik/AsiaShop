@@ -26,6 +26,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     @Published var showNameValidationError: Bool = false
     
     private let positions: [Position]
+    private let getTotalCost: () -> Double
     private let onOrderCreated: (String) -> Void
     private let onCancel: () -> Void
     private let clearBasket: () -> Void
@@ -33,12 +34,14 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     init(
         totalCost: Double,
         positions: [Position],
+        getTotalCost: (() -> Double)? = nil,
         onOrderCreated: @escaping (String) -> Void,
         onCancel: @escaping () -> Void,
         clearBasket: @escaping () -> Void
     ) {
         self.totalCost = totalCost
         self.positions = positions
+        self.getTotalCost = getTotalCost ?? { totalCost }
         self.onOrderCreated = onOrderCreated
         self.onCancel = onCancel
         self.clearBasket = clearBasket
@@ -66,7 +69,8 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             positions: positions,
             status: .new,
             createdAt: Date(),
-            readyBy: readyBy
+            readyBy: readyBy,
+            total: getTotalCost()
         )
 
         Task { @MainActor in
