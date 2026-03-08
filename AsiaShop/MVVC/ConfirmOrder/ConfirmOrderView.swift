@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ConfirmOrderView: View {
     @ObservedObject var viewModel: ConfirmOrderViewModel
+    @State private var isConfirmButtonDisabled = false
     
     var body: some View {
         ScrollView {
@@ -174,9 +175,15 @@ struct ConfirmOrderView: View {
                     backgroundColor: AppConstants.Colors.blackOpacity90,
                     foregroundColor: .white,
                     action: {
+                        isConfirmButtonDisabled = true
                         viewModel.confirmOrder()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            isConfirmButtonDisabled = false
+                        }
                     }
                 )
+                .disabled(isConfirmButtonDisabled || !viewModel.isFormValid)
+                .opacity((isConfirmButtonDisabled || !viewModel.isFormValid) ? 0.6 : 1)
             }
         }
     }

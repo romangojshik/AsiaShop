@@ -12,6 +12,7 @@ protocol ConfirmOrderViewModelProtocol: ObservableObject {
     var userName: String { get set }
     var phone: String { get set }
     var readyBy: Date? { get set }
+    var isFormValid: Bool { get }
     
     func confirmOrder()
     func cancelOrder()
@@ -45,6 +46,13 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         self.onOrderCreated = onOrderCreated
         self.onCancel = onCancel
         self.clearBasket = clearBasket
+    }
+    
+    /// Кнопка «Подтвердить» активна только когда заполнены имя и телефон.
+    var isFormValid: Bool {
+        let name = userName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let phoneDigits = PhoneMask.digits(from: phone)
+        return !name.isEmpty && !phoneDigits.isEmpty
     }
     
     func confirmOrder() {
