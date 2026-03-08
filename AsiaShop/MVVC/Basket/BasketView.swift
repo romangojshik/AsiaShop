@@ -25,30 +25,9 @@ struct BasketView: View {
                             } else {
                                 makeBasketRowView
                                 BasketExtrasSectionView()
+                                makeTotalView
                             }
                         }
-                    }
-                    
-                    if !storage.positions.isEmpty {
-                        HStack {
-                            Text(Constants.Texts.total)
-                                .fontWeight(.bold)
-                                .foregroundColor(AppConstants.Colors.blackOpacity90)
-                            Spacer()
-                            Text(String(format: "%.2f", storage.totalCost) + " руб")
-                                .fontWeight(.bold)
-                                .foregroundColor(AppConstants.Colors.blackOpacity90)
-                        }.padding()
-                        
-                        WhiteOrBlackButton(
-                            title: "Оформить заказ",
-                            backgroundColor: Color(white: 0.15),
-                            foregroundColor: .white,
-                            action: {
-                                router.navigate(to: .confirmOrder(totalCost: storage.totalCost))
-                            }
-                        )
-                        .padding()
                     }
                 }
             }
@@ -94,12 +73,37 @@ struct BasketView: View {
                 )
                 .padding(.horizontal)
                 .padding(.vertical, 12)
-
+                
                 if index < storage.positions.count - 1 {
                     Divider()
                         .padding(.horizontal, 16)
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var makeTotalView: some View {
+        if !storage.positions.isEmpty {
+            HStack {
+                Text(Constants.Texts.total)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
+                Spacer()
+                Text(String(format: "%.2f", storage.totalCost) + " руб")
+                    .fontWeight(.bold)
+                    .foregroundColor(AppConstants.Colors.blackOpacity90)
+            }.padding()
+            
+            WhiteOrBlackButton(
+                title: Constants.Texts.placeOrder,
+                backgroundColor: Color(white: 0.15),
+                foregroundColor: .white,
+                action: {
+                    router.navigate(to: .confirmOrder(totalCost: storage.totalCost))
+                }
+            )
+            .padding()
         }
     }
     
@@ -144,5 +148,6 @@ private struct Constants {
     
     struct Texts {
         static let total = "ИТОГО:"
+        static let placeOrder = "Оформить заказ"
     }
 }
