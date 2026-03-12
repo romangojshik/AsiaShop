@@ -24,7 +24,9 @@ struct BasketView: View {
                                 Spacer()
                             } else {
                                 makeBasketRowView
-                                BasketExtrasSectionView()
+                                ForEach(ExtraButton.stepperExtras, id: \.self) { extra in
+                                    BasketExtraRowView(extraButton: extra)
+                                }
                                 makeTotalView
                             }
                         }
@@ -74,7 +76,7 @@ struct BasketView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 12)
                 
-                if index < storage.positions.count - 1 {
+                if index < storage.positions.count {
                     Divider()
                         .padding(.horizontal, 16)
                 }

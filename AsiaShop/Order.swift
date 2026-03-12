@@ -7,14 +7,6 @@
 
 import Foundation
 
-enum OrderStatus: String {
-    case new        = "Новый"
-    case cooking    = "Готовиться"
-    case delivery   = "Доставляется"
-    case completed  = "Выполнен"
-    case cancelled  = "Отменен"
-}
-
 struct Order: Identifiable {
 
     // MARK: - Stored properties
@@ -24,10 +16,12 @@ struct Order: Identifiable {
     var numberPhone: String           // номер телефона
 
     var positions: [Position] = []    // позиции заказа
-    var status: OrderStatus           // статус
 
     /// Сумма заказа, которую сохраняем в документе
     var total: Double
+
+    /// Дополнения: название → количество. В JSON уходит как объект, например {"Васаби": 1, "Палочки": 2}.
+    var extras: [String: Int] = [:]
 
     /// Когда заказ создан
     var createdAt: Date
@@ -47,18 +41,18 @@ struct Order: Identifiable {
         userName: String,
         numberPhone: String,
         positions: [Position] = [],
-        status: OrderStatus = .new,
         createdAt: Date = Date(),
         readyBy: Date? = nil,
-        total: Double? = nil
+        total: Double? = nil,
+        extras: [String: Int] = [:]
     ) {
         self.id = id
         self.userName = userName
         self.numberPhone = numberPhone
         self.positions = positions
-        self.status = status
         self.createdAt = createdAt
         self.readyBy = readyBy
         self.total = total ?? positions.reduce(0) { $0 + $1.cost }
+        self.extras = extras
     }
 }

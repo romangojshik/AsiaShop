@@ -28,6 +28,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     
     private let positions: [Position]
     private let getTotalCost: () -> Double
+    private let getExtras: () -> [String: Int]
     private let onOrderCreated: (String) -> Void
     private let onCancel: () -> Void
     private let clearBasket: () -> Void
@@ -36,6 +37,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         totalCost: Double,
         positions: [Position],
         getTotalCost: (() -> Double)? = nil,
+        getExtras: (() -> [String: Int])? = nil,
         onOrderCreated: @escaping (String) -> Void,
         onCancel: @escaping () -> Void,
         clearBasket: @escaping () -> Void
@@ -43,6 +45,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         self.totalCost = totalCost
         self.positions = positions
         self.getTotalCost = getTotalCost ?? { totalCost }
+        self.getExtras = getExtras ?? { [:] }
         self.onOrderCreated = onOrderCreated
         self.onCancel = onCancel
         self.clearBasket = clearBasket
@@ -75,10 +78,10 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             userName: userName,
             numberPhone: userPhone,
             positions: positions,
-            status: .new,
             createdAt: Date(),
             readyBy: readyBy,
-            total: getTotalCost()
+            total: getTotalCost(),
+            extras: getExtras()
         )
 
         Task { @MainActor in

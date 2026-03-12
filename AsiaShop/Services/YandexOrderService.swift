@@ -35,12 +35,15 @@ final class YandexOrderService {
     }
     
     private func orderPayload(_ order: Order) -> Data? {
-        let dict: [String: Any] = [
+        var dict: [String: Any] = [
             "id": order.id,
             "user_name": order.userName,
             "user_phone_number": order.numberPhone,
             "total": order.total,
         ]
+        if !order.extras.isEmpty {
+            dict["extras"] = order.extras
+        }
         return try? JSONSerialization.data(withJSONObject: dict)
     }
 }
