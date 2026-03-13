@@ -22,9 +22,9 @@ struct ProductDetailView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     URLImageView(urlString: viewModel.product.imageURL)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 220)
-                    .clipped()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 220)
+                        .clipped()
                     
                     Spacer()
                     
@@ -82,7 +82,7 @@ struct ProductDetailView: View {
                             product: viewModel.product,
                             count: count
                         )
-                        storage.addPosition(position)
+                        storage.addPosition(position: position)
                         presentationMode.wrappedValue.dismiss()
                     }
                 )
@@ -182,5 +182,4 @@ private struct Constants {
             )
         )
     )
-    .environmentObject(OrderDataStorage.shared)
 }

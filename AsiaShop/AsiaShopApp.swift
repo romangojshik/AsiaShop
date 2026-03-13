@@ -13,10 +13,12 @@ let screen = UIScreen.main.bounds
 struct AsiaShopApp: App {
     
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @StateObject private var orderDataStorage = OrderDataStorage()
     
     var body: some Scene {
         WindowGroup {
             MainTabBar()
+                .environmentObject(orderDataStorage)
         }
     }
     
@@ -25,8 +27,6 @@ struct AsiaShopApp: App {
             _ application: UIApplication,
             didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
         ) -> Bool {
-            // ordersAPIURL по умолчанию = YandexAPIConfig.baseURL + "/order"
-            // Чтобы изменить: YandexOrderService.shared.ordersAPIURL = "https://ваш-url/order"
             return true
         }
     }

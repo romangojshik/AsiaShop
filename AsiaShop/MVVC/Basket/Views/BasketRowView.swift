@@ -11,9 +11,11 @@ struct BasketRowView: View {
     @EnvironmentObject var storage: OrderDataStorage
     
     // MARK: - Public properties
+    
     public let positionID: String
     
     // MARK: - Private properties
+    
     private var position: Position? {
         storage.positions.first { $0.id == positionID }
     }

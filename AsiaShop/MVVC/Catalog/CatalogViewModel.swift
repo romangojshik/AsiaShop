@@ -7,36 +7,40 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
-protocol CatalogViewModelProtocol: ObservableObject {
-    var sushiSets: [SushiSet] { get }
-    var sushi: [Sushi] { get }
-    var isLoading: Bool { get }
 
-    func loadProducts()
-    func addToBasket(product: Product)
-}
-
-class CatalogViewModel: CatalogViewModelProtocol {
+class CatalogViewModel: ObservableObject {
     @Published var sushiSets: [SushiSet] = []
     @Published var sushi: [Sushi] = []
     @Published var isLoading: Bool = false
     
+    // MARK: - Private Properties
+    
     private let database: YandexCatalogServiceProtocol
-    private let storage: OrderDataStorage
-
+    private let storage: any OrderDataStoreProtocol
+    private var cancellables = Set<AnyCancellable>()
+    
     init(
         database: YandexCatalogServiceProtocol = YandexCatalogService.shared,
-        storage: OrderDataStorage = .shared
+        storage: any OrderDataStoreProtocol
     ) {
-        self.database = database
         self.storage = storage
+        self.database = database
+        
+        storage.objectWillChange
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
+        
         loadProducts()
     }
     
     func loadProducts() {
         isLoading = true
-
+        
         database.loadCatalog { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -57,6 +61,6 @@ class CatalogViewModel: CatalogViewModelProtocol {
             product: product,
             count: 1
         )
-        storage.addPosition(position)
+        storage.addPosition(position: position)
     }
 }

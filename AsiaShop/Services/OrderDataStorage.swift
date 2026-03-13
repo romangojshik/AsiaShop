@@ -8,6 +8,9 @@
 import Foundation
 import Combine
 
+
+// MARK: - ExtraButton
+
 enum ExtraButton: String, CaseIterable {
     case chopsticks = "Палочки"
     case wasabi = "Васаби"
@@ -28,15 +31,41 @@ enum ExtraButton: String, CaseIterable {
     }
 }
 
-final class OrderDataStorage: ObservableObject {
-    
-    static let shared = OrderDataStorage()
-    
+// MARK: - OrderDataStoreProtocol
+
+protocol OrderDataStoreProtocol: ObservableObject where ObjectWillChangePublisher == ObservableObjectPublisher {
+
+    // Основные данные
+    var positions: [Position] { get set }
+    var cost: Double { get }
+    var addOnsCost: Double { get }
+    var totalCost: Double { get }
+
+    // Операции с позициями
+    func addPosition(position: Position)
+    func isProductInBasket(productId: String) -> Bool
+    func getProductCount(productId: String) -> Int
+    func increaseCount(positionId: String)
+    func decreaseCount(positionId: String)
+    func decreaseOrRemove(positionId: String)
+    func removePosition(positionId: String)
+    func clearBasket()
+
+    // Операции с дополнениями (палочки, соусы)
+    func extraCount(extra: ExtraButton) -> Int
+    func increaseAddOn(extra: ExtraButton)
+    func decreaseAddOn(extra: ExtraButton)
+}
+
+final class OrderDataStorage: OrderDataStoreProtocol {
+        
     @Published var positions: [Position] = []
     
     @Published var ExtraCountDict: [ExtraButton: Int] = {
         Dictionary(uniqueKeysWithValues: ExtraButton.allCases.map { ($0, 0) })
     }()
+    
+    // MARK: - Public properties
     
     /// Стоимость дополнений. Реактивно пересчитывается при изменении addOnCounts.
     var addOnsCost: Double {
@@ -55,9 +84,13 @@ final class OrderDataStorage: ObservableObject {
         cost + addOnsCost
     }
     
-    private init() {}
+    // MARK: - init
+
+    init() {}
     
-    func addPosition(_ position: Position) {
+    // MARK: - Public methods
+    
+    func addPosition(position: Position) {
         positions.append(position)
     }
     

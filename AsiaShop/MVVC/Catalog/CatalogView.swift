@@ -7,10 +7,23 @@
 
 import SwiftUI
 
+
 struct CatalogView: View {
-    @StateObject private var viewModel = CatalogViewModel(
-        database: YandexCatalogService.shared
-    )
+    @EnvironmentObject var storage: OrderDataStorage
+    
+    var body: some View {
+        CatalogContentView(
+            viewModel: CatalogViewModel(
+                database: YandexCatalogService.shared,
+                storage: storage
+            )
+        )
+    }
+}
+
+struct CatalogContentView: View {
+    @StateObject var viewModel: CatalogViewModel
+    
     @State private var selectedProduct: Product?
     
     private var shimmerContent: some View {
@@ -18,7 +31,7 @@ struct CatalogView: View {
             VStack(alignment: .leading, spacing: 12) {
                 ShimmerRectangle(width: 140, height: 24, cornerRadius: 6)
                     .padding(.horizontal)
-
+                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
                         ForEach(0..<4, id: \.self) { _ in
@@ -28,11 +41,11 @@ struct CatalogView: View {
                     .padding(.horizontal)
                 }
             }
-
+            
             VStack(alignment: .leading, spacing: 12) {
                 ShimmerRectangle(width: 140, height: 24, cornerRadius: 6)
                     .padding(.horizontal)
-
+                
                 VStack(spacing: 0) {
                     ForEach(0..<5, id: \.self) { index in
                         SushiRowShimmerView()
@@ -45,7 +58,7 @@ struct CatalogView: View {
             }
         }
     }
-
+    
     private var catalogContent: some View {
         Group {
             if !viewModel.sushiSets.isEmpty {
@@ -55,7 +68,7 @@ struct CatalogView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                         .padding(.horizontal)
-
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
@@ -70,11 +83,11 @@ struct CatalogView: View {
                     }
                 }
             }
-
+            
             mainMenuSection
         }
     }
-
+    
     // Секция "Основное меню" - вертикальный список по одному продукту
     private var mainMenuSection: some View {
         Group {
@@ -145,7 +158,6 @@ struct CatalogView: View {
                     )
                 }
             }
-            .environmentObject(OrderDataStorage.shared)
         }
         .onAppear {
             if viewModel.sushi.isEmpty {

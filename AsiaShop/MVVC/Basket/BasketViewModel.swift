@@ -12,7 +12,7 @@ protocol BasketViewModelProtocol: ObservableObject {
     var positions: [Position] { get set }
     var cost: Double { get }
     
-    func addPosition(_ position: Position)
+    func addPosition(position: Position)
     func isProductInBasket(productId: String) -> Bool
     func getProductCount(productId: String) -> Int
     func increaseCount(positionId: String)
@@ -21,7 +21,7 @@ protocol BasketViewModelProtocol: ObservableObject {
 }
 
 class BasketViewModel: BasketViewModelProtocol {
-    private let storage: OrderDataStorage
+    private let storage: OrderDataStoreProtocol
     private var cancellables = Set<AnyCancellable>()
     
     var positions: [Position] {
@@ -33,7 +33,7 @@ class BasketViewModel: BasketViewModelProtocol {
         storage.cost
     }
     
-    init(storage: OrderDataStorage = .shared) {
+    init(storage: OrderDataStoreProtocol) {
         self.storage = storage
         storage.objectWillChange
             .receive(on: RunLoop.main)
@@ -43,8 +43,8 @@ class BasketViewModel: BasketViewModelProtocol {
             .store(in: &cancellables)
     }
     
-    func addPosition(_ position: Position) {
-        storage.addPosition(position)
+    func addPosition(position: Position) {
+        storage.addPosition(position: position)
     }
     
     func isProductInBasket(productId: String) -> Bool {

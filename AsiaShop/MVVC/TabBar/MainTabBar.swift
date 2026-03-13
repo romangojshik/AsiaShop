@@ -13,7 +13,7 @@ enum Tab: Hashable {
 }
 
 struct MainTabBar: View {
-    @ObservedObject private var storage = OrderDataStorage.shared
+    @EnvironmentObject var storage: OrderDataStorage
     @State private var selectedTab: Tab = .catalog
     
     init() {
@@ -59,7 +59,6 @@ struct MainTabBar: View {
                 .badge(basketItemsCount)
                 .tag(Tab.basket)
         }
-        .environmentObject(OrderDataStorage.shared)
         .tint(.white)
     }
 }

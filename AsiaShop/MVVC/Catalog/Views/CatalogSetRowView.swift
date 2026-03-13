@@ -48,7 +48,7 @@ struct CatalogSetRowView: View {
                                 product: product,
                                 count: 1
                             )
-                            storage.addPosition(position)
+                            storage.addPosition(position: position)
                         }
                     },
                     onAddToBasket: {
@@ -57,7 +57,7 @@ struct CatalogSetRowView: View {
                             product: product,
                             count: 1
                         )
-                        storage.addPosition(position)
+                        storage.addPosition(position: position)
                     }
                 )
                 .padding(.horizontal, AppConstants.Padding.padding6)
