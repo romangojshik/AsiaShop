@@ -21,7 +21,7 @@ protocol BasketViewModelProtocol: ObservableObject {
 }
 
 class BasketViewModel: BasketViewModelProtocol {
-    private let storage: OrderDataStoreProtocol
+    private let storage: any OrderDataStoreProtocol
     private var cancellables = Set<AnyCancellable>()
     
     var positions: [Position] {
@@ -33,7 +33,7 @@ class BasketViewModel: BasketViewModelProtocol {
         storage.cost
     }
     
-    init(storage: OrderDataStoreProtocol) {
+    init(storage: any OrderDataStoreProtocol) {
         self.storage = storage
         storage.objectWillChange
             .receive(on: RunLoop.main)

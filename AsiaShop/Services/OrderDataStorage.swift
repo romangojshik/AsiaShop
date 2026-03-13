@@ -91,7 +91,11 @@ final class OrderDataStorage: OrderDataStoreProtocol {
     // MARK: - Public methods
     
     func addPosition(position: Position) {
-        positions.append(position)
+        if let index = positions.firstIndex(where: { $0.product.id == position.product.id }) {
+            positions[index].count = position.count
+        } else {
+            positions.append(position)
+        }
     }
     
     func isProductInBasket(productId: String) -> Bool {

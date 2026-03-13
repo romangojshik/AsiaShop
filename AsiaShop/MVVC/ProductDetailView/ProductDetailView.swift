@@ -10,7 +10,10 @@ import SwiftUI
 struct ProductDetailView: View {
     @ObservedObject var viewModel: ProductDetailViewModel
     @EnvironmentObject var storage: OrderDataStorage
-    @State var count = 1
+    
+    //MARK: - Private properties
+    
+    @State private var count = 1
     
     var onDecrease: (() -> Void)? = nil
     var onIncrease: (() -> Void)? = nil
@@ -89,6 +92,12 @@ struct ProductDetailView: View {
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
+        }
+        .onAppear {
+            let current = storage.getProductCount(productId: viewModel.product.id)
+            if current > 0 {
+                count = current
+            }
         }
     }
 }
