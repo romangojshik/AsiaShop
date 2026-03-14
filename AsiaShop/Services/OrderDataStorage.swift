@@ -34,13 +34,13 @@ enum ExtraButton: String, CaseIterable {
 // MARK: - OrderDataStoreProtocol
 
 protocol OrderDataStoreProtocol: ObservableObject where ObjectWillChangePublisher == ObservableObjectPublisher {
-
+    
     // Основные данные
     var positions: [Position] { get set }
     var cost: Double { get }
     var addOnsCost: Double { get }
     var totalCost: Double { get }
-
+    
     // Операции с позициями
     func addPosition(position: Position)
     func isProductInBasket(productId: String) -> Bool
@@ -50,7 +50,7 @@ protocol OrderDataStoreProtocol: ObservableObject where ObjectWillChangePublishe
     func decreaseOrRemove(positionId: String)
     func removePosition(positionId: String)
     func clearBasket()
-
+    
     // Операции с дополнениями (палочки, соусы)
     func extraCount(extra: ExtraButton) -> Int
     func increaseAddOn(extra: ExtraButton)
@@ -58,7 +58,7 @@ protocol OrderDataStoreProtocol: ObservableObject where ObjectWillChangePublishe
 }
 
 final class OrderDataStorage: OrderDataStoreProtocol {
-        
+    
     @Published var positions: [Position] = []
     
     @Published var ExtraCountDict: [ExtraButton: Int] = {
@@ -85,7 +85,7 @@ final class OrderDataStorage: OrderDataStoreProtocol {
     }
     
     // MARK: - init
-
+    
     init() {}
     
     // MARK: - Public methods
@@ -156,5 +156,39 @@ final class OrderDataStorage: OrderDataStoreProtocol {
         if current > 0 {
             ExtraCountDict[extra] = current - 1
         }
+    }
+    
+    /// Готовая строка дополнений для отображения и для Order.extras (например «Палочки: 5 шт\nВасаби: 2 шт»).
+    func makeExtrasString() -> String {
+        makeExtrasString(from: currentExtras())
+    }
+    
+    /// Текущие дополнения в виде словаря для Order / API.
+    private func currentExtras() -> [String: Int] {
+        var result: [String: Int] = [:]
+        for extra in ExtraButton.stepperExtras {
+            let count = ExtraCountDict[extra] ?? 0
+            if count > 0 {
+                result[extra.rawValue] = count
+            }
+        }
+        return result
+    }
+    
+    /// Форматирует переданный словарь дополнений в строку.
+    private func makeExtrasString(from extras: [String: Int]) -> String {
+        var result = ""
+        
+        for extra in ExtraButton.stepperExtras {
+            let count = extras[extra.rawValue] ?? 0
+            if count > 0 {
+                if !result.isEmpty {
+                    result += "\n"
+                }
+                result += "\(extra.rawValue): \(count) шт"
+            }
+        }
+        
+        return result
     }
 }

@@ -7,18 +7,8 @@
 
 import Foundation
 
-protocol ConfirmOrderViewModelProtocol: ObservableObject {
-    var totalCost: Double { get }
-    var userName: String { get set }
-    var phone: String { get set }
-    var readyBy: Date? { get set }
-    var isFormValid: Bool { get }
-    
-    func confirmOrder()
-    func cancelOrder()
-}
 
-class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
+class ConfirmOrderViewModel: ObservableObject {
     @Published var totalCost: Double
     @Published var userName: String = ""
     @Published var phone: String = ""
@@ -28,7 +18,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
     
     private let positions: [Position]
     private let getTotalCost: () -> Double
-    private let getExtras: () -> [String: Int]
+    private let extras: String
     private let onOrderCreated: (String) -> Void
     private let onCancel: () -> Void
     private let clearBasket: () -> Void
@@ -37,7 +27,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         totalCost: Double,
         positions: [Position],
         getTotalCost: (() -> Double)? = nil,
-        getExtras: (() -> [String: Int])? = nil,
+        extras: String,
         onOrderCreated: @escaping (String) -> Void,
         onCancel: @escaping () -> Void,
         clearBasket: @escaping () -> Void
@@ -45,7 +35,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
         self.totalCost = totalCost
         self.positions = positions
         self.getTotalCost = getTotalCost ?? { totalCost }
-        self.getExtras = getExtras ?? { [:] }
+        self.extras = extras
         self.onOrderCreated = onOrderCreated
         self.onCancel = onCancel
         self.clearBasket = clearBasket
@@ -81,7 +71,7 @@ class ConfirmOrderViewModel: ConfirmOrderViewModelProtocol {
             createdAt: Date(),
             readyBy: readyBy,
             total: getTotalCost(),
-            extras: getExtras()
+            extras: extras
         )
 
         Task { @MainActor in

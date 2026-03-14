@@ -35,6 +35,7 @@ class BasketViewModel: BasketViewModelProtocol {
     
     init(storage: any OrderDataStoreProtocol) {
         self.storage = storage
+        
         storage.objectWillChange
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in

@@ -11,7 +11,7 @@ struct ProductDetailView: View {
     @ObservedObject var viewModel: ProductDetailViewModel
     @EnvironmentObject var storage: OrderDataStorage
     
-    //MARK: - Private properties
+    // MARK: - Private properties
     
     @State private var count = 1
     

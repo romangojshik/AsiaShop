@@ -118,6 +118,7 @@ struct BasketView: View {
                     totalCost: totalCost,
                     positions: storage.positions,
                     getTotalCost: { storage.totalCost },
+                    extras: storage.makeExtrasString(),
                     onOrderCreated: { userPhone in
                         router.navigate(to: .orderAccepted(userPhone: userPhone))
                     },

@@ -21,7 +21,7 @@ struct Order: Identifiable {
     var total: Double
 
     /// Дополнения: название → количество. В JSON уходит как объект, например {"Васаби": 1, "Палочки": 2}.
-    var extras: [String: Int] = [:]
+    var extras: String
 
     /// Когда заказ создан
     var createdAt: Date
@@ -44,7 +44,7 @@ struct Order: Identifiable {
         createdAt: Date = Date(),
         readyBy: Date? = nil,
         total: Double? = nil,
-        extras: [String: Int] = [:]
+        extras: String
     ) {
         self.id = id
         self.userName = userName
