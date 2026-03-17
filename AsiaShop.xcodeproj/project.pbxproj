@@ -34,6 +34,9 @@
 		20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F22F2C086C00B9B4DD /* SushiRowView.swift */; };
 		20C706F42F2C086C00B9B4DE /* SushiRowShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C706F52F2C086C00B9B4DE /* SushiRowShimmerView.swift */; };
 		20C878A32F539BE500D65BAF /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C878A22F539BD800D65BAF /* String+Extensions.swift */; };
+		20CBF7102F698AE600E1A155 /* Empty Cart.json in Resources */ = {isa = PBXBuildFile; fileRef = 20CBF70F2F698AE600E1A155 /* Empty Cart.json */; };
+		20CBF7132F698B5500E1A155 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 20CBF7122F698B5500E1A155 /* Lottie */; };
+		20CBF7152F698B6D00E1A155 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBF7142F698B6C00E1A155 /* LottieView.swift */; };
 		20FA1D7A2F3CAF6F0025020E /* WhiteOrBlackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */; };
 		20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */; };
 		20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */; };
@@ -93,6 +96,8 @@
 		20C706F22F2C086C00B9B4DD /* SushiRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowView.swift; sourceTree = "<group>"; };
 		20C706F52F2C086C00B9B4DE /* SushiRowShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SushiRowShimmerView.swift; sourceTree = "<group>"; };
 		20C878A22F539BD800D65BAF /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		20CBF70F2F698AE600E1A155 /* Empty Cart.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Empty Cart.json"; sourceTree = "<group>"; };
+		20CBF7142F698B6C00E1A155 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		20FA1D792F3CAF5E0025020E /* WhiteOrBlackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteOrBlackButton.swift; sourceTree = "<group>"; };
 		20FA1D7B2F3CCADE0025020E /* OrderAcceptedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedView.swift; sourceTree = "<group>"; };
 		20FA1D7C2F3CCADE0025020E /* OrderAcceptedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAcceptedViewModel.swift; sourceTree = "<group>"; };
@@ -137,6 +142,7 @@
 			files = (
 				20293E7C2F577F8D005D84C5 /* Nuke in Frameworks */,
 				20293E7E2F577F8D005D84C5 /* NukeUI in Frameworks */,
+				20CBF7132F698B5500E1A155 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +291,7 @@
 		304CB7CA2B0CEF0600ABBEA9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				20CBF7142F698B6C00E1A155 /* LottieView.swift */,
 				2064FC252F31EE3F0020A432 /* ScreenContainer.swift */,
 				20SHIMMR32F4000000A432 /* Shimmer */,
 				20PHONE022F40000100A432 /* PhoneNumberTextField.swift */,
@@ -314,6 +321,7 @@
 				30FD82CA2AF52E0300D94BA7 /* AsiaShop */,
 				209B107D2F3B69340030BAAB /* AsiaShopTests */,
 				30FD82C92AF52E0300D94BA7 /* Products */,
+				20CBF70F2F698AE600E1A155 /* Empty Cart.json */,
 			);
 			sourceTree = "<group>";
 		};
@@ -393,6 +401,7 @@
 			packageProductDependencies = (
 				20293E7B2F577F8D005D84C5 /* Nuke */,
 				20293E7D2F577F8D005D84C5 /* NukeUI */,
+				20CBF7122F698B5500E1A155 /* Lottie */,
 			);
 			productName = AsiaShop;
 			productReference = 30FD82C82AF52E0300D94BA7 /* AsiaShop.app */;
@@ -428,6 +437,7 @@
 			packageReferences = (
 				209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */,
+				20CBF7112F698B5500E1A155 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 30FD82C92AF52E0300D94BA7 /* Products */;
 			projectDirPath = "";
@@ -451,6 +461,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20CBF7102F698AE600E1A155 /* Empty Cart.json in Resources */,
 				30FD82D32AF52E0E00D94BA7 /* Preview Assets.xcassets in Resources */,
 				30FD82D02AF52E0E00D94BA7 /* Assets.xcassets in Resources */,
 				2064FC2C2F337EAA0020A432 /* SWIFT_MARKS_DOC.md in Resources */,
@@ -505,6 +516,7 @@
 				20FA1D7D2F3CCADE0025020E /* OrderAcceptedViewModel.swift in Sources */,
 				20FA1D7E2F3CCADE0025020E /* OrderAcceptedView.swift in Sources */,
 				30FD82CC2AF52E0300D94BA7 /* AsiaShopApp.swift in Sources */,
+				20CBF7152F698B6D00E1A155 /* LottieView.swift in Sources */,
 				2032AD972F5C25C4004C7DC2 /* BasketExtraRowView.swift in Sources */,
 				304CB7CC2B0CEF4F00ABBEA9 /* Product.swift in Sources */,
 				20C706F32F2C086C00B9B4DD /* SushiRowView.swift in Sources */,
@@ -793,6 +805,14 @@
 				minimumVersion = 1.18.9;
 			};
 		};
+		20CBF7112F698B5500E1A155 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -810,6 +830,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
+		};
+		20CBF7122F698B5500E1A155 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20CBF7112F698B5500E1A155 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

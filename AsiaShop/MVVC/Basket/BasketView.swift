@@ -16,13 +16,18 @@ struct BasketView: View {
             CustomNavigationBarView(title: "Корзина")
             
             ScreenContainer {
-                VStack(spacing: 0) {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 0) {
-                            if storage.positions.isEmpty {
-                                makeBasketEmptyView
-                                Spacer()
-                            } else {
+                if storage.positions.isEmpty {
+                    VStack {
+                        Spacer()
+                        
+                        makeBasketEmptyView
+                        
+                        Spacer()
+                    }
+                } else {
+                    VStack(spacing: 0) {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing: 0) {
                                 makeBasketRowView
                                 ForEach(ExtraButton.stepperExtras, id: \.self) { extra in
                                     BasketExtraRowView(extraButton: extra)
@@ -51,20 +56,16 @@ struct BasketView: View {
     
     private var makeBasketEmptyView: some View {
         VStack(spacing: 16) {
-            Text("Вы еще ничего не заказали, ваша карзина пустая.")
+            Text(Constants.Texts.emptyBasketMessage)
                 .font(.title2)
                 .foregroundColor(AppConstants.Colors.blackOpacity70)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 300)
             
-            Image(Constants.Images.basketEmpty)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            LottieView(name: "Empty Cart", loopMode: .playOnce)
                 .frame(width: 90, height: 90)
-                .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 100)
     }
     
     private var makeBasketRowView: some View {
@@ -150,6 +151,7 @@ private struct Constants {
     
     
     struct Texts {
+        static let emptyBasketMessage = "Вы еще ничего не заказали, ваша карзина пустая."
         static let total = "ИТОГО:"
         static let placeOrder = "Оформить заказ"
     }
