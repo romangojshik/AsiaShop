@@ -41,9 +41,25 @@ final class YandexOrderService {
             "user_phone_number": order.numberPhone,
             "total": order.total,
         ]
+        
         if !order.extras.isEmpty {
             dict["extras"] = order.extras
         }
+        
+        // Позиции заказа → в JSON как массив объектов
+        if !order.positions.isEmpty {
+            let items: [[String: Any]] = order.positions.map { position in
+                return [
+                    "product_id": position.product.id,
+                    "title": position.product.title,
+                    "count": position.count,
+                    "price": position.product.price,
+                    "cost": position.cost
+                ]
+            }
+            dict["positions"] = items
+        }
+        
         return try? JSONSerialization.data(withJSONObject: dict)
     }
 }
