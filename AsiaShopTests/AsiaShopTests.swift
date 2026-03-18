@@ -6,11 +6,109 @@
 //
 
 import Testing
+import SnapshotTesting
+import SwiftUI
+import UIKit
 
-struct AsiaShopTests {
+@testable import AsiaShop
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+@MainActor
+struct CatalogSnapshotTests {
+    @Test func catalog_loaded_state() async {
+        let storage = OrderDataStorage()
+
+        let database = MockYandexCatalogService(
+            sushi: [
+                Sushi(
+                    id: "sushi_1",
+                    imageURL: "",
+                    title: "Калифорния с Лососем",
+                    description: "Лосось, огурец, сыр, рис",
+                    price: 17,
+                    composition: "Лосось, огурец, сыр, рис",
+                    nutrition: Nutrition(weight: "34", callories: nil, protein: nil, fats: nil)
+                ),
+                Sushi(
+                    id: "sushi_2",
+                    imageURL: "",
+                    title: "Тару",
+                    description: "Рис, майонез, креветка, огурец",
+                    price: 20,
+                    composition: "Рис, майонез, креветка, огурец",
+                    nutrition: Nutrition(weight: "56", callories: nil, protein: nil, fats: nil)
+                ),
+                Sushi(
+                    id: "sushi_3",
+                    imageURL: "",
+                    title: "Жаренные",
+                    description: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
+                    price: 16,
+                    composition: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
+                    nutrition: Nutrition(weight: "44", callories: nil, protein: nil, fats: nil)
+                )
+            ],
+            sushiSets: [
+                SushiSet(
+                    id: "set_1",
+                    imageURL: "",
+                    title: "Аками",
+                    description: "Набор",
+                    price: 99,
+                    composition: nil,
+                    nutrition: Nutrition(weight: "1555", callories: nil, protein: nil, fats: nil)
+                ),
+                SushiSet(
+                    id: "set_2",
+                    imageURL: "",
+                    title: "Баунти",
+                    description: "Набор",
+                    price: 98,
+                    composition: nil,
+                    nutrition: Nutrition(weight: "433", callories: nil, protein: nil, fats: nil)
+                ),
+                SushiSet(
+                    id: "set_3",
+                    imageURL: "",
+                    title: "Темари",
+                    description: "Набор",
+                    price: 112,
+                    composition: nil,
+                    nutrition: Nutrition(weight: "1333", callories: nil, protein: nil, fats: nil)
+                )
+            ]
+        )
+
+        let viewModel = CatalogViewModel(database: database, storage: storage)
+
+        // Wait until view model finishes loading (so shimmer won't be shown).
+        let deadline = Date().addingTimeInterval(2.0)
+        while (viewModel.isLoading || viewModel.sushi.isEmpty || viewModel.sushiSets.isEmpty) && Date() < deadline {
+            await Task.yield()
+        }
+        await Task.yield()
+
+        let view = CatalogContentView(viewModel: viewModel)
+            .environmentObject(storage)
+
+        let host = UIHostingController(rootView: view)
+        host.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844) // iPhone-like size
+
+        assertSnapshot(of: host, as: .image)
+    }
+}
+
+private final class MockYandexCatalogService: YandexCatalogServiceProtocol {
+    let sushi: [Sushi]
+    let sushiSets: [SushiSet]
+
+    init(sushi: [Sushi], sushiSets: [SushiSet]) {
+        self.sushi = sushi
+        self.sushiSets = sushiSets
     }
 
+    func loadCatalog(
+        completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void
+    ) {
+        completion(.success((self.sushi, self.sushiSets)))
+    }
 }
