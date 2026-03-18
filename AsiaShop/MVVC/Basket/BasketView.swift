@@ -43,7 +43,7 @@ struct BasketView: View {
             Group {
                 if #available(iOS 16.4, *) {
                     sheetView(for: route)
-                        .presentationDetents([.fraction(0.7), .large])
+                        .presentationDetents([.large])
                         .presentationDragIndicator(.visible)
                         .presentationBackground(Color.white)
                 } else {
