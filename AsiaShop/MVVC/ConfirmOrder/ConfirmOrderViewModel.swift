@@ -13,8 +13,6 @@ class ConfirmOrderViewModel: ObservableObject {
     @Published var userName: String = ""
     @Published var phone: String = ""
     @Published var readyBy: Date?
-    @Published var showPhoneValidationError: Bool = false
-    @Published var showNameValidationError: Bool = false
     
     private let positions: [Position]
     private let getTotalCost: () -> Double
@@ -45,19 +43,18 @@ class ConfirmOrderViewModel: ObservableObject {
     var isFormValid: Bool {
         let name = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         let phoneDigits = PhoneMask.digits(from: phone)
-        return !name.isEmpty && !phoneDigits.isEmpty
+        // Требуем полностью введённый номер: 9 цифр после +375
+        return !name.isEmpty && phoneDigits.count == 9
     }
     
     func confirmOrder() {
         let trimmedName = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPhone = phone.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        showNameValidationError = trimmedName.isEmpty
-        showPhoneValidationError = trimmedPhone.isEmpty
-        
+        let phoneDigits = PhoneMask.digits(from: trimmedPhone)
         guard
             !trimmedName.isEmpty,
-            !trimmedPhone.isEmpty
+            phoneDigits.count == 9
         else { return }
         
         createOrder(userName: trimmedName, userPhone: trimmedPhone)

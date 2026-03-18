@@ -12,6 +12,7 @@ import SwiftUI
 
 struct PhoneFieldView: View {
     @State private var text = ""
+    @State private var isFormatting = false
     @FocusState private var isFocused: Bool
     
     private let placeholder: String
@@ -126,6 +127,10 @@ struct PhoneFieldView: View {
                     )
             }
                 .onChange(of: text) { newValue in
+                    guard !isFormatting else { return }
+                    isFormatting = true
+                    defer { isFormatting = false }
+
                     let digits = newValue.filteredPhoneDigits
                     let userDigits = String(digits.dropFirst(countryCode.count)).prefix(9)
                     let formatted = Self.formattedNumber(
@@ -133,16 +138,14 @@ struct PhoneFieldView: View {
                         countryCode: countryCode,
                         mask: mask
                     )
-                    if formatted != text {
+                    if formatted != newValue {
                         text = formatted
                     }
-                    binding.wrappedValue = String(userDigits)
+                    let raw = String(userDigits)
+                    if binding.wrappedValue != raw {
+                        binding.wrappedValue = raw
+                    }
                 }
-        }
-        .onAppear {
-            if text.isEmpty && isFocused {
-                text = internationalCode + " ("
-            }
         }
         .onChange(of: isFocused) { focused in
             if focused && text.isEmpty {
