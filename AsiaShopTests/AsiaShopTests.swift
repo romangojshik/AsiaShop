@@ -18,9 +18,9 @@ struct CatalogSnapshotTests {
         let storage = OrderDataStorage()
 
         let database = MockYandexCatalogService(
-            sushi: [
-                Sushi(
-                    id: "sushi_1",
+            rolls: [
+                Roll(
+                    id: "roll_1",
                     imageURL: "",
                     title: "Калифорния с Лососем",
                     description: "Лосось, огурец, сыр, рис",
@@ -28,8 +28,8 @@ struct CatalogSnapshotTests {
                     composition: "Лосось, огурец, сыр, рис",
                     nutrition: Nutrition(weight: "34", callories: nil, protein: nil, fats: nil)
                 ),
-                Sushi(
-                    id: "sushi_2",
+                Roll(
+                    id: "roll_2",
                     imageURL: "",
                     title: "Тару",
                     description: "Рис, майонез, креветка, огурец",
@@ -37,8 +37,8 @@ struct CatalogSnapshotTests {
                     composition: "Рис, майонез, креветка, огурец",
                     nutrition: Nutrition(weight: "56", callories: nil, protein: nil, fats: nil)
                 ),
-                Sushi(
-                    id: "sushi_3",
+                Roll(
+                    id: "roll_3",
                     imageURL: "",
                     title: "Жаренные",
                     description: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
@@ -47,8 +47,8 @@ struct CatalogSnapshotTests {
                     nutrition: Nutrition(weight: "44", callories: nil, protein: nil, fats: nil)
                 )
             ],
-            sushiSets: [
-                SushiSet(
+            rollSets: [
+                RollSet(
                     id: "set_1",
                     imageURL: "",
                     title: "Аками",
@@ -57,7 +57,7 @@ struct CatalogSnapshotTests {
                     composition: nil,
                     nutrition: Nutrition(weight: "1555", callories: nil, protein: nil, fats: nil)
                 ),
-                SushiSet(
+                RollSet(
                     id: "set_2",
                     imageURL: "",
                     title: "Баунти",
@@ -66,7 +66,7 @@ struct CatalogSnapshotTests {
                     composition: nil,
                     nutrition: Nutrition(weight: "433", callories: nil, protein: nil, fats: nil)
                 ),
-                SushiSet(
+                RollSet(
                     id: "set_3",
                     imageURL: "",
                     title: "Темари",
@@ -82,7 +82,7 @@ struct CatalogSnapshotTests {
 
         // Wait until view model finishes loading (so shimmer won't be shown).
         let deadline = Date().addingTimeInterval(2.0)
-        while (viewModel.isLoading || viewModel.sushi.isEmpty || viewModel.sushiSets.isEmpty) && Date() < deadline {
+        while (viewModel.isLoading || viewModel.rolls.isEmpty || viewModel.rollSets.isEmpty) && Date() < deadline {
             await Task.yield()
         }
         await Task.yield()
@@ -98,17 +98,17 @@ struct CatalogSnapshotTests {
 }
 
 private final class MockYandexCatalogService: YandexCatalogServiceProtocol {
-    let sushi: [Sushi]
-    let sushiSets: [SushiSet]
+    let rolls: [Roll]
+    let rollSets: [RollSet]
 
-    init(sushi: [Sushi], sushiSets: [SushiSet]) {
-        self.sushi = sushi
-        self.sushiSets = sushiSets
+    init(rolls: [Roll], rollSets: [RollSet]) {
+        self.rolls = rolls
+        self.rollSets = rollSets
     }
 
     func loadCatalog(
-        completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void
+        completion: @escaping (Result<([Roll], [RollSet]), Error>) -> Void
     ) {
-        completion(.success((self.sushi, self.sushiSets)))
+        completion(.success((self.rolls, self.rollSets)))
     }
 }

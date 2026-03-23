@@ -7,55 +7,55 @@
 
 import SwiftUI
 
-struct SushiRowView: View {
+struct RollRowView: View {
     @EnvironmentObject var storage: OrderDataStorage
     
-    let sushi: Sushi
+    let roll: Roll
     let onAddToBasket: () -> Void
     
     var body: some View {
         HStack(spacing: AppConstants.Padding.padding16) {
-            URLImageView(urlString: sushi.imageURL)
+            URLImageView(urlString: roll.imageURL)
                 .frame(width: Constants.Size.sushiWidth, height: Constants.Size.sushiWidth)
                 .clipShape(RoundedRectangle(cornerRadius: AppConstants.Padding.padding16))
             
             VStack(alignment: .leading, spacing: AppConstants.Padding.padding4) {
-                Text(sushi.title)
+                Text(roll.title)
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                Text(sushi.composition ?? .empty)
+                Text(roll.composition ?? .empty)
                     .font(.subheadline)
                     .foregroundColor(AppConstants.Colors.blackOpacity70)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
-                Text(String.defaultCountSushi(sushi.nutrition?.weight ?? .empty))
+                Text(String.defaultCountSushi(roll.nutrition?.weight ?? .empty))
                     .font(.descriptionFont)
                     .foregroundColor(.gray)
                 
                 HStack {
-                    Text(String.costForSyshi(sushi.price))
+                    Text(String.costForSyshi(roll.price))
                         .font(.system(size: AppConstants.Padding.padding16, weight: .bold))
                         .foregroundColor(AppConstants.Colors.blackOpacity90)
                     
                     Spacer()
                     
                     QuantityButton(
-                        count: storage.getProductCount(productId: sushi.id),
+                        count: storage.getProductCount(productId: roll.id),
                         onDecrease: {
-                            if let position = storage.positions.first(where: { $0.product.id == sushi.id }) {
+                            if let position = storage.positions.first(where: { $0.product.id == roll.id }) {
                                 storage.decreaseOrRemove(positionId: position.id)
                             }
                         },
                         onIncrease: {
-                            if let position = storage.positions.first(where: { $0.product.id == sushi.id }) {
+                            if let position = storage.positions.first(where: { $0.product.id == roll.id }) {
                                 storage.increaseCount(positionId: position.id)
                             } else {
                                 onAddToBasket()
                             }
                         },
-                        isInBasket: storage.isProductInBasket(productId: sushi.id),
+                        isInBasket: storage.isProductInBasket(productId: roll.id),
                         onAddToBasket: onAddToBasket
                     )
                 }

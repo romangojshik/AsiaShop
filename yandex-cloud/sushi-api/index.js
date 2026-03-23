@@ -1,10 +1,11 @@
 /**
- * HTTP-функция каталога суши: читает таблицу `sushi` в YDB,
+ * HTTP-функция каталога: читает таблицу `rolls` в YDB,
  * питательность из таблицы `nutritions` (join по product_id).
  * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
  */
 
-const TABLE_SUSHI = '`sushi`';
+// Раньше читали `sushi`, теперь используем `rolls` (в приложении это контент вкладки "Каталог").
+const TABLE_SUSHI = '`rolls`';
 const TABLE_NUTRITION = 'nutritions';
 
 function noop() {}
@@ -126,7 +127,7 @@ function rowToSushiRow(r) {
 async function loadSushiFromYdb() {
   const d = await getDriver();
   if (!d) {
-    console.error('YDB: getDriver() вернул null (sushi)');
+    console.error('YDB: getDriver() вернул null (rolls)');
     return null;
   }
   try {
@@ -136,7 +137,7 @@ async function loadSushiFromYdb() {
     ]);
     const sushiRows = rowsFromResult(sushiResult, 'sushi').map(rowToSushiRow);
     const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToSushiNutrition).filter((n) => n.product_id);
-    console.log('YDB: sushi rows=', sushiRows.length, 'nutrition rows=', nutritionRows.length);
+    console.log('YDB: rolls rows=', sushiRows.length, 'nutrition rows=', nutritionRows.length);
 
     const nutritionByProductId = {};
     for (const n of nutritionRows) {
@@ -176,7 +177,7 @@ module.exports.handler = async function (event, context) {
       };
     }
 
-    let sushi = await loadSushiFromYdb();
+    let sushi = await loadSushiFromYdb(); // оставляем ключ ответа как `sushi`, чтобы фронт не ломать
     if (sushi === null) sushi = [];
 
     console.log('YDB: возвращаем sushi.length =', sushi.length);
@@ -190,7 +191,7 @@ module.exports.handler = async function (event, context) {
     console.error('handler error:', e && e.message ? e.message : String(e), e && e.stack);
     return {
       statusCode: 200,
-      body: JSON.stringify({ sushi: [], _error: 'Sushi catalog temporarily unavailable' }),
+      body: JSON.stringify({ sushi: [], _error: 'Catalog temporarily unavailable' }),
       headers,
     };
   }

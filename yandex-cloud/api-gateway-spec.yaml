@@ -32,3 +32,14 @@ paths:
       responses:
         "200":
           description: OK
+
+  /rolls:
+    get:
+      summary: Rolls catalog
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: d4edhjht3f5f4c8ps3m3   # asiashop-sushi (функция теперь читает таблицу rolls)
+        tag: "$latest"
+      responses:
+        "200":
+          description: OK

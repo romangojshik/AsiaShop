@@ -8,10 +8,10 @@
 import Foundation
 
 struct CatalogAPIResponse: Decodable {
-    let sets: [SushiSet]
+    let sets: [RollSet]
 }
 
-struct SushiSet: Decodable {
+struct RollSet: Decodable {
     var id: String
     var imageURL: String
     var title: String
@@ -39,7 +39,7 @@ struct SushiSet: Decodable {
     }
 }
 
-extension SushiSet {
+extension RollSet {
     func toProduct() -> Product {
         return Product(
             id: "set_\(self.id)",

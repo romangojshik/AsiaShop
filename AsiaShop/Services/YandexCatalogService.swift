@@ -11,19 +11,19 @@ import Foundation
 
 private enum ErrorLogEnum {
     static func sushiError(_ error: Error) {
-        print("[YandexCatalog] Sushi error: \(error.localizedDescription)")
+        print("[YandexCatalog] Rolls error: \(error.localizedDescription)")
     }
     static func sushiEmptyResponse() {
-        print("[YandexCatalog] Sushi: empty response")
+        print("[YandexCatalog] Rolls: empty response")
     }
     static func sushiHTTPError(_ statusCode: Int, _ body: String) {
-        print("[YandexCatalog] Sushi HTTP \(statusCode): \(body.prefix(150))")
+        print("[YandexCatalog] Rolls HTTP \(statusCode): \(body.prefix(150))")
     }
     static func sushiEmptyList() {
-        print("[YandexCatalog] Sushi API вернул пустой список")
+        print("[YandexCatalog] Rolls API вернул пустой список")
     }
     static func sushiDecodeError(_ error: Error) {
-        print("[YandexCatalog] Sushi decode error: \(error)")
+        print("[YandexCatalog] Rolls decode error: \(error)")
     }
     static func setsError(_ error: Error) {
         print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
@@ -45,7 +45,7 @@ private enum ErrorLogEnum {
 // MARK: - YandexCatalogServiceProtocol
 
 protocol YandexCatalogServiceProtocol {
-    func loadCatalog(completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void)
+    func loadCatalog(completion: @escaping (Result<([Roll], [RollSet]), Error>) -> Void)
 }
 
 final class YandexCatalogService {
@@ -64,10 +64,10 @@ final class YandexCatalogService {
         self.yandexAPIConfig = yandexAPIConfig
     }
     
-    private func getSushi(completion: @escaping (Result<[Sushi], Error>) -> ()) {
+    private func getRolls(completion: @escaping (Result<[Roll], Error>) -> ()) {
         guard
             !YandexAPIConfig.baseURL.isEmpty,
-            let url = URL(string: (YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/") + "sushi")
+            let url = URL(string: (YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/") + "rolls")
         else {
             DispatchQueue.main.async { completion(.failure(URLError(.badURL))) }
             return
@@ -91,7 +91,7 @@ final class YandexCatalogService {
                 let body = String(data: data, encoding: .utf8) ?? ""
                 ErrorLogEnum.sushiHTTPError(http.statusCode, body)
                 let err = NSError(
-                    domain: "YandexCatalogSushi",
+                    domain: "YandexCatalogRolls",
                     code: http.statusCode,
                     userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"]
                 )
@@ -100,11 +100,11 @@ final class YandexCatalogService {
             }
             
             do {
-                let decoded = try JSONDecoder().decode(SushiAPIResponse.self, from: data)
-                if decoded.sushi.isEmpty {
+                let decoded = try JSONDecoder().decode(RollsAPIResponse.self, from: data)
+                if decoded.rolls.isEmpty {
                     ErrorLogEnum.sushiEmptyList()
                 }
-                DispatchQueue.main.async { completion(.success(decoded.sushi)) }
+                DispatchQueue.main.async { completion(.success(decoded.rolls)) }
             } catch {
                 ErrorLogEnum.sushiDecodeError(error)
                 DispatchQueue.main.async { completion(.failure(error)) }
@@ -112,7 +112,7 @@ final class YandexCatalogService {
         }.resume()
     }
     
-    private func getSets(completion: @escaping (Result<[SushiSet], Error>) -> ()) {
+    private func getSets(completion: @escaping (Result<[RollSet], Error>) -> ()) {
         guard
             !YandexAPIConfig.baseURL.isEmpty,
             let url = URL(string: YandexAPIConfig.baseURL.hasSuffix("/") ? YandexAPIConfig.baseURL : YandexAPIConfig.baseURL + "/")
@@ -157,16 +157,16 @@ final class YandexCatalogService {
 // MARK: - YandexCatalogServiceProtocol
 
 extension YandexCatalogService: YandexCatalogServiceProtocol {
-    func loadCatalog(completion: @escaping (Result<([Sushi], [SushiSet]), Error>) -> Void) {
+    func loadCatalog(completion: @escaping (Result<([Roll], [RollSet]), Error>) -> Void) {
         let group = DispatchGroup()
-        var sushiResult: Result<[Sushi], Error>?
-        var setsResult: Result<[SushiSet], Error>?
+        var rollsResult: Result<[Roll], Error>?
+        var setsResult: Result<[RollSet], Error>?
         let lock = NSLock()
         
         group.enter()
-        getSushi { result in
+        getRolls { result in
             lock.lock()
-            sushiResult = result
+            rollsResult = result
             lock.unlock()
             group.leave()
         }
@@ -181,17 +181,17 @@ extension YandexCatalogService: YandexCatalogServiceProtocol {
         
         group.notify(queue: .main) {
             lock.lock()
-            let sushi = sushiResult
+            let rolls = rollsResult
             let sets = setsResult
             lock.unlock()
             
-            switch (sushi, sets) {
-            case let (.success(s), .success(ss)):
-                completion(.success((s, ss)))
-            case let (.failure(e), _), let (_, .failure(e)):
-                completion(.failure(e))
-            default:
-                completion(.failure(URLError(.unknown)))
+            switch (rolls, sets) {
+                case let (.success(r), .success(ss)):
+                    completion(.success((r, ss)))
+                case let (.failure(e), _), let (_, .failure(e)):
+                    completion(.failure(e))
+                default:
+                    completion(.failure(URLError(.unknown)))
             }
         }
     }

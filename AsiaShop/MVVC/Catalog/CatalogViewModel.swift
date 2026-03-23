@@ -11,8 +11,8 @@ import Combine
 
 
 class CatalogViewModel: ObservableObject {
-    @Published var sushiSets: [SushiSet] = []
-    @Published var sushi: [Sushi] = []
+    @Published var rollSets: [RollSet] = []
+    @Published var rolls: [Roll] = []
     @Published var isLoading: Bool = false
     
     // MARK: - Private Properties
@@ -44,12 +44,12 @@ class CatalogViewModel: ObservableObject {
         database.loadCatalog { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let (sushi, sets)):
-                self.sushi = sushi
-                self.sushiSets = sets
+            case .success(let (rolls, sets)):
+                self.rolls = rolls
+                self.rollSets = sets
             case .failure:
-                self.sushi = []
-                self.sushiSets = []
+                self.rolls = []
+                self.rollSets = []
             }
             self.isLoading = false
         }

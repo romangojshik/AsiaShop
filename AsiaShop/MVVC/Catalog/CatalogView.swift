@@ -48,7 +48,7 @@ struct CatalogContentView: View {
                 
                 VStack(spacing: 0) {
                     ForEach(0..<5, id: \.self) { index in
-                        SushiRowShimmerView()
+                        RollRowShimmerView()
                         if index < 4 {
                             ShimmerRectangle(height: 1, cornerRadius: 0)
                                 .padding(.horizontal, 16)
@@ -61,7 +61,7 @@ struct CatalogContentView: View {
     
     private var catalogContent: some View {
         Group {
-            if !viewModel.sushiSets.isEmpty {
+            if !viewModel.rollSets.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(Constants.Texts.readySets)
                         .font(.title2)
@@ -71,10 +71,10 @@ struct CatalogContentView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
-                            ForEach(viewModel.sushiSets, id: \.id) { sushiSet in
+                            ForEach(viewModel.rollSets, id: \.id) { rollSet in
                                 CatalogSetRowView(
-                                    sushiSet: sushiSet,
-                                    onCardTap: { selectedProduct = sushiSet.toProduct() }
+                                    rollSet: rollSet,
+                                    onCardTap: { selectedProduct = rollSet.toProduct() }
                                 )
                                 .foregroundColor(.black)
                             }
@@ -91,7 +91,7 @@ struct CatalogContentView: View {
     // Секция "Основное меню" - вертикальный список по одному продукту
     private var mainMenuSection: some View {
         Group {
-            if !viewModel.sushi.isEmpty {
+            if !viewModel.rolls.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(Constants.Texts.mainMenu)
                         .font(.title2)
@@ -100,21 +100,21 @@ struct CatalogContentView: View {
                         .padding(.horizontal)
                     
                     VStack(spacing: 0) {
-                        ForEach(Array(viewModel.sushi.enumerated()), id: \.element.id) { index, sushi in
+                        ForEach(Array(viewModel.rolls.enumerated()), id: \.element.id) { index, roll in
                             VStack(spacing: 0) {
                                 Button {
-                                    selectedProduct = sushi.toProduct()
+                                    selectedProduct = roll.toProduct()
                                 } label: {
-                                    SushiRowView(
-                                        sushi: sushi,
+                                    RollRowView(
+                                        roll: roll,
                                         onAddToBasket: {
-                                            viewModel.addToBasket(product: sushi.toProduct())
+                                            viewModel.addToBasket(product: roll.toProduct())
                                         }
                                     )
                                 }
                                 .buttonStyle(.plain)
                                 
-                                if index < viewModel.sushi.count - 1 {
+                                if index < viewModel.rolls.count - 1 {
                                     Divider()
                                         .padding(16)
                                 }
@@ -160,7 +160,7 @@ struct CatalogContentView: View {
             }
         }
         .onAppear {
-            if viewModel.sushi.isEmpty {
+            if viewModel.rolls.isEmpty {
                 viewModel.loadProducts()
             }
         }

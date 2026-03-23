@@ -7,11 +7,28 @@
 
 import Foundation
 
-struct SushiAPIResponse: Decodable {
-    let sushi: [Sushi]
+/// API ответ каталога роллов.
+/// Поддерживает оба варианта ключа ответа: `rolls` (новый) и `sushi` (старый/совместимость).
+struct RollsAPIResponse: Decodable {
+    let rolls: [Roll]
+
+    private enum CodingKeys: String, CodingKey {
+        case rolls
+        case sushi
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let decodedRolls = try container.decodeIfPresent([Roll].self, forKey: .rolls) {
+            self.rolls = decodedRolls
+        } else {
+            self.rolls = try container.decode([Roll].self, forKey: .sushi)
+        }
+    }
 }
 
-struct Sushi: Identifiable, Decodable {
+/// Единица каталога роллов.
+struct Roll: Identifiable, Decodable {
     var id: String
     var imageURL: String
     var title: String
@@ -40,8 +57,8 @@ struct Sushi: Identifiable, Decodable {
     }
 }
 
-// Расширение для конвертации Sushi в Product
-extension Sushi {
+// Расширение для конвертации Roll в Product
+extension Roll {
     func toProduct() -> Product {
         return Product(
             id: self.id,

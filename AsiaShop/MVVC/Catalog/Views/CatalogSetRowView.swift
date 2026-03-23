@@ -10,11 +10,11 @@ import SwiftUI
 struct CatalogSetRowView: View {
     @EnvironmentObject var storage: OrderDataStorage
     
-    let sushiSet: SushiSet
+    let rollSet: RollSet
     var onCardTap: (() -> Void)? = nil
     
     private var product: Product {
-        sushiSet.toProduct()
+        rollSet.toProduct()
     }
     
     private var isInBasket: Bool {
@@ -24,7 +24,7 @@ struct CatalogSetRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Padding.padding6) {
             ZStack(alignment: .bottomTrailing) {
-                URLImageView(urlString: sushiSet.imageURL)
+                URLImageView(urlString: rollSet.imageURL)
                     .frame(width: Constants.Size.setWidth, height: Constants.Size.setWidth)
                     .clipShape(RoundedRectangle(cornerRadius: AppConstants.Padding.padding18, style: .continuous))
                     .onTapGesture {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SushiRowShimmerView: View {
+struct RollRowShimmerView: View {
     private enum Constants {
         static let imageSize: CGFloat = 96
         static let cornerRadius: CGFloat = 16
