@@ -110,13 +110,16 @@ function rowToNutrition(r) {
   const productId = r.product_id ?? r.productId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
-  const protein = r.protein ?? r.Protein ?? null;
+  const proteins = r.proteins ?? r.Proteins ?? null;
+  const protein = r.protein ?? r.Protein ?? null; // fallback на старую схему
+  const carbs = r.carbs ?? r.Carbs ?? null;
   const weight = r.weight ?? r.Weight ?? null;
   return {
     product_id: String(productId),
     callories: callories != null ? String(callories) : null,
     fats: fats != null ? String(fats) : null,
-    protein: protein != null ? String(protein) : null,
+    proteins: proteins != null ? String(proteins) : protein != null ? String(protein) : null,
+    carbs: carbs != null ? String(carbs) : null,
     weight: weight != null ? String(weight) : null,
   };
 }
@@ -130,7 +133,7 @@ async function loadSetsFromYdb() {
   try {
     const [setsResult, nutritionResult] = await Promise.all([
       runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SET}`),
-      runQuery(`SELECT product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`),
+      runQuery(`SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`),
     ]);
     const setRows = rowsFromResult(setsResult, 'set').map(rowToSetRow);
     const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToNutrition);
@@ -140,7 +143,8 @@ async function loadSetsFromYdb() {
       nutritionByProductId[n.product_id] = {
         callories: n.callories,
         fats: n.fats,
-        protein: n.protein,
+        proteins: n.proteins,
+        carbs: n.carbs,
         weight: n.weight,
       };
     }
@@ -149,7 +153,8 @@ async function loadSetsFromYdb() {
       nutrition: nutritionByProductId[s.id] || {
         callories: null,
         fats: null,
-        protein: null,
+        proteins: null,
+        carbs: null,
         weight: null,
       },
     }));

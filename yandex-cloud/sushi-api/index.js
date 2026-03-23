@@ -94,13 +94,15 @@ function rowToSushiNutrition(r) {
   const productId = r.product_id ?? r.productId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
-  const protein = r.protein ?? r.Protein ?? null;
+  const proteins = r.proteins ?? r.Proteins ?? null;
+  const protein = r.protein ?? r.Protein ?? null; // fallback на старую схему
   const weight = r.weight ?? r.Weight ?? null;
   return {
     product_id: String(productId),
     callories: callories != null ? String(callories) : null,
     fats: fats != null ? String(fats) : null,
-    protein: protein != null ? String(protein) : null,
+    proteins: proteins != null ? String(proteins) : protein != null ? String(protein) : null,
+    carbs: r.carbs != null ? String(r.carbs) : r.Carbs != null ? String(r.Carbs) : null,
     weight: weight != null ? String(weight) : null,
   };
 }
@@ -133,7 +135,7 @@ async function loadSushiFromYdb() {
   try {
     const [sushiResult, nutritionResult] = await Promise.all([
       runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SUSHI}`),
-      runQuery(`SELECT product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`),
+      runQuery(`SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`),
     ]);
     const sushiRows = rowsFromResult(sushiResult, 'sushi').map(rowToSushiRow);
     const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToSushiNutrition).filter((n) => n.product_id);
@@ -144,11 +146,12 @@ async function loadSushiFromYdb() {
       nutritionByProductId[n.product_id] = {
         callories: n.callories,
         fats: n.fats,
-        protein: n.protein,
+        proteins: n.proteins,
+        carbs: n.carbs,
         weight: n.weight,
       };
     }
-    const emptyNutrition = { callories: null, fats: null, protein: null, weight: null };
+    const emptyNutrition = { callories: null, fats: null, proteins: null, carbs: null, weight: null };
     const sushi = sushiRows.map((s) => ({
       ...s,
       nutrition: nutritionByProductId[s.id] || emptyNutrition,

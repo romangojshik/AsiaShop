@@ -26,7 +26,7 @@ struct CatalogSnapshotTests {
                     description: "Лосось, огурец, сыр, рис",
                     price: 17,
                     composition: "Лосось, огурец, сыр, рис",
-                    nutrition: Nutrition(weight: "34", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "34", callories: nil, proteins: nil, fats: nil)
                 ),
                 Roll(
                     id: "roll_2",
@@ -35,7 +35,7 @@ struct CatalogSnapshotTests {
                     description: "Рис, майонез, креветка, огурец",
                     price: 20,
                     composition: "Рис, майонез, креветка, огурец",
-                    nutrition: Nutrition(weight: "56", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "56", callories: nil, proteins: nil, fats: nil)
                 ),
                 Roll(
                     id: "roll_3",
@@ -44,7 +44,7 @@ struct CatalogSnapshotTests {
                     description: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
                     price: 16,
                     composition: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
-                    nutrition: Nutrition(weight: "44", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "44", callories: nil, proteins: nil, fats: nil)
                 )
             ],
             rollSets: [
@@ -55,7 +55,7 @@ struct CatalogSnapshotTests {
                     description: "Набор",
                     price: 99,
                     composition: nil,
-                    nutrition: Nutrition(weight: "1555", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "1555", callories: nil, proteins: nil, fats: nil)
                 ),
                 RollSet(
                     id: "set_2",
@@ -64,7 +64,7 @@ struct CatalogSnapshotTests {
                     description: "Набор",
                     price: 98,
                     composition: nil,
-                    nutrition: Nutrition(weight: "433", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "433", callories: nil, proteins: nil, fats: nil)
                 ),
                 RollSet(
                     id: "set_3",
@@ -73,7 +73,7 @@ struct CatalogSnapshotTests {
                     description: "Набор",
                     price: 112,
                     composition: nil,
-                    nutrition: Nutrition(weight: "1333", callories: nil, protein: nil, fats: nil)
+                    nutrition: Nutrition(weight: "1333", callories: nil, proteins: nil, fats: nil)
                 )
             ]
         )

@@ -136,8 +136,9 @@ private struct ProductAttributesRow: View {
         let items: [(String, String)] = [
             (nutrition.weight, "вес (г)"),
             (nutrition.callories, "ккал"),
-            (nutrition.protein, "белки (г)"),
-            (nutrition.fats, "жиры (г)")
+            (nutrition.proteins, "белки (г)"),
+            (nutrition.fats, "жиры (г)"),
+            (nutrition.carbs, "углеводы (г)")
         ].compactMap { value, label in
             guard let value = value, !value.isEmpty else { return nil }
             return (value, label)
@@ -187,7 +188,7 @@ private struct Constants {
                 description: "Японское название различных съедобных видов красных водорослей из рода Порфира.",
                 price: 17.5,
                 composition: "Креветка темпура, сыр, огурец",
-                nutrition: Nutrition(weight: "108", callories: "45", protein: "6", fats: "1")
+                nutrition: Nutrition(weight: "108", callories: "45", proteins: "6", fats: "1", carbs: "12")
             )
         )
     )
