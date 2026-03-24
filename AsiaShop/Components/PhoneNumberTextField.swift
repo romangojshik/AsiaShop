@@ -90,6 +90,7 @@ struct PhoneFieldView: View {
                 }
                 TextField("", text: $text)
                     .keyboardType(keyboardType)
+                    .autocorrectionDisabled()
                     .focused($isFocused)
                     .foregroundColor(.clear)
                     .tint(.black)

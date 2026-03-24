@@ -135,6 +135,7 @@ struct ConfirmOrderView: View {
                 }
                 TextField("", text: text)
                     .foregroundColor(AppConstants.Colors.blackOpacity90)
+                    .autocorrectionDisabled()
                     .tint(.black)
                     .keyboardType(keyboardType)
                     .textContentType(textContentType)
