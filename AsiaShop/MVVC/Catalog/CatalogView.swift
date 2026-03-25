@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CatalogView: View {
     @EnvironmentObject var storage: OrderDataStorage
     
@@ -93,7 +92,7 @@ struct CatalogContentView: View {
         Group {
             if !viewModel.rolls.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(Constants.Texts.mainMenu)
+                    Text(Constants.Texts.catalogRolls)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
@@ -171,8 +170,8 @@ struct CatalogContentView: View {
 
 private struct Constants {
     struct Texts {
-        static let mainMenu = "Основное меню"
-        static let catalog = "Каталог"
         static let readySets = "Готовые сеты"
+        static let catalogRolls = "Каталог роллов"
+        static let catalog = "Каталог"
     }
 }

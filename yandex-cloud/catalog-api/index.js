@@ -1,10 +1,13 @@
 /**
  * HTTP-функция каталога: сеты из таблицы `sets`, питательность из таблицы `nutritions` (join по product_id).
  * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
+ *
+ * В ответе nutrition использует ключи под Swift (Nutrition.swift): proteins, carbs и т.д.
+ * Колонка YDB `protein` мапится в JSON как `proteins`.
  */
 
 const TABLE_SET = '`sets`';
-const TABLE_NUTRITION = 'nutritions';
+const TABLE_NUTRITION = '`nutritions`';
 
 function noop() {}
 const logger = {
@@ -40,7 +43,6 @@ async function getDriver() {
       console.error('YDB: YDB_ENDPOINT или YDB_DATABASE не заданы');
       return null;
     }
-    // Для отладки "Database not found": сверь с путём в консоли YDB (без слэша в конце)
     console.log('YDB: endpoint=', endpoint, 'database=', database);
     if (!endpoint.startsWith('grpcs://') && !endpoint.startsWith('https://')) {
       endpoint = 'grpcs://' + endpoint;
@@ -68,7 +70,6 @@ async function getDriver() {
 }
 
 function runQuery(query) {
-  // withSessionRetry(callback, timeout?, maxRetries?) — контекст подставляет ensureContext
   return driver.tableClient.withSessionRetry(
     (session) => session.executeQuery(query),
     5000,
@@ -106,22 +107,54 @@ function rowToSetRow(r) {
   };
 }
 
+/** Строка из YDB; для клиента белки — поле proteins (как в iOS). */
 function rowToNutrition(r) {
-  const productId = r.product_id ?? r.productId ?? '';
+  const productId = r.product_id ?? r.productId ?? r.set_id ?? r.setId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
-  const proteins = r.proteins ?? r.Proteins ?? null;
-  const protein = r.protein ?? r.Protein ?? null; // fallback на старую схему
+  const proteinsCol = r.proteins ?? r.Proteins ?? r.protein ?? r.Protein ?? null;
   const carbs = r.carbs ?? r.Carbs ?? null;
   const weight = r.weight ?? r.Weight ?? null;
   return {
     product_id: String(productId),
     callories: callories != null ? String(callories) : null,
     fats: fats != null ? String(fats) : null,
-    proteins: proteins != null ? String(proteins) : protein != null ? String(protein) : null,
+    proteins: proteinsCol != null ? String(proteinsCol) : null,
     carbs: carbs != null ? String(carbs) : null,
     weight: weight != null ? String(weight) : null,
   };
+}
+
+function emptyNutrition() {
+  return {
+    callories: null,
+    fats: null,
+    proteins: null,
+    carbs: null,
+    weight: null,
+  };
+}
+
+async function loadNutritionRows() {
+  const queries = [
+    `SELECT product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`,
+    `SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`,
+    `SELECT set_id AS product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`,
+  ];
+  let lastErr = null;
+  for (const q of queries) {
+    try {
+      const nutritionResult = await runQuery(q);
+      return rowsFromResult(nutritionResult, 'nutrition').map(rowToNutrition);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  console.error(
+    'YDB: все варианты запроса nutritions не удались:',
+    lastErr && lastErr.message ? lastErr.message : String(lastErr)
+  );
+  return [];
 }
 
 async function loadSetsFromYdb() {
@@ -131,12 +164,21 @@ async function loadSetsFromYdb() {
     return null;
   }
   try {
-    const [setsResult, nutritionResult] = await Promise.all([
-      runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SET}`),
-      runQuery(`SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`),
-    ]);
+    const setsResult = await runQuery(
+      `SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SET}`
+    );
     const setRows = rowsFromResult(setsResult, 'set').map(rowToSetRow);
-    const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToNutrition);
+
+    let nutritionRows = [];
+    try {
+      nutritionRows = await loadNutritionRows();
+    } catch (nutErr) {
+      console.error(
+        'YDB: loadNutritionRows не удался (сеты всё равно отдаём):',
+        nutErr && nutErr.message ? nutErr.message : String(nutErr)
+      );
+    }
+
     console.log('YDB: set rows=', setRows.length, 'nutrition rows=', nutritionRows.length);
     const nutritionByProductId = {};
     for (const n of nutritionRows) {
@@ -150,13 +192,7 @@ async function loadSetsFromYdb() {
     }
     const sets = setRows.map((s) => ({
       ...s,
-      nutrition: nutritionByProductId[s.id] || {
-        callories: null,
-        fats: null,
-        proteins: null,
-        carbs: null,
-        weight: null,
-      },
+      nutrition: nutritionByProductId[s.id] || emptyNutrition(),
     }));
     return sets;
   } catch (e) {
