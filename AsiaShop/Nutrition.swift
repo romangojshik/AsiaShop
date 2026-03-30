@@ -13,19 +13,22 @@ struct Nutrition: Decodable {
     var proteins: String?
     var fats: String?
     var carbs: String?
+    var quantity: String?
 
     init(
         weight: String? = nil,
         callories: String? = nil,
         proteins: String? = nil,
         fats: String? = nil,
-        carbs: String? = nil
+        carbs: String? = nil,
+        quantity: String? = nil
     ) {
         self.weight = weight
         self.callories = callories
         self.proteins = proteins
         self.fats = fats
         self.carbs = carbs
+        self.quantity = quantity
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -34,6 +37,7 @@ struct Nutrition: Decodable {
         case proteins
         case fats
         case carbs
+        case quantity
     }
 
     init(from decoder: Decoder) throws {
@@ -44,6 +48,7 @@ struct Nutrition: Decodable {
         self.proteins = Nutrition.decodeString(for: .proteins, from: container)
         self.fats = Nutrition.decodeString(for: .fats, from: container)
         self.carbs = Nutrition.decodeString(for: .carbs, from: container)
+        self.quantity = Nutrition.decodeString(for: .quantity, from: container)
     }
 
     /// Инициализация из JSON-словаря (ответ API Yandex и т.п.).
@@ -53,6 +58,7 @@ struct Nutrition: Decodable {
         self.proteins = Nutrition.anyToString(data?["proteins"])
         self.fats = Nutrition.anyToString(data?["fats"])
         self.carbs = Nutrition.anyToString(data?["carbs"])
+        self.quantity = Nutrition.anyToString(data?["quantity"])
     }
 
     private static func decodeString(

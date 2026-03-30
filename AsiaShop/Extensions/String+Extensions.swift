@@ -11,7 +11,11 @@ extension String {
     static var empty: String { "" }
     
     var withGrams: String {
-        isEmpty ? "" : self + " г"
+        isEmpty ? "" : self + "г"
+    }
+    
+    static func quantityWithGrams(quantity: String, weight: String) -> String {
+        "\(quantity)шт/\(weight)г"
     }
     
     static func defaultCountSushi(_ weight: String) -> String {

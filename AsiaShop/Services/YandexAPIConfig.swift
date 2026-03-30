@@ -11,6 +11,9 @@ final class YandexAPIConfig {
 
     static let baseURL: String = "https://d5di93907ln32br63enu.emzafcgx.apigw.yandexcloud.net"
 
+    /// Cloud Function с каталогом сетов (маршрут API Gateway `GET /`).
+    static let catalogSetsFunctionName: String = "asiashop-sets"
+
     static let session: URLSession = {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 15

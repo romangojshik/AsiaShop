@@ -2,7 +2,7 @@
  * HTTP-функция каталога: сеты из таблицы `sets`, питательность из таблицы `nutritions` (join по product_id).
  * Переменные окружения: YDB_ENDPOINT, YDB_DATABASE, YDB_METADATA_CREDENTIALS=1
  *
- * В ответе nutrition использует ключи под Swift (Nutrition.swift): proteins, carbs и т.д.
+ * В ответе nutrition использует ключи под Swift (Nutrition.swift): proteins, carbs, quantity и т.д.
  * Колонка YDB `protein` мапится в JSON как `proteins`.
  */
 
@@ -115,6 +115,7 @@ function rowToNutrition(r) {
   const proteinsCol = r.proteins ?? r.Proteins ?? r.protein ?? r.Protein ?? null;
   const carbs = r.carbs ?? r.Carbs ?? null;
   const weight = r.weight ?? r.Weight ?? null;
+  const quantity = r.quantity ?? r.Quantity ?? null;
   return {
     product_id: String(productId),
     callories: callories != null ? String(callories) : null,
@@ -122,6 +123,7 @@ function rowToNutrition(r) {
     proteins: proteinsCol != null ? String(proteinsCol) : null,
     carbs: carbs != null ? String(carbs) : null,
     weight: weight != null ? String(weight) : null,
+    quantity: quantity != null ? String(quantity) : null,
   };
 }
 
@@ -132,14 +134,15 @@ function emptyNutrition() {
     proteins: null,
     carbs: null,
     weight: null,
+    quantity: null,
   };
 }
 
 async function loadNutritionRows() {
   const queries = [
-    `SELECT product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`,
-    `SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`,
-    `SELECT set_id AS product_id, callories, fats, protein, weight FROM ${TABLE_NUTRITION}`,
+    `SELECT product_id, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
+    `SELECT product_id, callories, fats, proteins, carbs, weight, quantity FROM ${TABLE_NUTRITION}`,
+    `SELECT set_id AS product_id, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
   ];
   let lastErr = null;
   for (const q of queries) {
@@ -188,6 +191,7 @@ async function loadSetsFromYdb() {
         proteins: n.proteins,
         carbs: n.carbs,
         weight: n.weight,
+        quantity: n.quantity,
       };
     }
     const sets = setRows.map((s) => ({

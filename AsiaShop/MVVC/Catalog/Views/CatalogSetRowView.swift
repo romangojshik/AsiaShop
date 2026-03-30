@@ -74,7 +74,10 @@ struct CatalogSetRowView: View {
                     .font(.productTitleMediumFont)
                     .foregroundColor(AppConstants.Colors.blackOpacity90)
 
-                Text((product.nutrition?.weight ?? .empty).withGrams)
+                Text(String.quantityWithGrams(
+                    quantity: product.nutrition?.quantity ?? .empty,
+                    weight:product.nutrition?.weight ?? .empty
+                ))
                     .font(.descriptionFont)
                     .foregroundColor(AppConstants.Colors.blackOpacity70)
                 

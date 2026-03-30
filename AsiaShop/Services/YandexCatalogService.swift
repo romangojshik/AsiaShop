@@ -26,19 +26,30 @@ private enum ErrorLogEnum {
         print("[YandexCatalog] Rolls decode error: \(error)")
     }
     static func setsError(_ error: Error) {
-        print("[YandexCatalog] Ошибка: \(error.localizedDescription)")
+        print("[\(YandexAPIConfig.catalogSetsFunctionName)] Ошибка: \(error.localizedDescription)")
     }
     static func setsEmptyResponse() {
-        print("[YandexCatalog] Пустой ответ")
+        print("[\(YandexAPIConfig.catalogSetsFunctionName)] Пустой ответ")
     }
     static func setsHTTPError(_ statusCode: Int, _ body: String) {
-        print("[YandexCatalog] HTTP \(statusCode): \(body.prefix(150))")
+        print("[\(YandexAPIConfig.catalogSetsFunctionName)] HTTP \(statusCode): \(body.prefix(150))")
     }
     static func setsEmptyList() {
-        print("[YandexCatalog] API вернул пустой список")
+        print("[\(YandexAPIConfig.catalogSetsFunctionName)] API вернул пустой список")
     }
-    static func setsDecodeError(_ error: Error) {
-        print("[YandexCatalog] Ошибка декодирования: \(error)")
+    static func setsDecodeError(_ error: Error, data: Data?, response: URLResponse?) {
+        let mime = (response as? HTTPURLResponse)?.value(forHTTPHeaderField: "Content-Type") ?? "(нет)"
+        let status = (response as? HTTPURLResponse)?.statusCode ?? -1
+        let preview: String = {
+            guard let data = data, !data.isEmpty else { return "(пустое тело)" }
+            if let s = String(data: data, encoding: .utf8) {
+                return String(s.prefix(500))
+            }
+            return data.prefix(80).map { String(format: "%02x", $0) }.joined(separator: " ")
+        }()
+        print(
+            "[\(YandexAPIConfig.catalogSetsFunctionName)] Ошибка декодирования: \(error.localizedDescription) | HTTP \(status) | Content-Type: \(mime) | тело: \(preview)"
+        )
     }
 }
 
@@ -136,7 +147,11 @@ final class YandexCatalogService {
             if let http = response as? HTTPURLResponse, http.statusCode != 200 {
                 let body = String(data: data, encoding: .utf8) ?? ""
                 ErrorLogEnum.setsHTTPError(http.statusCode, body)
-                let err = NSError(domain: "YandexCatalog", code: http.statusCode, userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"])
+                let err = NSError(
+                    domain: YandexAPIConfig.catalogSetsFunctionName,
+                    code: http.statusCode,
+                    userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)"]
+                )
                 DispatchQueue.main.async { completion(.failure(err)) }
                 return
             }
@@ -147,7 +162,7 @@ final class YandexCatalogService {
                 }
                 DispatchQueue.main.async { completion(.success(decoded.sets)) }
             } catch {
-                ErrorLogEnum.setsDecodeError(error)
+                ErrorLogEnum.setsDecodeError(error, data: data, response: response)
                 DispatchQueue.main.async { completion(.failure(error)) }
             }
         }.resume()
