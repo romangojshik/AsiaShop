@@ -1,0 +1,4 @@
+-- Колонка времени готовности заказа для orders-api (Telegram + хранение).
+-- Выполни в YDB, если таблица `orders` уже создана без ready_by.
+
+ALTER TABLE `orders` ADD COLUMN ready_by Utf8;

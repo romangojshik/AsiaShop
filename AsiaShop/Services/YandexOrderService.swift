@@ -17,6 +17,16 @@ protocol YandexOrderServiceProtocol {
 final class YandexOrderService {
     
     static let shared = YandexOrderService()
+
+    /// UTC ISO8601 для `readyBy`: один и тот же момент времени на всех устройствах (не «локальные часы с буквой Z»).
+    private static let readyByUTCFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.timeZone = TimeZone(secondsFromGMT: 0)
+        f.calendar = Calendar(identifier: .gregorian)
+        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        return f
+    }()
     
     var ordersAPIURL: String = YandexAPIConfig.baseURL + "/order"
     
@@ -41,6 +51,10 @@ final class YandexOrderService {
             "user_phone_number": order.numberPhone,
             "total": order.total,
         ]
+
+        if let readyBy = order.readyBy {
+            dict["readyBy"] = Self.readyByUTCFormatter.string(from: readyBy)
+        }
         
         if !order.extras.isEmpty {
             dict["extras"] = order.extras
