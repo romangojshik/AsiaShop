@@ -268,6 +268,7 @@
 		20DBE8A72B18F589005F3FA7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */,
 				20YACFG02F4000000A432 /* YandexAPIConfig.swift */,
 				20A1C0D12F40000100A432 /* YandexCatalogService.swift */,
 				20A1C0D52F40000300A432 /* YandexOrderService.swift */,
@@ -302,7 +303,6 @@
 				20SHIMMR32F4000000A432 /* Shimmer */,
 				20PHONE022F40000100A432 /* PhoneNumberTextField.swift */,
 				20C706ED2F2BA97400B9B4DD /* Buttons */,
-				20URLIMG022F539C0000A432 /* AsyncImage+URLImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

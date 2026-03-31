@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CatalogView: View {
-    @EnvironmentObject var storage: OrderDataStorage
-    
+    @EnvironmentObject private var storage: OrderDataStorage
+
     var body: some View {
         CatalogContentView(
             viewModel: CatalogViewModel(
@@ -21,8 +21,7 @@ struct CatalogView: View {
 }
 
 struct CatalogContentView: View {
-    @StateObject var viewModel: CatalogViewModel
-    
+    @ObservedObject var viewModel: CatalogViewModel
     @State private var selectedProduct: Product?
     
     private var shimmerContent: some View {

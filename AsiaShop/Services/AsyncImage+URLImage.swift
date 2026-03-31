@@ -8,7 +8,7 @@
 import SwiftUI
 import NukeUI
 
-/// Загружает изображение по URL с кешированием (через Nuke), placeholder'ом и индикатором загрузки.
+
 struct URLImageView: View {
     let urlString: String
     var loadingTint: Color = .gray
