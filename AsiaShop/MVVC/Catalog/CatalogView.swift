@@ -39,7 +39,7 @@ struct CatalogContentView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
+                    HStack(alignment: .top, spacing: 16) {
                         ForEach(0..<4, id: \.self) { _ in
                             CatalogSetRowShimmerView()
                         }
@@ -76,13 +76,12 @@ struct CatalogContentView: View {
                         .padding(.horizontal)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
+                        HStack(alignment: .top, spacing: 16) {
                             ForEach(viewModel.rollSets, id: \.id) { rollSet in
                                 CatalogSetRowView(
                                     rollSet: rollSet,
                                     onCardTap: { selectedProduct = rollSet.toProduct() }
                                 )
-                                .foregroundColor(.black)
                             }
                         }
                         .padding(.horizontal)

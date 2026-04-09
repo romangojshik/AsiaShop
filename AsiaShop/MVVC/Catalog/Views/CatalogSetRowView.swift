@@ -83,7 +83,6 @@ struct CatalogSetRowView: View {
                 
             }
             .frame(maxWidth: Constants.Size.setWidth, alignment: .leading)
-            .padding(.horizontal, AppConstants.Padding.padding8)
             .onTapGesture {
                 onCardTap?()
             }
