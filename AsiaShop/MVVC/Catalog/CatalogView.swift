@@ -11,17 +11,25 @@ struct CatalogView: View {
     @EnvironmentObject private var storage: OrderDataStorage
 
     var body: some View {
-        CatalogContentView(
-            viewModel: CatalogViewModel(
-                database: YandexCatalogService.shared,
-                storage: storage
-            )
-        )
+        CatalogViewContainer(storage: storage)
+    }
+}
+
+private struct CatalogViewContainer: View {
+    @StateObject private var viewModel: CatalogViewModel
+    init(storage: OrderDataStorage) {
+        _viewModel = StateObject(wrappedValue: CatalogViewModel(
+            database: YandexCatalogService.shared,
+            storage: storage
+        ))
+    }
+    var body: some View {
+        CatalogContentView(viewModel: viewModel)
     }
 }
 
 struct CatalogContentView: View {
-    @ObservedObject var viewModel: CatalogViewModel
+    @StateObject var viewModel: CatalogViewModel
     @State private var selectedProduct: Product?
     
     private var shimmerContent: some View {
