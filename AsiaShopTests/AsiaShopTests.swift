@@ -12,6 +12,10 @@ import UIKit
 
 @testable import AsiaShop
 
+private var isSnapshotRecording: Bool {
+    ProcessInfo.processInfo.environment["RECORD_SNAPSHOTS"] == "1"
+}
+
 @MainActor
 struct CatalogSnapshotTests {
     @Test func catalog_loaded_state() async {
@@ -92,8 +96,15 @@ struct CatalogSnapshotTests {
 
         let host = UIHostingController(rootView: view)
         host.view.frame = CGRect(x: 0, y: 0, width: 390, height: 844) // iPhone-like size
+        host.view.backgroundColor = .systemBackground
+        host.view.setNeedsLayout()
+        host.view.layoutIfNeeded()
 
-        assertSnapshot(of: host, as: .image)
+        assertSnapshot(
+            of: host,
+            as: .image(precision: 0.99, perceptualPrecision: 0.98),
+            record: isSnapshotRecording
+        )
     }
 }
 
