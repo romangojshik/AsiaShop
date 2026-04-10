@@ -12,6 +12,17 @@ import UIKit
 
 @testable import AsiaShop
 
+/// Resolves `AsiaShopTests/Fixtures/<name>.<ext>` in the test bundle. Nuke loads `file://` like remote URLs.
+private final class FixtureBundleToken {}
+
+private func fixtureImageURL(fileName: String, fileExtension: String) -> String {
+    let bundle = Bundle(for: FixtureBundleToken.self)
+    guard let url = bundle.url(forResource: fileName, withExtension: fileExtension) else {
+        preconditionFailure("Add \(fileName).\(fileExtension) to AsiaShopTests/Fixtures (test target resources).")
+    }
+    return url.absoluteString
+}
+
 private var isSnapshotRecording: Bool {
     ProcessInfo.processInfo.environment["RECORD_SNAPSHOTS"] == "1"
 }
@@ -25,7 +36,7 @@ struct CatalogSnapshotTests {
             rolls: [
                 Roll(
                     id: "roll_1",
-                    imageURL: "",
+                    imageURL: fixtureImageURL(fileName: "nori", fileExtension: "jpeg"),
                     title: "Калифорния с Лососем",
                     description: "Лосось, огурец, сыр, рис",
                     price: 17,
@@ -34,7 +45,7 @@ struct CatalogSnapshotTests {
                 ),
                 Roll(
                     id: "roll_2",
-                    imageURL: "",
+                    imageURL: fixtureImageURL(fileName: "Taru", fileExtension: "png"),
                     title: "Тару",
                     description: "Рис, майонез, креветка, огурец",
                     price: 20,
@@ -43,7 +54,7 @@ struct CatalogSnapshotTests {
                 ),
                 Roll(
                     id: "roll_3",
-                    imageURL: "",
+                    imageURL: fixtureImageURL(fileName: "fried", fileExtension: "png"),
                     title: "Жаренные",
                     description: "Рис для суши, лист нори, сливочный сыр, лосось, панировка",
                     price: 16,
@@ -54,28 +65,28 @@ struct CatalogSnapshotTests {
             rollSets: [
                 RollSet(
                     id: "set_1",
-                    imageURL: "",
-                    title: "Аками",
-                    description: "Набор",
-                    price: 99,
+                    imageURL: fixtureImageURL(fileName: "set_gejsha", fileExtension: "jpg"),
+                    title: "Гейша",
+                    description: "Касуми, Красный дракон, Калифорния",
+                    price: 62,
                     composition: nil,
-                    nutrition: Nutrition(weight: "1555", callories: nil, proteins: nil, fats: nil)
+                    nutrition: Nutrition(weight: "690", callories: "970", proteins: nil, fats: nil)
                 ),
                 RollSet(
                     id: "set_2",
-                    imageURL: "",
-                    title: "Баунти",
-                    description: "Набор",
-                    price: 98,
+                    imageURL: fixtureImageURL(fileName: "set_osaka", fileExtension: "jpg"),
+                    title: "Осака",
+                    description: "Коивака, Мару, Тару, Кацу",
+                    price: 70,
                     composition: nil,
-                    nutrition: Nutrition(weight: "433", callories: nil, proteins: nil, fats: nil)
+                    nutrition: Nutrition(weight: "433", callories: nil, proteins: "56", fats: "32")
                 ),
                 RollSet(
                     id: "set_3",
-                    imageURL: "",
-                    title: "Темари",
-                    description: "Набор",
-                    price: 112,
+                    imageURL: fixtureImageURL(fileName: "set_imperatorskij", fileExtension: "jpg"),
+                    title: "Императорский",
+                    description: "Акацуки, Магуро, Каясо, Микан, Нью-Иорк, Хотатэгай, Широгома, Амаэби",
+                    price: 140,
                     composition: nil,
                     nutrition: Nutrition(weight: "1333", callories: nil, proteins: nil, fats: nil)
                 )
@@ -99,6 +110,8 @@ struct CatalogSnapshotTests {
         host.view.backgroundColor = .systemBackground
         host.view.setNeedsLayout()
         host.view.layoutIfNeeded()
+
+        await Task.yield()
 
         assertSnapshot(
             of: host,
