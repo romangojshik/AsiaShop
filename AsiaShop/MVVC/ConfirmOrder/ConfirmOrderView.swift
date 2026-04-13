@@ -53,17 +53,28 @@ struct ConfirmOrderView: View {
                 )
                 
                 makeDetaPickerSection
-                
-                makeConfirmSection
             }
             .padding(AppConstants.Padding.padding16)
+            .padding(.bottom, AppConstants.Padding.padding8)
             .contentShape(Rectangle())
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
         }
+        
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            VStack(spacing: 0) {
+                Divider()
+                    .opacity(0.35)
+                makeConfirmSection
+                    .padding(AppConstants.Padding.padding16)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+            }
+        }
+        
         .ignoresSafeArea(.keyboard)
-        .padding(.bottom, AppConstants.Padding.padding16)
+        
         .onAppear {
             guard !didInitializeTime else { return }
             didInitializeTime = true

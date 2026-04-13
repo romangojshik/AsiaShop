@@ -10,6 +10,7 @@ import SwiftUI
 struct BasketView: View {
     @StateObject private var router = BasketRouter()
     @EnvironmentObject var storage: OrderDataStorage
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     var body: some View {
         VStack(spacing: 0) {
@@ -43,7 +44,7 @@ struct BasketView: View {
             Group {
                 if #available(iOS 16.4, *) {
                     sheetView(for: route)
-                        .presentationDetents([.large])
+                        .presentationDetents(horizontalSizeClass == .regular ? [.large, .fraction(0.99)] : [.large])
                         .presentationDragIndicator(.visible)
                         .presentationBackground(Color.white)
                 } else {
