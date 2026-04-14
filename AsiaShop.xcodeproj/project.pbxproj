@@ -21,6 +21,7 @@
 		2064FC242F3018A20020A432 /* ConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC1E2F3018A20020A432 /* ConfirmOrderViewModel.swift */; };
 		2064FC262F31EE420020A432 /* ScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC252F31EE3F0020A432 /* ScreenContainer.swift */; };
 		2064FC292F336E070020A432 /* BasketRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2064FC282F336DF90020A432 /* BasketRowView.swift */; };
+		2086C7B12F8E52D000EB031D /* Mockingbird in Frameworks */ = {isa = PBXBuildFile; productRef = 2086C7B02F8E52D000EB031D /* Mockingbird */; };
 		209B10872F3B73600030BAAB /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 209B10862F3B73600030BAAB /* SnapshotTesting */; };
 		20A077152F2C853D000B0DE6 /* QuantityPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A077142F2C8525000B0DE6 /* QuantityPlusButton.swift */; };
 		20A0771A2F2C8544000B0DEA /* AddToBasketButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A0771B2F2C8545000B0DEB /* AddToBasketButton.swift */; };
@@ -130,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2086C7B12F8E52D000EB031D /* Mockingbird in Frameworks */,
 				209B10872F3B73600030BAAB /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +387,7 @@
 			name = AsiaShopTests;
 			packageProductDependencies = (
 				209B10862F3B73600030BAAB /* SnapshotTesting */,
+				2086C7B02F8E52D000EB031D /* Mockingbird */,
 			);
 			productName = AsiaShopTests;
 			productReference = 209B107C2F3B69340030BAAB /* AsiaShopTests.xctest */;
@@ -443,6 +446,7 @@
 				209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */,
 				20CBF7112F698B5500E1A155 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				2086C7AF2F8E52D000EB031D /* XCRemoteSwiftPackageReference "mockingbird" */,
 			);
 			productRefGroup = 30FD82C92AF52E0300D94BA7 /* Products */;
 			projectDirPath = "";
@@ -551,6 +555,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5YQ567888B;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -578,6 +583,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5YQ567888B;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -801,6 +807,14 @@
 				minimumVersion = 12.9.0;
 			};
 		};
+		2086C7AF2F8E52D000EB031D /* XCRemoteSwiftPackageReference "mockingbird" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/birdrides/mockingbird";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.20.0;
+			};
+		};
 		209B10852F3B73600030BAAB /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
@@ -829,6 +843,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20293E7A2F577F8D005D84C5 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
+		};
+		2086C7B02F8E52D000EB031D /* Mockingbird */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2086C7AF2F8E52D000EB031D /* XCRemoteSwiftPackageReference "mockingbird" */;
+			productName = Mockingbird;
 		};
 		209B10862F3B73600030BAAB /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
