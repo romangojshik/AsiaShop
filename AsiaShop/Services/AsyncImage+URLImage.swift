@@ -15,6 +15,11 @@ struct URLImageView: View {
     var failurePlaceholder: Color = Color.gray.opacity(0.1)
 
     var body: some View {
+        if Self.shouldUseAssetRenderingForSnapshots {
+            Image(urlString.isEmpty ? Constants.Images.placeholderSushi : urlString)
+                .resizable()
+                .scaledToFill()
+        } else {
         LazyImage(url: URL(string: urlString)) { state in
             if let image = state.image {
                 image
@@ -32,6 +37,11 @@ struct URLImageView: View {
                     .scaledToFill()
             }
         }
+        }
+    }
+
+    private static var shouldUseAssetRenderingForSnapshots: Bool {
+        ProcessInfo.processInfo.environment["SNAPSHOT_USE_ASSETS"] == "1"
     }
 }
 
