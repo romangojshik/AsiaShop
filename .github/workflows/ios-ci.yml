@@ -19,5 +19,5 @@ jobs:
           xcodebuild \
             -project AsiaShop.xcodeproj \
             -scheme AsiaShop \
-            -destination platform=macOS,variant=Designed\ for\ [iPad,iPhone] \
+            -destination "platform=macOS,variant=Designed for [iPad,iPhone]" \
             clean test
