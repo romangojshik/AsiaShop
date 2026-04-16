@@ -23,5 +23,5 @@ jobs:
             -project AsiaShop.xcodeproj \
             -scheme AsiaShop \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -destination "platform=iOS Simulator" \
             clean test
