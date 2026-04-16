@@ -14,10 +14,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Resolve destination
+        id: destination
+        run: |
+          DESTS="$(xcodebuild -project AsiaShop.xcodeproj -scheme AsiaShop -showdestinations 2>&1)"
+          echo "$DESTS"
+
+          if echo "$DESTS" | grep -q "platform:iOS Simulator,.*name:iPhone 17 Pro"; then
+            DESTINATION="platform=iOS Simulator,name=iPhone 17 Pro"
+          elif echo "$DESTS" | grep -q "platform:iOS Simulator,.*name:iPhone"; then
+            IPHONE_NAME="$(echo "$DESTS" | sed -nE 's/.*platform:iOS Simulator,.*name:([^}]+).*/\1/p' | grep '^iPhone' | head -n1)"
+            DESTINATION="platform=iOS Simulator,name=${IPHONE_NAME}"
+          else
+            MAC_ID="$(echo "$DESTS" | sed -nE 's/.*platform:macOS,.*id:([^,]+),.*/\1/p' | head -n1)"
+            DESTINATION="id=${MAC_ID}"
+          fi
+
+          echo "DESTINATION=$DESTINATION" >> "$GITHUB_ENV"
+          echo "Using destination: $DESTINATION"
+
       - name: Build and test
         run: |
           xcodebuild \
             -project AsiaShop.xcodeproj \
             -scheme AsiaShop \
-            -destination "platform=macOS,variant=Designed for [iPad,iPhone]" \
+            -destination "$DESTINATION" \
             clean test
