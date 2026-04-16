@@ -20,7 +20,7 @@ jobs:
       - name: Create iPhone 17 Pro simulator
         run: |
           xcodebuild -downloadPlatform iOS || true
-          SIM_ID=$(xcrun simctl create "CI-iPhone-17-Pro" "iPhone 17 Pro" "iOS 26.1")
+          SIM_ID=$(xcrun simctl create "CI-iPhone-17-Pro" "iPhone 17 Pro" "com.apple.CoreSimulator.SimRuntime.iOS-26-1")
           echo "SIM_ID=$SIM_ID" >> "$GITHUB_ENV"
           xcrun simctl boot "$SIM_ID"
           xcrun simctl bootstatus "$SIM_ID" -b
