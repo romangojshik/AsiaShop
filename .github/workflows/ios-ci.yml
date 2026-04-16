@@ -25,11 +25,11 @@ jobs:
 
       - name: Create and boot simulator
         run: |
-          RUNTIME_ID=$(xcrun simctl list runtimes | awk -F '[()]' '/iOS .*available/{print $2; exit}')
-          DEVICE_TYPE_ID=$(xcrun simctl list devicetypes | awk -F '[()]' '/iPhone 16 Pro/{print $2; exit}')
+          RUNTIME_ID=$(xcrun simctl list runtimes | awk '/^iOS / {print $NF; exit}')
+          DEVICE_TYPE_ID=$(xcrun simctl list devicetypes | sed -nE 's/^[[:space:]]*iPhone 17 Pro \(([^)]+)\).*/\1/p' | head -n1)
 
           if [ -z "$DEVICE_TYPE_ID" ]; then
-            DEVICE_TYPE_ID=$(xcrun simctl list devicetypes | awk -F '[()]' '/iPhone/{print $2; exit}')
+            DEVICE_TYPE_ID=$(xcrun simctl list devicetypes | sed -nE 's/^[[:space:]]*iPhone[^()]* \(([^)]+)\).*/\1/p' | head -n1)
           fi
 
           if [ -z "$RUNTIME_ID" ] || [ -z "$DEVICE_TYPE_ID" ]; then
