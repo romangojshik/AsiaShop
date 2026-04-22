@@ -17,7 +17,7 @@ class CatalogViewModel: ObservableObject {
     
     // MARK: - Private Properties
     
-    private let database: YandexCatalogServiceProtocol
+    private let catalogService: YandexCatalogServiceProtocol
     private let storage: any OrderDataStoreProtocol
     private var cancellables = Set<AnyCancellable>()
     
@@ -26,7 +26,7 @@ class CatalogViewModel: ObservableObject {
         storage: any OrderDataStoreProtocol
     ) {
         self.storage = storage
-        self.database = database
+        self.catalogService = database
         
         storage.objectWillChange
             .receive(on: RunLoop.main)
@@ -41,7 +41,7 @@ class CatalogViewModel: ObservableObject {
     func loadProducts() {
         isLoading = true
         
-        database.loadCatalog { [weak self] result in
+        catalogService.loadCatalog { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let (rolls, sets)):
