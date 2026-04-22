@@ -109,9 +109,9 @@ struct ConfirmOrderView: View {
             let today = cal.startOfDay(for: now)
             selectedDay = cal.startOfDay(for: base) > today ? .tomorrow : .today
             
-            // Для завтра всегда начинать минимум с 11:00
+            // Для завтра всегда начинать минимум с 12:00
             if selectedDay == .tomorrow {
-                selectedHour = 11
+                selectedHour = 12
                 selectedMinute = 0
             } else {
                 // Выставляем час/минуты из base, затем зажимаем в доступные значения
@@ -216,8 +216,8 @@ struct ConfirmOrderView: View {
                 .frame(maxWidth: .infinity)
                 .onChange(of: selectedDay) { _ in
                     if selectedDay == .tomorrow {
-                        // При переходе на завтра всегда начинаем с 11:00
-                        selectedHour = 11
+                        // При переходе на завтра всегда начинаем с 12:00
+                        selectedHour = 12
                         selectedMinute = 0
                     }
                     clampSelectionToAvailable()
@@ -336,8 +336,8 @@ struct ConfirmOrderView: View {
     private var availableHours: [Int] {
         switch selectedDay {
         case .tomorrow:
-            // Для завтра — с 11:00
-            return Array(11...toHour)
+            // Для завтра — с 12:00
+            return Array(12...toHour)
         case .today:
             let calendar = Calendar.current
             let min = minTodaySlot
@@ -362,10 +362,10 @@ struct ConfirmOrderView: View {
     }
     
     private func clampSelectionToAvailable() {
-        // если сегодня уже после рабочего времени — переключаем на завтра (10:00)
+        // если сегодня уже после рабочего времени — переключаем на завтра (12:00)
         if selectedDay == .today, availableHours.isEmpty {
             selectedDay = .tomorrow
-            selectedHour = 11
+            selectedHour = 12
             selectedMinute = minuteOptions.first ?? 0
             return
         }
