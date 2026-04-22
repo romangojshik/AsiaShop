@@ -29,6 +29,15 @@ enum ExtraButton: String, CaseIterable {
             return 2
         }
     }
+    
+    var maxCount: Int? {
+        switch self {
+        case .chopsticks:
+            return 10
+        case .wasabi, .ginger, .soySauce, .nutSauce:
+            return nil
+        }
+    }
 }
 
 // MARK: - OrderDataStoreProtocol
@@ -148,7 +157,11 @@ final class OrderDataStorage: OrderDataStoreProtocol {
     }
     
     func increaseAddOn(extra: ExtraButton) {
-        ExtraCountDict[extra, default: 0] += 1
+        let current = ExtraCountDict[extra] ?? 0
+        if let maxCount = extra.maxCount, current >= maxCount {
+            return
+        }
+        ExtraCountDict[extra] = current + 1
     }
     
     func decreaseAddOn(extra: ExtraButton) {
