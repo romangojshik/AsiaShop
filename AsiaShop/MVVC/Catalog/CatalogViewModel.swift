@@ -45,8 +45,11 @@ class CatalogViewModel: ObservableObject {
             guard let self = self else { return }
             switch result {
             case .success(let (rolls, sets)):
-                self.rolls = rolls
-                self.rollSets = sets
+                self.rolls = rolls.sorted { $0.title.lowercased() < $1.title.lowercased() }
+                
+                self.rollSets = sets.sorted {
+                    $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+                }
             case .failure:
                 self.rolls = []
                 self.rollSets = []
