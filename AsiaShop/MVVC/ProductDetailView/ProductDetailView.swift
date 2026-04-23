@@ -133,9 +133,17 @@ private struct ProductAttributesRow: View {
             return AnyView(EmptyView())
         }
         
-        let items: [(String, String)] = [
-            (nutrition.weight, "вес (г)"),
-            (nutrition.callories, "ккал"),
+        let weightItem: (String, String)? = {
+            guard let weight = nutrition.weight, !weight.isEmpty else { return nil }
+            return (weight, "вес (г)")
+        }()
+        
+        let caloriesItem: (String, String)? = {
+            guard let calories = nutrition.callories, !calories.isEmpty else { return nil }
+            return (calories, "каллории на 100 г")
+        }()
+        
+        let macrosItems: [(String, String)] = [
             (nutrition.proteins, "белки (г)"),
             (nutrition.fats, "жиры (г)"),
             (nutrition.carbs, "углеводы (г)")
@@ -144,14 +152,28 @@ private struct ProductAttributesRow: View {
             return (value, label)
         }
         
-        if items.isEmpty {
+        let topItems = [weightItem, caloriesItem].compactMap { $0 }
+        
+        if topItems.isEmpty && macrosItems.isEmpty {
             return AnyView(EmptyView())
         }
         
         return AnyView(
-            HStack(spacing: 8) {
-                ForEach(Array(items.enumerated()), id: \.offset) { _, item in
-                    ProductAttributeCell(value: item.0, label: item.1)
+            VStack(spacing: 8) {
+                if !topItems.isEmpty {
+                    HStack(spacing: 8) {
+                        ForEach(Array(topItems.enumerated()), id: \.offset) { _, item in
+                            ProductAttributeCell(value: item.0, label: item.1)
+                        }
+                    }
+                }
+                
+                if !macrosItems.isEmpty {
+                    HStack(spacing: 8) {
+                        ForEach(Array(macrosItems.enumerated()), id: \.offset) { _, item in
+                            ProductAttributeCell(value: item.0, label: item.1)
+                        }
+                    }
                 }
             }
         )
