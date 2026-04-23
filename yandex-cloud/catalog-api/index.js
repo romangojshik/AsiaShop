@@ -111,6 +111,7 @@ function rowToSetRow(r) {
 function rowToNutrition(r) {
   const productId = r.product_id ?? r.productId ?? r.set_id ?? r.setId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
+  const caloriesPer100g = r.caloriesPer100g ?? r.CaloriesPer100g ?? callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
   const proteinsCol = r.proteins ?? r.Proteins ?? r.protein ?? r.Protein ?? null;
   const carbs = r.carbs ?? r.Carbs ?? null;
@@ -118,6 +119,7 @@ function rowToNutrition(r) {
   const quantity = r.quantity ?? r.Quantity ?? null;
   return {
     product_id: String(productId),
+    caloriesPer100g: caloriesPer100g != null ? String(caloriesPer100g) : null,
     callories: callories != null ? String(callories) : null,
     fats: fats != null ? String(fats) : null,
     proteins: proteinsCol != null ? String(proteinsCol) : null,
@@ -129,6 +131,7 @@ function rowToNutrition(r) {
 
 function emptyNutrition() {
   return {
+    caloriesPer100g: null,
     callories: null,
     fats: null,
     proteins: null,
@@ -140,8 +143,10 @@ function emptyNutrition() {
 
 async function loadNutritionRows() {
   const queries = [
-    `SELECT product_id, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
+    `SELECT product_id, caloriesPer100g, callories, fats, proteins, carbs, weight, quantity FROM ${TABLE_NUTRITION}`,
+    `SELECT product_id, caloriesPer100g, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
     `SELECT product_id, callories, fats, proteins, carbs, weight, quantity FROM ${TABLE_NUTRITION}`,
+    `SELECT set_id AS product_id, caloriesPer100g, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
     `SELECT set_id AS product_id, callories, fats, protein, weight, quantity FROM ${TABLE_NUTRITION}`,
   ];
   let lastErr = null;
@@ -186,6 +191,7 @@ async function loadSetsFromYdb() {
     const nutritionByProductId = {};
     for (const n of nutritionRows) {
       nutritionByProductId[n.product_id] = {
+        caloriesPer100g: n.caloriesPer100g,
         callories: n.callories,
         fats: n.fats,
         proteins: n.proteins,

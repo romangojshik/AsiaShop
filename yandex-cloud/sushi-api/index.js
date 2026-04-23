@@ -93,12 +93,14 @@ function rowsFromResult(result, logLabel) {
 function rowToSushiNutrition(r) {
   const productId = r.product_id ?? r.productId ?? '';
   const callories = r.callories ?? r.Callories ?? null;
+  const caloriesPer100g = r.caloriesPer100g ?? r.CaloriesPer100g ?? callories ?? null;
   const fats = r.fats ?? r.Fats ?? null;
   const proteins = r.proteins ?? r.Proteins ?? null;
   const protein = r.protein ?? r.Protein ?? null; // fallback на старую схему
   const weight = r.weight ?? r.Weight ?? null;
   return {
     product_id: String(productId),
+    caloriesPer100g: caloriesPer100g != null ? String(caloriesPer100g) : null,
     callories: callories != null ? String(callories) : null,
     fats: fats != null ? String(fats) : null,
     proteins: proteins != null ? String(proteins) : protein != null ? String(protein) : null,
@@ -133,10 +135,26 @@ async function loadSushiFromYdb() {
     return null;
   }
   try {
-    const [sushiResult, nutritionResult] = await Promise.all([
-      runQuery(`SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SUSHI}`),
-      runQuery(`SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`),
-    ]);
+    const sushiResult = await runQuery(
+      `SELECT id, title, imageURL, description, price, composition FROM ${TABLE_SUSHI}`
+    );
+    let nutritionResult = null;
+    const nutritionQueries = [
+      `SELECT product_id, caloriesPer100g, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`,
+      `SELECT product_id, callories, fats, proteins, carbs, weight FROM ${TABLE_NUTRITION}`,
+    ];
+    let nutritionErr = null;
+    for (const query of nutritionQueries) {
+      try {
+        nutritionResult = await runQuery(query);
+        break;
+      } catch (e) {
+        nutritionErr = e;
+      }
+    }
+    if (!nutritionResult && nutritionErr) {
+      throw nutritionErr;
+    }
     const sushiRows = rowsFromResult(sushiResult, 'sushi').map(rowToSushiRow);
     const nutritionRows = rowsFromResult(nutritionResult, 'nutrition').map(rowToSushiNutrition).filter((n) => n.product_id);
     console.log('YDB: rolls rows=', sushiRows.length, 'nutrition rows=', nutritionRows.length);
@@ -144,6 +162,7 @@ async function loadSushiFromYdb() {
     const nutritionByProductId = {};
     for (const n of nutritionRows) {
       nutritionByProductId[n.product_id] = {
+        caloriesPer100g: n.caloriesPer100g,
         callories: n.callories,
         fats: n.fats,
         proteins: n.proteins,
@@ -151,7 +170,14 @@ async function loadSushiFromYdb() {
         weight: n.weight,
       };
     }
-    const emptyNutrition = { callories: null, fats: null, proteins: null, carbs: null, weight: null };
+    const emptyNutrition = {
+      caloriesPer100g: null,
+      callories: null,
+      fats: null,
+      proteins: null,
+      carbs: null,
+      weight: null,
+    };
     const sushi = sushiRows.map((s) => ({
       ...s,
       nutrition: nutritionByProductId[s.id] || emptyNutrition,

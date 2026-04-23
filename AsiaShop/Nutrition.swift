@@ -9,6 +9,7 @@ import Foundation
 
 struct Nutrition: Decodable {
     var weight: String?
+    var caloriesPer100g: String?
     var callories: String?
     var proteins: String?
     var fats: String?
@@ -17,6 +18,7 @@ struct Nutrition: Decodable {
 
     init(
         weight: String? = nil,
+        caloriesPer100g: String? = nil,
         callories: String? = nil,
         proteins: String? = nil,
         fats: String? = nil,
@@ -24,6 +26,7 @@ struct Nutrition: Decodable {
         quantity: String? = nil
     ) {
         self.weight = weight
+        self.caloriesPer100g = caloriesPer100g
         self.callories = callories
         self.proteins = proteins
         self.fats = fats
@@ -33,6 +36,7 @@ struct Nutrition: Decodable {
 
     private enum CodingKeys: String, CodingKey {
         case weight
+        case caloriesPer100g
         case callories
         case proteins
         case fats
@@ -44,6 +48,7 @@ struct Nutrition: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.weight = Nutrition.decodeString(for: .weight, from: container)
+        self.caloriesPer100g = Nutrition.decodeString(for: .caloriesPer100g, from: container)
         self.callories = Nutrition.decodeString(for: .callories, from: container)
         self.proteins = Nutrition.decodeString(for: .proteins, from: container)
         self.fats = Nutrition.decodeString(for: .fats, from: container)
@@ -54,6 +59,7 @@ struct Nutrition: Decodable {
     /// Инициализация из JSON-словаря (ответ API Yandex и т.п.).
     init(from data: [String: Any]?) {
         self.weight = Nutrition.anyToString(data?["weight"])
+        self.caloriesPer100g = Nutrition.anyToString(data?["caloriesPer100g"])
         self.callories = Nutrition.anyToString(data?["callories"])
         self.proteins = Nutrition.anyToString(data?["proteins"])
         self.fats = Nutrition.anyToString(data?["fats"])

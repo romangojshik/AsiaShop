@@ -139,8 +139,8 @@ private struct ProductAttributesRow: View {
         }()
         
         let caloriesItem: (String, String)? = {
-            guard let calories = nutrition.callories, !calories.isEmpty else { return nil }
-            return (calories, "каллории на 100 г")
+            guard let calories = nutrition.caloriesPer100g, !calories.isEmpty else { return nil }
+            return (calories, "калории на 100 г")
         }()
         
         let macrosItems: [(String, String)] = [
@@ -210,7 +210,7 @@ private struct Constants {
                 description: "Японское название различных съедобных видов красных водорослей из рода Порфира.",
                 price: 17.5,
                 composition: "Креветка темпура, сыр, огурец",
-                nutrition: Nutrition(weight: "108", callories: "45", proteins: "6", fats: "1", carbs: "12")
+                nutrition: Nutrition(weight: "108", caloriesPer100g: "45", proteins: "6", fats: "1", carbs: "12")
             )
         )
     )
